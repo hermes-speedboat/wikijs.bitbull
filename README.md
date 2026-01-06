@@ -1,2 +1,0 @@
-# wikijs.bitbull
-Bitbull Wiki
