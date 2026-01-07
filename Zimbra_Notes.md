@@ -75,9 +75,9 @@ do
   echo "Export signature for $NAME..."
 done
 echo "All signature has been export successfully"
-</pre>
+```
 * split all signatures
-<pre>
+```bash
 #!/bin/bash
 
 DIR=/opt/scripts/sig
