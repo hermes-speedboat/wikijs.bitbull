@@ -2,10 +2,10 @@
 title: Zimbra SSL Cert Replace
 description: How to replace SSL certificates in Zimbra
 published: true
-date: 2026-01-07T00:00:00.000Z
-tags: linux, zimbra
+date: 2026-01-07T05:03:23.950Z
+tags: linux, zimbra, howto
 editor: markdown
-dateCreated: 2026-01-07T00:00:00.000Z
+dateCreated: 2026-01-07T05:01:26.558Z
 ---
 
 # Zimbra SSL Cert Replace
