@@ -2,13 +2,12 @@
 title: vim
 description: vim hints
 published: true
-date: 2026-01-30T08:47:48.221Z
+date: 2026-01-30T09:39:47.117Z
 tags: cmd, helpers, vim
 editor: markdown
 dateCreated: 2026-01-30T08:47:48.221Z
 ---
 
-# vim
 * Save a file you edited in vim without the needed permissions
 ```bash
 :w !sudo tee %
