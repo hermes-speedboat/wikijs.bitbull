@@ -2,7 +2,7 @@
 title: convert
 description: About converting 
 published: true
-date: 2026-01-30T09:21:51.933Z
+date: 2026-01-30T09:23:07.699Z
 tags: cmd, convert, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:38:01.798Z
@@ -75,13 +75,14 @@ echo n | yum update --changelog | sed '1,/Changes in packages about to be update
 ```bash
 repoquery -a --installed --qf "%{ui_from_repo} %{name}"
 yum list installed | egrep -i 'epel|ovirt'
+```
 
 * convert txt to pdf
 ```bash
 cal > cal.txt
 enscript -o cal.ps cal.txt 
 ps2pdf cal.ps 
-
+```
 
 * remove color from bash output (escape sequences)
 ```bash
