@@ -2,13 +2,12 @@
 title: convert
 description: About converting 
 published: true
-date: 2026-01-30T09:23:07.699Z
+date: 2026-01-30T09:38:34.944Z
 tags: cmd, convert, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:38:01.798Z
 ---
 
-# convert and manipulate
 * rename files with spezial characters in it
 ```bash
 convmv --notest -f latin1 -t utf8 *.pdf
