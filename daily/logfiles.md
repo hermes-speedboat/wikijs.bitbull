@@ -2,13 +2,12 @@
 title: logfiles
 description: All about logfiles, journald, auditd
 published: true
-date: 2026-01-30T09:05:05.024Z
+date: 2026-01-30T09:39:24.089Z
 tags: cmd, helpers, logs, rh10
 editor: markdown
 dateCreated: 2026-01-30T09:05:05.024Z
 ---
 
-# logfiles
 ## auditd
 * auditd logrotate generations
   Tested on Rocky Linux 10
@@ -22,7 +21,7 @@ systemctl status auditd.service
 ls -la /var/log/audit/
 ```
 
-# cmd
+## cmd
 * Make `less` behave like `tail -f`
 ```bash
 less +F somelogfile
