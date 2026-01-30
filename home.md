@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-01-30T07:59:46.425Z
+date: 2026-01-30T08:00:28.949Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-30T07:35:57.104Z
@@ -14,8 +14,8 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 
 # Links
 * [Script Archive](https://github.com/joe-speedboat/scripts)
-* [GitHub](/main)
-* [Ansible Galaxy](/main)
+* [GitHub](https://github.com/joe-speedboat)
+* [Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/namespaces/3440/)
 
 # Interesting stuff
 * [Radxa Dragon Q6A - Single board computer based on Qualcom QCS6490](https://radxa.com/products/dragon/q6a/)
