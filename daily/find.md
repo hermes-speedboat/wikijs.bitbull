@@ -2,7 +2,7 @@
 title: find
 description: finding things
 published: true
-date: 2026-01-30T09:07:31.816Z
+date: 2026-01-30T09:13:05.077Z
 tags: cmd, find, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:35:14.914Z
@@ -43,13 +43,26 @@ find . -type f -exec grep -l '.\{80\}' {} \;
 ```bash
 /bin/nice -19  /usr/bin/find / -type f -print 2>/dev/null | egrep  -r '/core\.[0-9]{2,}' | /usr/bin/xargs ls -l
 ```
-
-* count processes per user
+* get file modification age in days
 ```bash
-ps hax -o user | sort | uniq -c
+echo $((($(date +%s) - $(stat -c %Y -- /etc/hosts)) / 86400)) days
 ```
 
-* Get the 10 biggest files/folders for the current direcotry
+
+* find differences between two files
+classical side to side comparsion
 ```bash
-du -sm * .[^\.]* | sort -n | tail
+diff -y file1 file2
 ```
+
+* enhanced comparsion with highlighting (package: vim-enhanced)
+```bash
+vimdiff file1 file2
+```
+
+* compare a remote file with a local file
+```bash
+ssh user@host cat /path/to/remotefile | diff -y /path/to/localfile -
+```
+
+
