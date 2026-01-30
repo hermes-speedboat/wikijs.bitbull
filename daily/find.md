@@ -2,7 +2,7 @@
 title: find
 description: finding things
 published: true
-date: 2026-01-30T08:41:32.053Z
+date: 2026-01-30T09:07:31.816Z
 tags: cmd, find, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:35:14.914Z
@@ -44,3 +44,12 @@ find . -type f -exec grep -l '.\{80\}' {} \;
 /bin/nice -19  /usr/bin/find / -type f -print 2>/dev/null | egrep  -r '/core\.[0-9]{2,}' | /usr/bin/xargs ls -l
 ```
 
+* count processes per user
+```bash
+ps hax -o user | sort | uniq -c
+```
+
+* Get the 10 biggest files/folders for the current direcotry
+```bash
+du -sm * .[^\.]* | sort -n | tail
+```
