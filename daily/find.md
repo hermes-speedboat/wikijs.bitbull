@@ -1,0 +1,34 @@
+---
+title: find
+description: finding things
+published: true
+date: 2026-01-30T08:35:14.914Z
+tags: cmd, helpers, find
+editor: markdown
+dateCreated: 2026-01-30T08:35:14.914Z
+---
+
+# find
+* Find suid bits
+ find / -xdev -perm -4000 -exec ls -l {} \;
+
+* Find world writeable files
+ find / -xdev -perm -o+w -and -not \( -type l -or -type s -or -perm -o+t \) -exec ls -ld {} \;
+
+*Find Duplicate Files (based on size first, then MD5 hash)
+ find -not -empty -type f -printf "%s\n" | sort -rn | uniq -d | xargs -I{} -n1 find -type f -size {}c -print0 | xargs -0 md5sum | sort | uniq -w32 --all-repeated=separate
+
+* remove files older than 60 days
+ find /var/log/ -type f -name '*.log' -ctime +60 -exec rm -f {} \;
+
+
+* show what have been modified last 60 minutes
+ find / -mmin +60 -type f
+
+* find files with lines longer than
+ find . -type f -exec grep -l '.\{80\}' {} \;
+
+* find core dumps
+ /bin/nice -19  /usr/bin/find / -type f -print 2>/dev/null | egrep  -r '/core\.[0-9]{2,}' | /usr/bin/xargs ls -l
+
+
