@@ -2,13 +2,12 @@
 title: find
 description: finding things
 published: true
-date: 2026-01-30T09:13:05.077Z
+date: 2026-01-30T09:39:04.127Z
 tags: cmd, find, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:35:14.914Z
 ---
 
-# find
 * Find suid bits
 ```bash
  find / -xdev -perm -4000 -exec ls -l {} \;
