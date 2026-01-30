@@ -2,13 +2,13 @@
 title: network
 description: network related
 published: true
-date: 2026-01-30T15:19:59.572Z
+date: 2026-01-30T15:20:45.380Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
 ---
 
-### Proxy environment variables
+## Proxy environment variables
 * https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/
 * `$HOME/.bashrc`
 ```bash
@@ -32,7 +32,7 @@ no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 | Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
 | Detects loopback IPs? | No        | No             | No        | No        | Yes       |
 
-### blink NIC LED for 5 minutes
+## blink NIC LED for 5 minutes
 ```bash
 NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
 END=$((SECONDS+300))
