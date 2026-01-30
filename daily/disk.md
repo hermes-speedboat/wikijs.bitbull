@@ -2,13 +2,11 @@
 title: backup and disk
 description: backup, disk, san
 published: true
-date: 2026-01-30T09:36:30.061Z
-tags: cmd, helpers, blockdevice, backup
+date: 2026-01-30T09:38:48.209Z
+tags: backup, blockdevice, cmd, helpers
 editor: markdown
 dateCreated: 2026-01-30T09:36:30.061Z
 ---
-
-# backup & disk
 
 * rescan scsi disk
   This you need after vm disk expansion in runtime
