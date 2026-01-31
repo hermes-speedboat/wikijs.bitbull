@@ -2,14 +2,13 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T09:16:32.132Z
+date: 2026-01-31T09:30:42.310Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
 ---
 
 ## Proxy Environment Variables
-
 - [GitLab: We need to talk: NO_PROXY](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
 
 **In `$HOME/.bashrc`:**
@@ -36,10 +35,7 @@ no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 | Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
 | Detects loopback IPs? | No        | No             | No        | No        | Yes       |
 
----
-
 ## Blink NIC LED for 5 Minutes
-
 ```bash
 NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
 END=$((SECONDS+300))
@@ -51,10 +47,7 @@ while [ $SECONDS -lt $END ]; do
 done
 ```
 
----
-
 ## Change Description of SSH Private Key
-
 - [StackOverflow: Rename SSH key agent that was already added](https://stackoverflow.com/questions/73676798/rename-ssh-key-agent-that-was-already-added)
 
 ```bash
@@ -69,10 +62,7 @@ ssh-keygen -c -C 'migration:rundeck@host' -f ssh/id_rsa_migration
 ssh-add -l
 ```
 
----
-
 ## Private Key Handling with Keychain in `.bashrc`
-
 ```bash
 # SSH
 keychain -Q -q ~/.ssh/id_dsa < /dev/null
@@ -84,10 +74,7 @@ keychain --agents gpg 297E196D
 [ -f $HOME/.keychain/$(uname -n)-sh-gpg ] && source $HOME/.keychain/$(uname -n)-sh-gpg
 ```
 
----
-
 ## Use Keychain to Protect Your Ansible SSH Private Keys
-
 **Install keychain:**
 ```bash
 dnf -y install keychain
@@ -130,26 +117,18 @@ cat cron.out
 # localhost | SUCCESS => { "changed": false, "ping": "pong" }
 ```
 
----
-
 ## Generate Random MAC Address
-
 ```bash
 printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
 date +%s | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
 ```
 
----
-
 ## Serve Current Directory Tree by HTTP (Port 8000)
-
 ```bash
 python3 -m http.server
 # or for Python 2:
 python2 -m SimpleHTTPServer
 ```
-
----
 
 ## Find Routing Decision
 
@@ -158,10 +137,7 @@ ip route show match 1.2.3.4
 ip route get 1.2.3.4
 ```
 
----
-
 ## Set IP Address on the Fly
-
 ```bash
 ip link set eth0 up
 ip addr add 192.168.111.1/24 dev eth0
@@ -169,10 +145,7 @@ ip route add 192.168.33.1/32 dev eth0
 ip route add default via 192.168.0.254 dev eth0
 ```
 
----
-
 ## Pipe tar via SSH
-
 **Put data:**
 ```bash
 cd /usr/local/stuff
@@ -184,10 +157,7 @@ tar cfz - . | ssh remote "cd /backup && tar xfz -"
 ssh remote "cd /usr/local/stuff && tar cf - ." | tar xfz -
 ```
 
----
-
 ## Pipe Disk Image via SSH
-
 **Get data:**
 ```bash
 ssh root@get-disk-from dd bs=8192 if=/dev/sda | dd bs=8192 of=/dev/vg01/backup_sda
@@ -200,10 +170,7 @@ dd if=/dev/sda1 | buffer -s 64k -S 10m | ssh root@put-disk-to "cat > /dev/image"
 dd if=/dev/sda1 bs=4M | lzop -c | ssh root@put-disk-to "lzop -dc | dd of=/dev/sda1 bs=4M"
 ```
 
----
-
 ## Escape Remote Console
-
 **By telnet / Xen VM Console:**
 ```
 Escape character is '^]'.
@@ -223,38 +190,26 @@ ssh user@ilo-host
 ~.
 ```
 
----
-
 ## Install Public Key on Remote Machine
-
 ```bash
 ssh-copy-id username@hostname
 ```
 
----
-
 ## Resume rsync of a Big File
-
 ```bash
 rsync --partial --progress --rsh=ssh $file_source $user@$host:$destination_file
 ```
 
----
-
 ## Install SSH Pub Keys from User's GitHub Account
-
 ```bash
 curl -s https://github.com/joe-speedboat.keys | while read key ; do 
    grep -q "$key" ~/.ssh/authorized_keys && echo "Key did exist: $key" || (echo "$key" >> ~/.ssh/authorized_keys ; echo "Key added: $key" )
 done
 ```
 
----
-
 ## SSH Port Forwarding
 
 ### SSH Reverse Tunnel
-
 **Build the SSH reverse tunnel:**
 ```bash
 ssh -R 2222:localhost:22 middleuser@middle
@@ -268,7 +223,6 @@ ssh destinationuser@middle -p 2222
 ```
 
 ### SSH Port Forwarding
-
 ```bash
 ssh -g -L 80:127.0.0.1:3128 jump@zen.bitbull.ch -p23
 ssh -g -L local_port:remote_host:remote_port user@dst_host -p23
@@ -277,18 +231,12 @@ ssh -g -L local_port:remote_host:remote_port user@dst_host -p23
 # -p  use different port for ssh connection
 ```
 
----
-
 ## Remember SSH Private Key Passphrase on Console
-
 ```bash
 alias skey='ssh-agent > /tmp/.k ; . /tmp/.k ; rm -f /tmp/.k ; ssh-add'
 ```
 
----
-
 ## Validate Date of SSL Certificate
-
 ```bash
 echo | openssl s_client -connect www.google.com:443 2>/dev/null | openssl x509 -dates -noout
 ```
@@ -303,10 +251,7 @@ ssl-test www.google.ch
 # *  issuer: C=US; O=Google Trust Services; CN=GTS CA 1O1
 ```
 
----
-
 ## Add CA Cert to Java Keystore
-
 ```bash
 TMPF=/tmp/myca.crt
 EP="directory01.sun.bitbull.ch:636"
@@ -315,10 +260,7 @@ openssl x509 -in $TMPF
 keytool -import -alias idm -file $TMPF -keystore /etc/pki/ca-trust/extracted/java/cacerts -storepass changeit
 ```
 
----
-
 ## SSL/TLS Debugging
-
 **Get all LISTEN ports and test for certificate details by web request:**
 ```bash
 IF=$(ip r | grep default | awk '{print $5}')
@@ -331,10 +273,7 @@ do
 done
 ```
 
----
-
 ## tcpdump
-
 ```bash
 # Max. 100MB / full length and host x.x.x.x   
 tcpdump -C 100 -w dump.dat -i eth0 -s 0 -XX udp port 514
@@ -355,35 +294,23 @@ tcpdump -p -s0 -w tcpdump.cap
 tcpdump -nvvvXAttt port 389 2>&1 | grep -B1 -A1 dc=
 ```
 
----
-
 ## Count Network Connections for Each Host
-
 ```bash
 netstat -an | grep ESTABLISHED | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort
 ```
 
----
-
 ## List the Number and Type of Active Network Connections
-
 ```bash
 netstat -ant | awk '{print $NF}' | grep -v '[a-z]' | sort | uniq -c
 ```
 
----
-
 ## nmap Network Discovery
-
 **Find web servers on subnet:**
 ```bash
 nmap -sS -T5 -P0 -p80 -oG - 192.168.1.1-254 | grep open
 ```
 
----
-
 ## Monitor Network Activity of Applications
-
 ```bash
 while true; do
     date
@@ -391,26 +318,17 @@ while true; do
 done
 ```
 
----
-
 ## Show Your WAN IP
-
 ```bash
 curl ifconfig.me
 ```
 
----
-
 ## Scan Open Outgoing Ports
-
 ```bash
 for i in {1..1024}; do wget -qO- -T0.5 -t1 portquiz.net:$i >/dev/null 2>&1 && echo $i open ; done
 ```
 
----
-
 ## curl WebDAV Examples
-
 - **Reading Files/Folders on WebDAV Server:**
   ```bash
   curl 'https://example.com/webdav'
@@ -451,19 +369,13 @@ for i in {1..1024}; do wget -qO- -T0.5 -t1 portquiz.net:$i >/dev/null 2>&1 && ec
     curl --user 'user:pass' -X DELETE 'https://example.com/test' -sw '%{http_code}'
     ```
 
----
-
 ## Use netcat (nc) for Port Check
-
 ```bash
 nc -vvn -z 10.202.3.40 80 # old syntax
 nc -w3 -i3 --recv-only $DSL_IP $DSL_PORT 2>/dev/null | grep -q Login: # new syntax
 ```
 
----
-
 ## Port Checker Function
-
 ```bash
 check_port() {
   if [[ $# -ne 2 ]]; then
@@ -478,14 +390,3 @@ check_port() {
 }
 ```
 
----
-
-## Use netcat and dd to Check Network Performance
-
-**On destination:**
-```bash
-nc -l -vv -p 8080 >/dev/null
-```
-**On source:**
-```bash
-dd if=/de
