@@ -2,7 +2,7 @@
 title: backup and disk
 description: backup, disk, san
 published: true
-date: 2026-01-31T10:05:11.325Z
+date: 2026-01-31T10:32:41.285Z
 tags: backup, blockdevice, cmd, helpers
 editor: markdown
 dateCreated: 2026-01-30T09:36:30.061Z
@@ -96,7 +96,7 @@ mkfs.vfat -F32 ${DEV}1
 debugfs -R stats /dev/VG0/root
 ```
 
-* mark bad blocks on degrading hard disk with extN
+## mark bad blocks on degrading hard disk with extN
 ```bash
 umount /dev/sda1
 e2fsck -cc /dev/sda1
