@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T13:04:10.819Z
+date: 2026-01-31T13:20:00.465Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
@@ -47,7 +47,13 @@ while [ $SECONDS -lt $END ]; do
 done
 ```
 
-## escription of SSH Private Key
+## mirror website with cli
+```bash
+wget --random-wait -r -U Mozilla -e robots=off --span-hosts --domains miyuru.lk --convert-links https://www.miyuru.lk/geoiplegacy/
+httrack "https://lab9.lab.domain.info/" -s0 -O "./" "+*.lab.domain.info/*" -v
+```
+
+## change description of SSH Private Key
 - [StackOverflow: Rename SSH key agent that was already added](https://stackoverflow.com/questions/73676798/rename-ssh-key-agent-that-was-already-added)
 
 ```bash
