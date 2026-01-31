@@ -2,13 +2,13 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T09:30:42.310Z
+date: 2026-01-31T09:47:51.129Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
 ---
 
-## Proxy Environment Variables
+## Proxy Environment
 - [GitLab: We need to talk: NO_PROXY](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
 
 **In `$HOME/.bashrc`:**
@@ -35,7 +35,7 @@ no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 | Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
 | Detects loopback IPs? | No        | No             | No        | No        | Yes       |
 
-## Blink NIC LED for 5 Minutes
+## Blink NIC LED
 ```bash
 NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
 END=$((SECONDS+300))
@@ -47,7 +47,7 @@ while [ $SECONDS -lt $END ]; do
 done
 ```
 
-## Change Description of SSH Private Key
+## escription of SSH Private Key
 - [StackOverflow: Rename SSH key agent that was already added](https://stackoverflow.com/questions/73676798/rename-ssh-key-agent-that-was-already-added)
 
 ```bash
@@ -62,7 +62,7 @@ ssh-keygen -c -C 'migration:rundeck@host' -f ssh/id_rsa_migration
 ssh-add -l
 ```
 
-## Private Key Handling with Keychain in `.bashrc`
+## Private Key with Keychain in `.bashrc`
 ```bash
 # SSH
 keychain -Q -q ~/.ssh/id_dsa < /dev/null
@@ -74,7 +74,7 @@ keychain --agents gpg 297E196D
 [ -f $HOME/.keychain/$(uname -n)-sh-gpg ] && source $HOME/.keychain/$(uname -n)-sh-gpg
 ```
 
-## Use Keychain to Protect Your Ansible SSH Private Keys
+## Keychain / Ansible SSH Private Keys
 **Install keychain:**
 ```bash
 dnf -y install keychain
@@ -117,13 +117,13 @@ cat cron.out
 # localhost | SUCCESS => { "changed": false, "ping": "pong" }
 ```
 
-## Generate Random MAC Address
+## Random MAC Address gen
 ```bash
 printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
 date +%s | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
 ```
 
-## Serve Current Directory Tree by HTTP (Port 8000)
+## Server Current Directory by HTTP
 ```bash
 python3 -m http.server
 # or for Python 2:
@@ -190,7 +190,7 @@ ssh user@ilo-host
 ~.
 ```
 
-## Install Public Key on Remote Machine
+## Install Public Key to Remote
 ```bash
 ssh-copy-id username@hostname
 ```
@@ -200,7 +200,7 @@ ssh-copy-id username@hostname
 rsync --partial --progress --rsh=ssh $file_source $user@$host:$destination_file
 ```
 
-## Install SSH Pub Keys from User's GitHub Account
+## Github PubKeys to `authorized_keys`
 ```bash
 curl -s https://github.com/joe-speedboat.keys | while read key ; do 
    grep -q "$key" ~/.ssh/authorized_keys && echo "Key did exist: $key" || (echo "$key" >> ~/.ssh/authorized_keys ; echo "Key added: $key" )
