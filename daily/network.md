@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T10:36:53.072Z
+date: 2026-01-31T11:44:40.807Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
@@ -398,5 +398,33 @@ check_port() {
     (echo > "/dev/tcp/$host/$port") >/dev/null 2>&1 && echo "$host,$port,open" || echo "$host,$port,closed"
   fi
 }
+```
+## Avoid Bash Auto Logout
+
+### TMOUT Variable
+
+* Based on RHEL8
+* Logout message: timed out waiting for input: auto-logout
+
+```bash
+echo $TMOUT
+man bash
+# rpm -qf /etc/profile.d/tmout.sh
+#   file /etc/profile.d/tmout.sh is not owned by any package
+# cat /etc/profile.d/tmout.sh
+#   # Set TMOUT to 900 per security requirements
+#   TMOUT=900
+```
+
+### SSH Config
+
+```bash
+grep -B1 Alive /etc/ssh/ssh*_config
+# /etc/ssh/ssh_config:Host *
+# /etc/ssh/ssh_config:   ServerAliveInterval 60
+# --
+# /etc/ssh/sshd_config:ClientAliveInterval 60
+
+fgrep -r Alive /etc/ssh/
 ```
 
