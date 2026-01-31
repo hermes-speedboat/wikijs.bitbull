@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T13:02:47.440Z
+date: 2026-01-31T13:04:10.819Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
@@ -129,7 +129,6 @@ python3 -m http.server
 ```
 
 ## Find Routing Decision
-
 ```bash
 ip route show match 1.2.3.4
 ip route get 1.2.3.4
@@ -211,7 +210,6 @@ done
 ```
 
 ## SSH Port Forwarding
-
 ### SSH Reverse Tunnel
 **Build the SSH reverse tunnel:**
 ```bash
@@ -393,12 +391,8 @@ check_port() {
 }
 ```
 ## Avoid Bash Auto Logout
-
 ### TMOUT Variable
-
-* Based on RHEL8
 * Logout message: timed out waiting for input: auto-logout
-
 ```bash
 echo $TMOUT
 man bash
@@ -410,7 +404,6 @@ man bash
 ```
 
 ### SSH Config
-
 ```bash
 grep -B1 Alive /etc/ssh/ssh*_config
 # /etc/ssh/ssh_config:Host *
