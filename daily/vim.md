@@ -2,17 +2,17 @@
 title: vim
 description: vim hints
 published: true
-date: 2026-01-30T09:39:47.117Z
+date: 2026-01-31T10:39:28.545Z
 tags: cmd, helpers, vim
 editor: markdown
 dateCreated: 2026-01-30T08:47:48.221Z
 ---
 
-* Save a file you edited in vim without the needed permissions
+## Save a file you edited in vim without the needed permissions
 ```bash
 :w !sudo tee %
 ```
-* encrypt files
+## encrypt files
   The safest way to do this is to add the following to your ~/.vimrc file:
 ```bash
 set cm=blowfish2
@@ -22,13 +22,13 @@ set nowritebackup
 ```
 Now you can crypt file with <tt> vim -x filename </tt>
 
-* show whitespaces
+## show whitespaces
 ```bash
 :set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
 :set list
 ```
 
-* Ansible config
+## Ansible config
 The safest way to do this is to add the following to your ~/.vimrc file:
 ```bash
 syntax on
