@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-01-31T08:56:23.519Z
+date: 2026-01-31T08:56:53.823Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-30T07:35:57.104Z
@@ -19,7 +19,7 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 
 # Interesting stuff
 * [Radxa Dragon Q6A - Single board computer based on Qualcom QCS6490](https://radxa.com/products/dragon/q6a/)
-  * Fedora Install to NVMe
+  * Fedora Install to NVMe (boot into SDCard with t4 image)
     ```bash
     smartctl --all /dev/nvme0n1
     nvme format --ses=1 /dev/nvme0n1
