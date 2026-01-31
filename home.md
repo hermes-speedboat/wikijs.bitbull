@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-01-30T08:00:28.949Z
+date: 2026-01-31T08:56:23.519Z
 tags: 
 editor: markdown
 dateCreated: 2026-01-30T07:35:57.104Z
@@ -19,6 +19,14 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 
 # Interesting stuff
 * [Radxa Dragon Q6A - Single board computer based on Qualcom QCS6490](https://radxa.com/products/dragon/q6a/)
+  * Fedora Install to NVMe
+    ```bash
+    smartctl --all /dev/nvme0n1
+    nvme format --ses=1 /dev/nvme0n1
+    curl -L https://mirror.iscas.ac.cn/fedora-riscv/releases/42/Spins/aarch64/images/QCS6490/Radxa-Dragon-Q6A/Fedora-GNOME-42-20251017000000.QCS6490.Radxa-Dragon-Q6A.raw.gz | gzip -d | sudo dd of=/dev/nvme0n1 bs=4M status=progress conv=fsync oflag=sync
+    fstrim -av
+    ```
+    
 * [Personal onpremise AI assistant](https://openclaw.ai/)
 * [AI Workflow Automation Platform & Tools](https://n8n.io/)
 * [Ollama is the easiest way to automate your work using open models onprem](https://ollama.com/)
