@@ -2,7 +2,7 @@
 title: logfiles
 description: All about logfiles, journald, auditd
 published: true
-date: 2026-01-31T10:36:30.276Z
+date: 2026-01-31T10:37:53.914Z
 tags: cmd, helpers, logs, rh10
 editor: markdown
 dateCreated: 2026-01-30T09:05:05.024Z
@@ -23,4 +23,11 @@ ls -la /var/log/audit/
 ## Make `less` behave like `tail -f`
 ```bash
 less +F somelogfile
+```
+
+## trash a open logfile
+```bash
+cat /dev/null > logfile
+echo -n > logfile
+> logfile #bash
 ```
