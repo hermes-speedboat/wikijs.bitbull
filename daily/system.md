@@ -2,7 +2,7 @@
 title: system
 description: System related comands
 published: true
-date: 2026-01-31T12:56:46.740Z
+date: 2026-01-31T13:27:12.414Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-01-31T11:46:58.210Z
@@ -519,4 +519,36 @@ dpkg --get-selections > /etc/dpkg-list.txt
 /usr/bin/dpkg --set-selections < /tmp/dpkg-list.txt
 rm -f /etc/dpkg-list.txt
 /usr/bin/apt-get dselect-upgrade
+```
+
+
+## systemctl
+* list all services
+```bash
+systemctl list-units --type service
+```
+
+* List failed services on boot 	
+```bash
+systemctl --failed
+```
+
+* show all running services
+```bash
+systemctl --all --state=running
+```
+
+* show detailed service status
+```bash
+systemctl status <svc-name>
+```
+
+* most common service handling
+```bash
+systemctl [start|stop|restart|status|enable|disable|mask] <svc-name>
+```
+
+* check if service is enabled to autostart after reboot
+```bash
+systemctl is-enabled <svc-name>
 ```
