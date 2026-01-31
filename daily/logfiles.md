@@ -2,7 +2,7 @@
 title: logfiles
 description: All about logfiles, journald, auditd
 published: true
-date: 2026-01-31T10:37:53.914Z
+date: 2026-01-31T11:44:22.355Z
 tags: cmd, helpers, logs, rh10
 editor: markdown
 dateCreated: 2026-01-30T09:05:05.024Z
@@ -30,4 +30,24 @@ less +F somelogfile
 cat /dev/null > logfile
 echo -n > logfile
 > logfile #bash
+```
+
+## View Recent Log Files
+```bash
+find /var/log -follow  -type f -mmin -1
+tail -f /storage/log/vmware/applmgmt/monsvc.log | egrep --color=always -i '$|error|crit|warn'
+lsof | egrep 'log$|out$' | awk '{print $10}' | sort -u | xargs tail -f | egrep --color=always -i '$|error|crit|warn'
+lsof /var/log /storage/log | awk '{print $9}' | sort -u  | xargs tail -f | tee /tmp/all.log
+journalctl -af
+```
+
+## Trash rsyslog Message Pattern
+
+**/etc/rsyslog.d/mydomain.conf**
+```bash
+#auth,authpriv.* @syslog.mydomain.ch:1516
+
+:msg, contains, "pam_unix(cron:session)" ~
+:msg, contains, ": uid: missing" ~
+*.* @syslog.mydomain.ch:1516
 ```
