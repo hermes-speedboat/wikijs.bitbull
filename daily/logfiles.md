@@ -2,7 +2,7 @@
 title: logfiles
 description: All about logfiles, journald, auditd
 published: true
-date: 2026-01-31T11:44:22.355Z
+date: 2026-01-31T11:45:13.291Z
 tags: cmd, helpers, logs, rh10
 editor: markdown
 dateCreated: 2026-01-30T09:05:05.024Z
@@ -50,4 +50,10 @@ journalctl -af
 :msg, contains, "pam_unix(cron:session)" ~
 :msg, contains, ": uid: missing" ~
 *.* @syslog.mydomain.ch:1516
+```
+
+## Log Current Shell Session into File
+
+```bash
+script -a -f $HOME/console.log
 ```
