@@ -1,8 +1,8 @@
 ---
-title: Guacamole
+title: guacamole
 description: HTML remote gateway for RDP, VNC and SSH
 published: true
-date: 2026-01-31T13:35:20.642Z
+date: 2026-01-31T13:39:52.887Z
 tags: guacamole, product
 editor: markdown
 dateCreated: 2026-01-31T13:35:20.642Z
