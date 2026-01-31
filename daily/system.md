@@ -2,7 +2,7 @@
 title: system
 description: System related comands
 published: true
-date: 2026-01-31T11:46:58.210Z
+date: 2026-01-31T12:56:46.740Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-01-31T11:46:58.210Z
@@ -200,7 +200,7 @@ strace -o output.txt ls
 strace -f -p 1725 -o firefox_trace.txt # f: follow process
 strace -t -e open ls /home #timestamp
 strace -c ls /home # statistics
-strace -f -t -e trace=file systemctl restart SuSEfirewall2 2>&1 | grep open | cut -d'"' -f2
+strace -f -t -e trace=file systemctl restart nginx 2>&1 | grep open | cut -d'"' -f2
 ```
 
 ## Useful Alias to View System Processes
