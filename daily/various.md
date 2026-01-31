@@ -2,7 +2,7 @@
 title: various
 description: This and that
 published: true
-date: 2026-01-31T13:17:39.513Z
+date: 2026-01-31T13:23:41.845Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-01-31T13:17:39.513Z
@@ -161,4 +161,3 @@ xrandr --output LVDS1 --auto
 ```bash
 pcal -E -P a4 -B -F 1 -d /8 -t /18 -n /10 -a de -o cal.ps 2012
 ```
-
