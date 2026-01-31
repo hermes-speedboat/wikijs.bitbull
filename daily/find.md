@@ -2,7 +2,7 @@
 title: find
 description: finding things
 published: true
-date: 2026-01-31T10:35:30.313Z
+date: 2026-01-31T10:35:49.048Z
 tags: cmd, find, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:35:14.914Z
@@ -18,7 +18,7 @@ dateCreated: 2026-01-30T08:35:14.914Z
 find / -xdev -perm -o+w -and -not \( -type l -or -type s -or -perm -o+t \) -exec ls -ld {} \;
 ```
 
-*Find Duplicate Files (based on size first, then MD5 hash)
+## Find Duplicate Files (based on size first, then MD5 hash)
 ```bash
 find -not -empty -type f -printf "%s\n" | sort -rn | uniq -d | xargs -I{} -n1 find -type f -size {}c -print0 | xargs -0 md5sum | sort | uniq -w32 --all-repeated=separate
 ```
