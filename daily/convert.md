@@ -98,12 +98,3 @@ yes | ansible-playbook csv-runner-baseEvpn.yml  | tee >(aha > ansible_example_ou
 dnf -y install man-pages || apt-get -y install manpages
 man ascii
 ```
-
-## get network interface ip
-```bash
-/sbin/ifconfig $DEVICE | awk '/inet/ { print $2 } ' | sed -e s/addr://
-```
-## get host ip
-```bash
-hostname -i
-```
