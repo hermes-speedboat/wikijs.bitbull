@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T12:55:36.040Z
+date: 2026-01-31T13:02:47.440Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
@@ -133,11 +133,6 @@ python3 -m http.server
 ```bash
 ip route show match 1.2.3.4
 ip route get 1.2.3.4
-```
-
-## Get Network Interface IP
-```bash
-/sbin/ifconfig $DEVICE | awk '/inet/ { print $2 } ' | sed -e s/addr://
 ```
 
 ## Get Host IP
@@ -304,12 +299,12 @@ tcpdump -nvvvXAttt port 389 2>&1 | grep -B1 -A1 dc=
 
 ## Count Network Connections for Each Host
 ```bash
-netstat -an | grep ESTABLISHED | awk '{print $5}' | awk -F: '{print $1}' | sort | uniq -c | sort
+ss -ant state established | awk '{print $4}' | grep -v Address | awk -F: '{print $1}' | sort | uniq -c | sort
 ```
 
 ## List the Number and Type of Active Network Connections
 ```bash
-netstat -ant | awk '{print $NF}' | grep -v '[a-z]' | sort | uniq -c
+ss -antH | awk '{print $1}' | sort | uniq -c
 ```
 
 ## nmap Network Discovery
