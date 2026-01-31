@@ -2,7 +2,7 @@
 title: system
 description: System related comands
 published: true
-date: 2026-01-31T13:27:12.414Z
+date: 2026-01-31T13:32:43.444Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-01-31T11:46:58.210Z
