@@ -137,6 +137,16 @@ ip route show match 1.2.3.4
 ip route get 1.2.3.4
 ```
 
+## Get Network Interface IP
+```bash
+/sbin/ifconfig $DEVICE | awk '/inet/ { print $2 } ' | sed -e s/addr://
+```
+
+## Get Host IP
+```bash
+hostname -i
+```
+
 ## Set IP Address on the Fly
 ```bash
 ip link set eth0 up
