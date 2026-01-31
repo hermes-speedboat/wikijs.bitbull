@@ -2,7 +2,7 @@
 title: satellite
 description: Red Hat Satellite
 published: true
-date: 2026-01-31T14:00:48.897Z
+date: 2026-01-31T14:02:33.272Z
 tags: foreman, product, satellite
 editor: markdown
 dateCreated: 2026-01-31T14:00:48.897Z
@@ -154,7 +154,7 @@ satellite-installer --scenario satellite --foreman-initial-organization "BITBULL
 
 ## Foreman Content Management - Menu Overview
 
-![Foreman Menu](foreman_35_menu.png)
+![foreman_35_menu.png](/foreman_35_menu.png)
 
 ## Manage Repos with Foreman
 
