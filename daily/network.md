@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T11:44:40.807Z
+date: 2026-01-31T12:55:36.040Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-01-30T15:19:30.476Z
@@ -126,8 +126,6 @@ date +%s | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/
 ## Server Current Directory by HTTP
 ```bash
 python3 -m http.server
-# or for Python 2:
-python2 -m SimpleHTTPServer
 ```
 
 ## Find Routing Decision
