@@ -2,7 +2,7 @@
 title: convert
 description: About converting 
 published: true
-date: 2026-01-30T09:38:34.944Z
+date: 2026-01-31T10:29:48.596Z
 tags: cmd, convert, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:38:01.798Z
@@ -87,11 +87,11 @@ ps2pdf cal.ps
 ```bash
 color-script.sh  | col -b | sed 's/0;[0-9]*m//g'
 color-script.sh  | sed 's/\x1b\[[0-9;]*m//g' 
-
+```
 * convert bash color output into html file
 ```bash
 yes | ansible-playbook csv-runner-baseEvpn.yml  | tee >(aha > ansible_example_output.html)
-
+```
 * quick access to the ascii table
 ```bash
 dnf -y install man-pages || apt-get -y install manpages
