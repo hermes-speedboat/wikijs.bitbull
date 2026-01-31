@@ -2,7 +2,7 @@
 title: convert
 description: About converting 
 published: true
-date: 2026-01-31T10:31:58.934Z
+date: 2026-01-31T10:33:14.824Z
 tags: cmd, convert, helpers
 editor: markdown
 dateCreated: 2026-01-30T08:38:01.798Z
@@ -24,7 +24,7 @@ find . -type f | while read file; do rename 's/ö/oe/g;s/Ö/Oe/g;s/ü/ue/g;s/Ü/
 sed 's/#.*$//' -e '/^$/d' -e '/^\s*#.*$/d' /etc/file.cfg
 ```
 
-## unix2dos with sed==
+## unix2dos with sed
 ```bash
 sed -i 's/$/\r/' file.txt
 ```
@@ -34,7 +34,7 @@ sed -i 's/$/\r/' file.txt
 sed -i 's/\r//' file.txt
 ```
 
-## search and replace onliner==
+## search and replace onliner
 ```bash
 perl -pi -w -e 's/search/replace/g;' *.txt
 sed -i 's/search/replace/g;' *.txt
