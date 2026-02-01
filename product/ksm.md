@@ -2,7 +2,7 @@
 title: ksm
 description: 
 published: true
-date: 2026-02-01T09:31:09.273Z
+date: 2026-02-01T09:35:56.907Z
 tags: howto, ksm, kvm, setup
 editor: markdown
 dateCreated: 2026-02-01T09:16:53.394Z
@@ -242,3 +242,51 @@ Filesystem     Type  Size  Used Avail Use% Mounted on
 ### Links
 * https://bugzilla.redhat.com/show_bug.cgi?id=648594
 * https://serverfault.com/questions/324281/how-do-you-increase-a-kvm-guests-disk-space
+
+## useful cmd
+### fact
+* get disks 
+```bash
+virsh domblklist $VM
+```
+* disk info
+```bash
+qemu-img info $VM_IDISK
+```
+
+* get ip adress of vm
+```bash
+virsh qemu-agent-command $VM '{"execute":"guest-network-get-interfaces"}' | python3 -mjson.tool | grep ip-address
+```
+
+### resize disk
+* resize image
+ qemu-img resize $VM_IDISK 100G
+
+### convert disk
+* Error: Cannot store dirty bitmaps in qcow2 v2 files
+```bash
+qemu-img convert -O qcow2 -o compat=1.1 old-image.qcow2 new-image.qcow2
+```
+
+### snapshot
+* list snapshots with virsh
+```bash
+virsh snapshot-list $VM
+```
+* commit snapshot from online vm
+```bash
+virsh blockcommit $VM $VM_IDISK --active --pivot --verbose
+```
+* commit snapshot from powered-off vm
+```bash
+qemu-img commit $VM_DISK_DELTA_FILE
+```
+* delete snapshot meta data
+```bash
+virsh snapshot-delete $VM snap_name --metadata
+```
+* delete snapshot within qcow2 file
+```bash
+qemu-img snapshot -d $SNAP_NAME $VM_DISK
+```
