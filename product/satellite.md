@@ -1,8 +1,8 @@
 ---
-title: satellite
-description: Red Hat Satellite
+title: satellite setup
+description: Red Hat Satellite Setup
 published: true
-date: 2026-01-31T14:02:33.272Z
+date: 2026-02-01T09:02:29.278Z
 tags: foreman, product, satellite
 editor: markdown
 dateCreated: 2026-01-31T14:00:48.897Z
