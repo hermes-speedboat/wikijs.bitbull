@@ -2,7 +2,7 @@
 title: ksm
 description: 
 published: true
-date: 2026-02-01T09:19:40.093Z
+date: 2026-02-01T09:20:28.328Z
 tags: howto, ksm, kvm, setup
 editor: markdown
 dateCreated: 2026-02-01T09:16:53.394Z
@@ -35,7 +35,7 @@ parm:           nested:int
 [root@clue2 ~]# virsh start ov-compute1
 ```
 
-=For Intel CPUs=
+### For Intel CPUs
 ```bash
 clue1# cat /sys/module/kvm_intel/parameters/nested
 N
