@@ -1,9 +1,9 @@
 ---
-title: foreman
-description: Foreman and Satellite
+title: refcard
+description: Foreman and Satellite Reference Card
 published: true
-date: 2026-01-31T13:39:30.387Z
-tags: product, foreman, satellite
+date: 2026-02-01T09:01:03.950Z
+tags: foreman, product, satellite
 editor: markdown
 dateCreated: 2026-01-31T13:39:30.387Z
 ---
