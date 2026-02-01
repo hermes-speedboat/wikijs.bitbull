@@ -2,7 +2,7 @@
 title: ksm
 description: 
 published: true
-date: 2026-02-01T09:20:28.328Z
+date: 2026-02-01T09:26:45.687Z
 tags: howto, ksm, kvm, setup
 editor: markdown
 dateCreated: 2026-02-01T09:16:53.394Z
@@ -81,4 +81,60 @@ chmod +x /etc/rc.d/rc.local
 ```bash
 free -t | grep ^Mem: | awk '{print $7/1024 " MB"}'
 top # sort for cpu with "P" and look for ksmd
+```
+
+## enable vm serial console
+How to configure serial console for KVM vm. So virsh will have access:
+```bash
+virsh console <vm-name>
+```
+
+### Red Hat
+* https://access.redhat.com/articles/7212
+#### RHEL9
+```bash
+grubby --update-kernel=ALL --args="console=tty0 console=ttyS0,115200"
+```
+#### RHEL8
+```bash
+grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) console=tty0 console=ttyS0,115200"
+```
+
+
+### ubuntu
+```bash
+systemctl enable serial-getty@ttyS0.service
+systemctl start serial-getty@ttyS0.service
+```
+
+### alpine
+* Enabling a login console
+This is done in `/etc/inittab`. There is commented entry for `ttyS0`. Just enable it.
+```bash
+# Put a getty on the serial port
+ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100
+```
+
+* To start the getty, restart init:
+```bash
+kill -HUP 1
+```
+
+* Enabling two consoles during boot
+
+It's possible to output to both the serial and vga console during the system boot.
+
+```bash
+append "quiet console=ttyS0,9600 console=tty0"
+```
+
+Not known how to do the same thing in the extlinux menu. 
+You might find a starting point in this thread: http://patchwork.openembedded.org/patch/45175/
+
+* Add your serial console to the trusted local terminal list
+If you face the problem that the login prompt always refuses your password when you use serial console, you missed this entry.
+
+Add this to the `/etc/securetty` file:   
+```bash
+ttyS0
 ```
