@@ -2,7 +2,7 @@
 title: ksm
 description: 
 published: true
-date: 2026-02-01T09:26:45.687Z
+date: 2026-02-01T09:31:09.273Z
 tags: howto, ksm, kvm, setup
 editor: markdown
 dateCreated: 2026-02-01T09:16:53.394Z
@@ -138,3 +138,107 @@ Add this to the `/etc/securetty` file:
 ```bash
 ttyS0
 ```
+
+## expand qcow2 disk online
+Recently I needed to expand my nfs servers disk system while file operations where ongoing.   
+So the easy and save way with `qemu-img resize` and final reboot of the VM was not possible.
+Finally I found a way to resize the qcow2 disk of the vm online.
+
+### Collect Information
+#### Free Space
+##### File Server VM
+* CentOS8 Core
+```bash
+[root@nfs ~]# df -hP /srv/
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vdb        985G  707G  278G  72% /srv
+```bash
+
+
+### KVM Hypervisor
+* CentOS7
+```bash
+[root@clue1 ~]# vmh -l nfs #my personal script, look at github if you like it
+   ===---------- VM: nfs ----------===
+           State: running
+       Autostart: enable
+          Memory: 1024 MB
+             CPU: 2
+      ---------- Network Interfaces:
+      Interface  Type    Source  Model   MAC
+      vnet6      bridge  br0     virtio  52:54:00:5d:c7:87
+      ---------- Block Devices:
+      Target  Source                        Size
+      vda     /srv/vm/images/nfs.qcow2      7.0G  40G
+      vdb     /srv/vm/images/nfs_srv.qcow2  973G  1.0T
+
+
+[root@clue1 ~]# df -hP /srv
+Filesystem           Size  Used Avail Use% Mounted on
+/dev/mapper/raid-vm  2.8T  1.2T  1.5T  45% /srv
+
+[root@clue1 ~]# qemu-img info -U /srv/vm/images/nfs_srv.qcow2
+image: /srv/vm/images/nfs_srv.qcow2
+file format: qcow2
+virtual size: 1.0T (1073741824000 bytes)
+disk size: 972G
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+```
+
+### Resize the qcow2 disk online
+```bash
+[root@clue1 ~]# virsh 
+Welcome to virsh, the virtualization interactive terminal.
+
+Type:  'help' for help with commands
+       'quit' to quit
+
+virsh # qemu-monitor-command nfs info block --hmp
+drive-virtio-disk0 (#block185): /srv/vm/images/nfs.qcow2 (qcow2)
+    Attached to:      /machine/peripheral/virtio-disk0/virtio-backend
+    Cache mode:       writeback
+
+drive-virtio-disk1 (#block360): /srv/vm/images/nfs_srv.qcow2 (qcow2)
+    Attached to:      /machine/peripheral/virtio-disk1/virtio-backend
+    Cache mode:       writeback
+
+virsh # qemu-monitor-command nfs block_resize drive-virtio-disk1 1.5T --hmp
+
+[root@clue1 ~]# qemu-img info -U /srv/vm/images/nfs_srv.qcow2
+image: /srv/vm/images/nfs_srv.qcow2
+file format: qcow2
+virtual size: 1.5T (1649267441664 bytes)
+disk size: 972G
+cluster_size: 65536
+Format specific information:
+    compat: 1.1
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
+```
+
+### Align the VM Disk size
+```bash
+[root@nfs ~]# df -hPT /srv/
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/vdb       ext4  985G  719G  266G  74% /srv
+
+[root@nfs ~]# resize2fs /dev/vdb
+resize2fs 1.45.4 (23-Sep-2019)
+Filesystem at /dev/vdb is mounted on /srv; on-line resizing required
+old_desc_blocks = 125, new_desc_blocks = 192
+The filesystem on /dev/vdb is now 402653184 (4k) blocks long.
+
+[root@nfs ~]# df -hPT /srv/
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/vdb       ext4  1.5T  720G  793G  48% /srv
+```
+
+### Links
+* https://bugzilla.redhat.com/show_bug.cgi?id=648594
+* https://serverfault.com/questions/324281/how-do-you-increase-a-kvm-guests-disk-space
