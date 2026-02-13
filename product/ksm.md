@@ -1,11 +1,11 @@
 ---
-title: ksm
-description: 
+title: kvm
+description: Kernel-based Virtual Machine Infos
 published: true
-date: 2026-02-01T09:35:56.907Z
+date: 2026-02-13T06:35:25.202Z
 tags: howto, ksm, kvm, setup
 editor: markdown
-dateCreated: 2026-02-01T09:16:53.394Z
+dateCreated: 2026-02-13T06:21:49.715Z
 ---
 
 ## enable nested virtualization
