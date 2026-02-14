@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T13:53:54.141Z
+date: 2026-02-14T13:54:32.830Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -368,22 +368,6 @@ cat << EOF > /etc/logrotate.d/rundeck_service
 EOF
 
 logrotate -fv /etc/logrotate.d/rundeck_service
-```
-
-## gelf remote logging
-* https://github.com/tseeker/rundeck-gelf-plugin
-```bash
-$ cd /var/lib/rundeck/libext
-$ wget https://raw.githubusercontent.com/tseeker/rundeck-gelf-plugin/master/GelfPlugin.groovy
-$ cd /etc/rundeck
-
-# set values as default, since (by bug) framework.properties get not honored
-$ grep default /var/lib/rundeck/libext/GelfPlugin.groovy
-        host defaultValue:"syslog.domain.local", required:true, description: "Hostname to connect to"
-        port defaultValue:2222, required:true, description: "Port to connect to", type: 'Integer'
-
-$ grep Gelf rundeck-config.properties
-rundeck.execution.logs.streamingWriterPlugins=GelfPlugin
 ```
 
 
