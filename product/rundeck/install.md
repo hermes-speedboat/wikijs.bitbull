@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T13:54:32.830Z
+date: 2026-02-14T13:56:41.128Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -334,40 +334,3 @@ PROJECT: ansible > Edit Nodes > Sources > Add
 Type: Ansible Resource Model Source
 Ansible config file path: /etc/ansible/ansible.cfg
 ```
-
-
-# BUGS & FIXES
-
-## Error Msg: `/bin/sh: /tmp/0-1-localhost-dispatch-script.tmp.sh: Permission denied`
-```bash
-echo '
-# ----------------------------------------------------------------
-# CUSTOM VALUES
-# ----------------------------------------------------------------
-framework.file-copy-destination-dir = ~/
-' >> /etc/rundeck/framework.properties
-
-systemctl restart rundeckd
-```bash
-
-## service.log not rotated
-* Problem: /var/log/rundeck/service.log grows and get not rotated
-```bash
-cat << EOF > /etc/logrotate.d/rundeck_service
-/var/log/rundeck/service.log {
- su root root
- copytruncate
- daily
- missingok
- rotate 7
- compress
- delaycompress
- notifempty
- create 640 root adm
-}
-EOF
-
-logrotate -fv /etc/logrotate.d/rundeck_service
-```
-
-
