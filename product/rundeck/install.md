@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T08:20:30.237Z
+date: 2026-02-14T09:03:29.165Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -17,21 +17,30 @@ dateCreated: 2026-02-14T08:20:30.237Z
 ## Setup Ansible
 ```bash
 curl -L ansible.bitbull.ch | bash
+
+# needed to get rundeck repo signing working
+update-crypto-policies --set DEFAULT:SHA1
+
 reboot
 ```
 
 ## Install Rundeck
 ```bash
 # notice the new ansible venv in /opt/ansible
+cda
 ansible-galaxy install joe-speedboat.virt_tools joe-speedboat.rundeck joe-speedboat.mariadb
+
+
+
 ```
 
 ### Prepare Ansible Setup
-* `vim install_rundeck.yml`
+* `cda ; vim playbooks/install_rundeck.yml`
 ```
 - hosts: localhost
   become: True
   vars:
+    ansible_connection: local
     rundeck_install_ansible: False
     rundeck_admin_pass: ***
     mariadb_root_password: ***
