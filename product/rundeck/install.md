@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T13:56:41.128Z
+date: 2026-02-14T13:59:25.905Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -192,21 +192,6 @@ via  /etc/ansible/playbooks/install_rundeck.yml # you see it clear now
 
 
 # currently untested config
-## FreeIPA Inventory
-```bash
-# rundeck user
-curl https://raw.githubusercontent.com/joe-speedboat/linux.scripts/master/ansible/ansible_dynamic_inventory_freeipa_with_vars.py > inventory/freeipa.py
-chmod 700 inventory/freeipa.py
-python -m pip install --user python_freeipa
-
-echo '# FreeIPA Ansible Inventory Auth
-# FreeIPA Ansible Inventory Auth
-export freeipaserver=freeipa01.domain.local
-export freeipauser='svc_bind_rundeck_prod'
-export freeipapassword='******'
-' >> $HOME/.bashrc
-```
-
 
 ## Rundeck FreeIPA Auth
 * `vim /etc/rundeck/multiauth.conf
