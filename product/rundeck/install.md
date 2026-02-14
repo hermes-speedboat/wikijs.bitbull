@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T09:52:40.955Z
+date: 2026-02-14T13:52:59.810Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -10,6 +10,7 @@ dateCreated: 2026-02-14T08:20:30.237Z
 
 # Setup Rundeck
 * Install Rocky Linux 9 Minimal
+  Note: Rocky 10 is note yet possible, because rundeck depends on jdk17 which is not in Rocky 10
 * 4vCPU
 * 8 GB Memory
 * 50 GB HDD
