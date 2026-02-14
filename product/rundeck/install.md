@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T09:03:29.165Z
+date: 2026-02-14T09:04:17.958Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -80,7 +80,7 @@ ansible-playbookinstall_rundeck.yml
 ==General settings==
 
  echo '#!/bin/sh
- cp -av "$1" "$1.$(date +%Y%m%H%M%S)"
+ cp -av "$1" "$1.$(date +%Y%m%%dH%M%S)"
  ' > /usr/local/bin/backup
  chmod 755 /usr/local/bin/backup
 
