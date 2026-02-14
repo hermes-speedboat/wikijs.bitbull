@@ -2,7 +2,7 @@
 title: Install Rundeck
 description: Install Rundeck, Setup Ansible, Configure Mixed Node Inventory (Lin/Win)
 published: true
-date: 2026-02-14T09:52:13.744Z
+date: 2026-02-14T09:52:40.955Z
 tags: ansible, rundeck
 editor: markdown
 dateCreated: 2026-02-14T08:20:30.237Z
@@ -337,7 +337,7 @@ Ansible config file path: /etc/ansible/ansible.cfg
 
 # BUGS & FIXES
 
-* Error Msg: `/bin/sh: /tmp/0-1-localhost-dispatch-script.tmp.sh: Permission denied`
+## Error Msg: `/bin/sh: /tmp/0-1-localhost-dispatch-script.tmp.sh: Permission denied`
 ```bash
 echo '
 # ----------------------------------------------------------------
@@ -349,7 +349,7 @@ framework.file-copy-destination-dir = ~/
 systemctl restart rundeckd
 ```bash
 
-* service.log not rotated
+## service.log not rotated
 * Problem: /var/log/rundeck/service.log grows and get not rotated
 ```bash
 cat << EOF > /etc/logrotate.d/rundeck_service
@@ -369,7 +369,7 @@ EOF
 logrotate -fv /etc/logrotate.d/rundeck_service
 ```
 
-==gelf remote logging==
+## gelf remote logging
 * https://github.com/tseeker/rundeck-gelf-plugin
 ```bash
 $ cd /var/lib/rundeck/libext
