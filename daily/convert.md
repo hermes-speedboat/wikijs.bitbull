@@ -1,11 +1,11 @@
 ---
 title: convert
-description: About converting 
+description: About converting
 published: true
-date: 2026-01-31T10:33:14.824Z
+date: 2026-02-14T16:07:37.779Z
 tags: cmd, convert, helpers
 editor: markdown
-dateCreated: 2026-01-30T08:38:01.798Z
+dateCreated: 2026-02-13T09:06:59.737Z
 ---
 
 ## rename files with spezial characters in it
@@ -36,7 +36,6 @@ sed -i 's/\r//' file.txt
 
 ## search and replace onliner
 ```bash
-perl -pi -w -e 's/search/replace/g;' *.txt
 sed -i 's/search/replace/g;' *.txt
 ```
 
@@ -64,11 +63,6 @@ xmllint --format [file]
 ## prettify an JSON file
 ```bash
 cat file.json | python -m json.tool
-```
-
-## show changelog from pending updates
-```bash
-echo n | yum update --changelog | sed '1,/Changes in packages about to be updated:/d' | sed '/Running transaction check/,$d'
 ```
 
 ## list installed packages and repo
