@@ -2,7 +2,7 @@
 title: Ascender LDAP Auth
 description: awx & ascender ldap authentication wit FreeIPA
 published: true
-date: 2026-02-15T08:14:27.031Z
+date: 2026-02-15T15:48:30.787Z
 tags: ansible, freeipa, awx, ascender, ldap
 editor: markdown
 dateCreated: 2026-02-15T08:14:27.031Z
@@ -32,6 +32,19 @@ Note, you can enable SSL, but then you must allow every cert or inject ca, which
 * https://docs.ansible.com/projects/awx/en/24.6.1/administration/ldap_auth.html
 * https://stackoverflow.com/questions/53828320/awx-ansible-tower-ldap-authentication
 * https://github.com/ansible/awx/issues/4267
+
+* hint
+```
+-------------- LDAP AUTH HACKS ---------------------
+https://ascener.fqdn.tld/api/v2/settings/ldap/
+    "AUTH_LDAP_CONNECTION_OPTIONS": {
+        "OPT_REFERRALS": 0,    
+        "OPT_X_TLS_NEWCTX": 0, 
+        "OPT_NETWORK_TIMEOUT": 30,
+        "OPT_X_TLS_REQUIRE_CERT": 0
+    },               
+```
+
 
 ### LDAP Group Search
 
