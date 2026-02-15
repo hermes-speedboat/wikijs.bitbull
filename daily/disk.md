@@ -2,10 +2,10 @@
 title: backup and disk
 description: backup, disk, san
 published: true
-date: 2026-01-31T10:32:41.285Z
-tags: backup, blockdevice, cmd, helpers
+date: 2026-02-15T05:36:48.694Z
+tags: cmd, helpers, backup, blockdevice
 editor: markdown
-dateCreated: 2026-01-30T09:36:30.061Z
+dateCreated: 2026-02-13T09:07:01.425Z
 ---
 
 ## rescan scsi disk
@@ -16,12 +16,28 @@ for d in /sys/block/sd*/device/rescan ; do echo "scanning $d" ; echo 1 > $d ; do
 ```
 
 ## expand last partition in disk
-```
+```bash
 lsblk
 DISK=sdb
 PART=1
 parted /dev/$DISK resizepart $PART 100%
 lsblk
+```
+
+## backup and restore mbr of a disk
+* Backing up MBR stored on /dev/sdX
+```bash
+dd if=/dev/sdX of=/tmp/sda-mbr.bin bs=512 count=1
+```
+
+* Restore partition table to disk
+```bash
+dd if= sda-mbr.bin of=/dev/sdX bs=1 count=64 skip=446 seek=446
+```
+
+Restore partition table and boot loader
+```bash
+dd if= sda-mbr.bin of=/dev/sdX bs=512 count=1
 ```
 
 ## backup helper script
