@@ -1,9 +1,9 @@
 ---
-title: Mail helpers
+title: SMTP + IMAP via telnet
 description: Some useful comands with mail
 published: true
-date: 2026-02-15T06:00:50.911Z
-tags: linux, mail
+date: 2026-02-15T06:14:03.897Z
+tags: mail
 editor: markdown
 dateCreated: 2026-02-15T06:00:50.911Z
 ---
