@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T15:55:31.277Z
+date: 2026-02-15T15:59:46.085Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -91,7 +91,8 @@ LEDGER_INSTALL: false' > custom.config.yml
 sed -i "s/ASCENDER_HOSTNAME:.*/ASCENDER_HOSTNAME: $APP_FQDN/" custom.config.yml
 bash ./setup.sh
 ```
-* Test Login
+* If you do not know how operators are working and can get debugged, learn it!
+* Finaly: Test Login
 
 # Upgrade Ascender
 ```bash
