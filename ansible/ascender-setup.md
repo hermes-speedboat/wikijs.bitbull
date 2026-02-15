@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T15:59:46.085Z
+date: 2026-02-15T16:02:52.167Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -26,6 +26,7 @@ dnf -y install setroubleshoot-server curl lsof wget git bash-completion openssl
 sed -i  '/swap/d' /etc/fstab
 swapoff -a
 
+systemctl enable firewalld --now
 firewall-cmd --permanent --zone=public --add-service=https
 # firewall-cmd --zone=public --add-masquerade --permanent
 firewall-cmd --reload
