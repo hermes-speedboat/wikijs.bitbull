@@ -2,10 +2,10 @@
 title: refcard
 description: Foreman and Satellite Reference Card
 published: true
-date: 2026-02-01T09:01:03.950Z
-tags: foreman, product, satellite
+date: 2026-02-15T06:21:38.886Z
+tags: product, foreman, satellite
 editor: markdown
-dateCreated: 2026-01-31T13:39:30.387Z
+dateCreated: 2026-02-13T09:07:21.403Z
 ---
 
 # CLI
