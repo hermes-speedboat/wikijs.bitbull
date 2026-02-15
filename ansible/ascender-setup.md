@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T16:02:52.167Z
+date: 2026-02-15T16:06:51.112Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -57,7 +57,6 @@ cd git
 
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=CH/ST=SG/L=StGall/O=BITBULL/OU=IT/CN=$APP_FQDN"
 
-APP_FQDN=ascender.app.bitbull.ch
 git clone https://github.com/ctrliq/ascender-install.git
 
 cd ascender-install
