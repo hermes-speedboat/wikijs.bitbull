@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T15:06:49.959Z
+date: 2026-02-15T15:09:56.372Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -34,67 +34,25 @@ reboot
 
 
 
-=Setup K3S=
+# Setup K3S
+```bash
+curl -sfL https://get.k3s.io | sh
 
- curl -sfL https://get.k3s.io | sh
+cat /etc/systemd/system/k3s.service
+systemctl status k3s
 
- cat /etc/systemd/system/k3s.service
- systemctl status k3s
+kubectl get nodes
+# all pods in running state? fine!
+kubectl get pods --all-namespaces
 
- kubectl get nodes
- # all pods in running state? fine!
- kubectl get pods --all-namespaces
+# install kustomize
+cd /usr/local/sbin/
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
+```
 
- # install kustomize
- cd /usr/local/sbin/
- curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
 
-=Deploy AWX=
-<pre>
-export NAMESPACE=awx
-kubectl create namespace $NAMESPACE
-kubectl config set-context --namespace=$NAMESPACE --current
 
-cd ; mkdir awx ; cd awx
-vim kustomization.yaml
-------------
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  # Find the latest tag here: https://github.com/ansible/awx-operator/releases
-  - github.com/ansible/awx-operator/config/default?ref=0.20.0
-  - awx-bitbull.yml
 
-# Set the image tags to match the git version from above
-images:
-  - name: quay.io/ansible/awx-operator
-    newTag: 0.20.0
-
-# Specify a custom namespace in which to install AWX
-namespace: awx
-------------
-
-vim awx-bitbull.yml
-------------
----
-apiVersion: awx.ansible.com/v1beta1
-kind: AWX
-metadata:
-  name: bitbull
-spec:
-  ingress_type: route
-  route_host: ansible.apps.bitbull.ch
-  route_tls_termination_mechanism: Edge
-------------
-
-kustomize build . | kubectl apply -f -
-
-</pre>
-
-[[Category:Ansible]]
-[[Category:K3S]]
-[[Category:OpenShift & K8S]]
 
 =Fetch the secret and test the login=
  kubectl get secret bitbull-admin-password -o jsonpath='{.data.password}' | base64 --decode
