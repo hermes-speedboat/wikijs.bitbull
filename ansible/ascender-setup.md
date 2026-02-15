@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T15:09:56.372Z
+date: 2026-02-15T15:34:20.839Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -13,7 +13,7 @@ Ascender provides a web-based user interface, REST API, and task engine built on
 # VM Setup
 
 ## VM requirements
-Just setup a Rocky Linux 10 minimal VM with the following requirements
+Just setup a Rocky Linux 9 minimal VM with the following requirements
 * CPU: 2
 * MEM: 8GB (6 GB may work as well)
 * DISK: 40G (7GB used on a fresh setup)
@@ -21,7 +21,7 @@ Just setup a Rocky Linux 10 minimal VM with the following requirements
 ## Prepare OS
 ```bash
 dnf -y upgrade
-dnf -y install setroubleshoot-server curl lsof wget make
+dnf -y install setroubleshoot-server curl lsof wget git bash-completion openssl
 
 sed -i  '/swap/d' /etc/fstab
 swapoff -a
@@ -44,12 +44,55 @@ systemctl status k3s
 kubectl get nodes
 # all pods in running state? fine!
 kubectl get pods --all-namespaces
-
-# install kustomize
-cd /usr/local/sbin/
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
 ```
 
+# Setup Ascender
+```bash
+APP_FQDN=$(hostname -f)
+
+cd
+mkdir git
+cd git
+
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=CH/ST=SG/L=StGall/O=BITBULL/OU=IT/CN=$APP_FQDN"
+
+APP_FQDN=ascender.app.bitbull.ch
+git clone https://github.com/ctrliq/ascender-install.git
+
+cd ascender-install
+
+# we skip the installer config cmd, we already have our settings
+# bash config_vars.sh
+
+echo '---
+k8s_platform: k3s
+kube_install: false
+k8s_offline: false
+download_kubeconfig: true
+k8s_lb_protocol: https
+k3s_master_node_ip: "127.0.0.1"
+use_etc_hosts: false
+tls_crt_path: "~/git/cert.pem"
+tls_key_path: "~/git/key.pem"
+tmp_dir: "{{ playbook_dir}}/../ascender_install_artifacts"
+ASCENDER_HOSTNAME: awx.sun.bitbull.ch
+ASCENDER_NAMESPACE: ascender
+ASCENDER_ADMIN_USER: admin
+ASCENDER_ADMIN_PASSWORD: "ChangeMeNow."
+ASCENDER_VERSION: 25.3.4       
+ANSIBLE_OPERATOR_VERSION: 2.19.3
+ascender_garbage_collect_secrets: false
+ascender_replicas: 1
+image_pull_policy: Always
+ascender_setup_playbooks: false
+LEDGER_INSTALL: false' > custom.config.yml
+                                                                                                                                                                                              
+sed -i "s/ASCENDER_HOSTNAME:.*/ASCENDER_HOSTNAME: $APP_FQDN/" custom.config.yml
+bash ./setup.sh
+ 
+
+
+```
 
 
 
