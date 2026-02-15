@@ -2,10 +2,10 @@
 title: network
 description: network related
 published: true
-date: 2026-01-31T13:20:00.465Z
+date: 2026-02-15T06:04:50.688Z
 tags: cmd, helpers, networking
 editor: markdown
-dateCreated: 2026-01-30T15:19:30.476Z
+dateCreated: 2026-02-13T09:07:06.470Z
 ---
 
 ## Proxy Environment
@@ -375,6 +375,15 @@ for i in {1..1024}; do wget -qO- -T0.5 -t1 portquiz.net:$i >/dev/null 2>&1 && ec
     ```bash
     curl --user 'user:pass' -X DELETE 'https://example.com/test' -sw '%{http_code}'
     ```
+
+## Curl SOAP
+soap.txt is a local text file with the soap request in it
+```bash
+curl -H "Content-Type: text/xml; charset=utf-8" \
+     -H "SOAPAction:" \
+     -d @soap.txt \
+     -X POST http://localhost:18181/httpWSDLService/httpWSDLPort
+```
 
 ## Use netcat (nc) for Port Check
 ```bash
