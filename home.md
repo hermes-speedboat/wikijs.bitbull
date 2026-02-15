@@ -2,10 +2,10 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-01-31T08:56:53.823Z
+date: 2026-02-15T06:35:44.280Z
 tags: 
 editor: markdown
-dateCreated: 2026-01-30T07:35:57.104Z
+dateCreated: 2026-02-13T09:06:58.094Z
 ---
 
 # Welcome
@@ -32,3 +32,19 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 * [Ollama is the easiest way to automate your work using open models onprem](https://ollama.com/)
 * [Rundeck is the orchestration tool for all of your existing automation](https://www.rundeck.com/)
 * [Ascender provides a web-based user interface, REST API, and task engine for Ansible](https://github.com/ctrliq/ascender)
+
+# Disclaimer and License Notice
+
+All content published in this Linux wiki is released under the terms of the **GNU General Public License v3.0 (GPLv3)** unless explicitly stated otherwise.
+
+You are free to use, modify, and redistribute the content in accordance with the provisions of the GPLv3. A copy of the license should be provided alongside any redistribution. If not included, it can be obtained from: https://www.gnu.org/licenses/gpl-3.0.html
+
+All information, configurations, scripts, commands, and how-to guides provided in this wiki are supplied **“as is”**, without warranty of any kind, express or implied. This includes, but is not limited to, accuracy or completeness of the information, fitness for a particular purpose, suitability for production environments, and absence of errors or omissions.
+
+If you choose to use, apply, execute, implement, or otherwise rely on any commands, configurations, scripts, or procedures described here, you do so entirely at your own risk.
+
+Under no circumstances shall the author(s) or contributor(s) be held liable for data loss, service interruptions, security breaches, hardware or software damage, financial losses, or any direct, indirect, incidental, or consequential damages resulting from the use or misuse of the content provided.
+
+It is your responsibility to validate all commands and configurations before applying them, test changes in a controlled environment, maintain proper backups, and comply with applicable laws and organizational policies.
+
+If you do not agree with these terms, do not use the content provided here.
