@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T16:12:29.422Z
+date: 2026-02-15T16:16:16.048Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -12,6 +12,7 @@ Ascender provides a web-based user interface, REST API, and task engine built on
 
 # Prerequisites
 * Kubernetes admin knowledge
+  * understand CRDs
 * Understand operator concept
 * Ansible admin knowledge
 * Understand git
@@ -179,8 +180,7 @@ spec:
   backup_dir: /backups/awx-backup-2023-02-20-17:04:58
   backup_pvc: awx-backup-claim
 ...
-</pre>
-
+```
 `kubectl apply -f ascender-restore.yml`
 
 `kubectl get awxrestores -o yaml`
