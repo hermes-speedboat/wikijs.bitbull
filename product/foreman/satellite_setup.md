@@ -2,10 +2,10 @@
 title: satellite setup
 description: Red Hat Satellite Setup
 published: true
-date: 2026-02-01T09:02:29.278Z
-tags: foreman, product, satellite
+date: 2026-02-15T06:22:03.152Z
+tags: product, foreman, satellite
 editor: markdown
-dateCreated: 2026-01-31T14:00:48.897Z
+dateCreated: 2026-02-13T09:07:23.094Z
 ---
 
 # VM Setup
