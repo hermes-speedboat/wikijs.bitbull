@@ -2,7 +2,7 @@
 title: Ascender Setup
 description: Setup Ascender (AWX) on Rocky Linux 10
 published: true
-date: 2026-02-15T15:43:20.015Z
+date: 2026-02-15T15:51:19.334Z
 tags: ansible, awx, ascender, kubernetes
 editor: markdown
 dateCreated: 2026-02-15T15:06:49.959Z
@@ -64,6 +64,7 @@ cd ascender-install
 # we skip the installer config cmd, we already have our settings
 # bash config_vars.sh
 
+# VERIFY VERSIONS AND VARS, OR JUST USE `config_vars.sh`
 echo '---
 k8s_platform: k3s
 kube_install: false
