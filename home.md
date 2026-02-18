@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-15T06:35:44.280Z
+date: 2026-02-18T09:03:10.086Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -32,6 +32,8 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 * [Ollama is the easiest way to automate your work using open models onprem](https://ollama.com/)
 * [Rundeck is the orchestration tool for all of your existing automation](https://www.rundeck.com/)
 * [Ascender provides a web-based user interface, REST API, and task engine for Ansible](https://github.com/ctrliq/ascender)
+* [FreeIPA Workshop](https://github.com/freeipa/freeipa/tree/master/doc/workshop)
+
 
 # Disclaimer and License Notice
 
