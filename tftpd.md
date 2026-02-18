@@ -2,10 +2,10 @@
 title: tftpd setup
 description: Setup tftpd on Rocky9
 published: true
-date: 2026-02-01T09:09:48.997Z
-tags: howto, rocky9, setup, tftpd
+date: 2026-02-15T06:27:06.248Z
+tags: howto, setup, rocky9, tftpd
 editor: markdown
-dateCreated: 2026-02-01T09:09:20.747Z
+dateCreated: 2026-02-13T09:07:19.793Z
 ---
 
 ## TFTP Server Setup with systemd Sockets

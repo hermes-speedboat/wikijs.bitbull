@@ -2,7 +2,7 @@
 title: helpers
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-17T17:11:22.686Z
+date: 2026-02-17T17:11:23.864Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z

@@ -2,7 +2,7 @@
 title: pack files into shell script
 description: Howto pack files into shell script
 published: true
-date: 2026-02-15T07:40:18.509Z
+date: 2026-02-15T07:40:19.674Z
 tags: linux, shell, script
 editor: markdown
 dateCreated: 2026-02-15T07:40:18.509Z

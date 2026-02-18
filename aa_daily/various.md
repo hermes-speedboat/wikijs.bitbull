@@ -2,10 +2,10 @@
 title: various
 description: This and that
 published: true
-date: 2026-01-31T13:23:41.845Z
+date: 2026-02-15T08:05:28.097Z
 tags: cmd, helpers
 editor: markdown
-dateCreated: 2026-01-31T13:17:39.513Z
+dateCreated: 2026-02-13T09:07:11.509Z
 ---
 
 ## Create/Convert TOTP Token

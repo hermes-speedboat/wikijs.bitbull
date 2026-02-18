@@ -2,10 +2,10 @@
 title: find
 description: finding things
 published: true
-date: 2026-01-31T10:35:49.048Z
-tags: cmd, find, helpers
+date: 2026-02-15T08:04:24.983Z
+tags: cmd, helpers, find
 editor: markdown
-dateCreated: 2026-01-30T08:35:14.914Z
+dateCreated: 2026-02-13T09:07:03.121Z
 ---
 
 ## Find suid bits

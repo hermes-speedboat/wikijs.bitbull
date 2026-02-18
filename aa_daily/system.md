@@ -2,10 +2,10 @@
 title: system
 description: System related comands
 published: true
-date: 2026-01-31T13:32:43.444Z
+date: 2026-02-15T08:05:17.099Z
 tags: cmd, helpers
 editor: markdown
-dateCreated: 2026-01-31T11:46:58.210Z
+dateCreated: 2026-02-13T09:07:09.829Z
 ---
 
 ## Force RHEL9 to Boot into Specific Kernel Version

@@ -2,7 +2,7 @@
 title: packages hold by phasing
 description: Ubuntu/Debian phased packages hold back due unmet depencies
 published: true
-date: 2026-02-15T07:31:22.462Z
+date: 2026-02-15T07:31:23.605Z
 tags: linux, apt, ubuntu, debian
 editor: markdown
 dateCreated: 2026-02-15T07:31:22.462Z

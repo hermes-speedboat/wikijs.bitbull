@@ -2,7 +2,7 @@
 title: Ansible Refcard
 description: Ansible knowledge collection
 published: true
-date: 2026-02-15T07:55:43.917Z
+date: 2026-02-15T07:55:45.202Z
 tags: ansible
 editor: markdown
 dateCreated: 2026-02-15T07:55:43.917Z

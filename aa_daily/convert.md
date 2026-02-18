@@ -2,7 +2,7 @@
 title: convert
 description: About converting
 published: true
-date: 2026-02-14T16:07:37.779Z
+date: 2026-02-15T08:04:10.103Z
 tags: cmd, convert, helpers
 editor: markdown
 dateCreated: 2026-02-13T09:06:59.737Z

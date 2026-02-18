@@ -2,12 +2,11 @@
 title: shell
 description: shell hints
 published: true
-date: 2026-01-31T10:37:31.783Z
+date: 2026-02-15T08:05:05.590Z
 tags: cmd, helpers
 editor: markdown
-dateCreated: 2026-01-30T08:51:16.945Z
+dateCreated: 2026-02-13T09:07:08.190Z
 ---
-
 
 ## count processes per user
 ```bash

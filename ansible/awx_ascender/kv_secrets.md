@@ -2,7 +2,7 @@
 title: AWX Key-Value secrets
 description: AWX/Ascender key-value secret howto
 published: true
-date: 2026-02-15T08:01:27.851Z
+date: 2026-02-15T08:02:51.891Z
 tags: ansible, awx, ascender, secrets
 editor: markdown
 dateCreated: 2026-02-15T08:01:27.851Z

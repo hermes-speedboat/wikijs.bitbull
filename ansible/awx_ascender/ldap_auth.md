@@ -2,7 +2,7 @@
 title: Ascender LDAP Auth
 description: awx & ascender ldap authentication wit FreeIPA
 published: true
-date: 2026-02-15T15:48:30.787Z
+date: 2026-02-15T15:48:32.018Z
 tags: ansible, freeipa, awx, ascender, ldap
 editor: markdown
 dateCreated: 2026-02-15T08:14:27.031Z
