@@ -2,7 +2,7 @@
 title: helpers
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-20T13:01:44.731Z
+date: 2026-02-20T13:07:42.545Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -42,6 +42,26 @@ grep KUBECONFIG $HOME/.bashrc || echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.ya
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
 kubectl config set-context --current --namespace kube-system
 kubectl create ingress simple --rule="headlamp.app.bitbull.ch/=headlamp:80
+kubectl apply -f - <<EOF
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: headlamp
+  namespace: kube-system
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: admin.domain.tld
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: headlamp
+            port:
+              number: 80
+EOF
 ```
 
 # applications
