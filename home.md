@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-18T09:03:37.872Z
+date: 2026-02-21T21:34:27.766Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -12,9 +12,10 @@ dateCreated: 2026-02-13T09:06:58.094Z
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
 
-# Links
+# My Ressources
 * [Script Archive](https://github.com/joe-speedboat/scripts)
 * [GitHub](https://github.com/joe-speedboat)
+* [Kubernetes Apps and hints](https://github.com/joe-speedboat?tab=repositories&q=kube)
 * [Ansible Galaxy](https://galaxy.ansible.com/ui/standalone/namespaces/3440/)
 
 # Interesting stuff
