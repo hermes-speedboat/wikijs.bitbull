@@ -2,26 +2,29 @@
 title: vim refcard
 description: All the vim comands you need
 published: true
-date: 2026-02-21T20:46:22.960Z
+date: 2026-02-21T20:52:24.760Z
 tags: helpers, vim
 editor: markdown
 dateCreated: 2026-02-21T20:46:22.960Z
 ---
 
-* `:help<Enter>`   help  
-* `<Esc>`          back to normal mode  
-* `V`              visual line mode  
-* `i`              insert mode  
-* `:`              command-line mode  
-* `:set tw=72`     set text width to 72  
-* `<F11>`          paste mode  
-* `:r! date -R`    insert date according to RFC-822  
-* `qa`             record keystrokes into register a  
-* `q`              stop recording  
-* `@a`             execute keystrokes from register a  
-* `:edit text.txt` edit another file text.txt  
-* `:wnext`         write file and edit next  
-* `%s/from/to/g`   replace string in whole file  
+# Top used
+| Command            | Description                              |
+|--------------------|------------------------------------------|
+| `:help<Enter>`     | help                                     |
+| `<Esc>`            | back to normal mode                      |
+| `V`                | visual line mode                         |
+| `i`                | insert mode                              |
+| `:`                | command-line mode                        |
+| `:set tw=72`       | set text width to 72                     |
+| `<F11>`            | paste mode                               |
+| `<Esc>!!date`      | insert date                              |
+| `qa`               | record keystrokes into register a        |
+| `q`                | stop recording                           |
+| `@a`               | execute keystrokes from register a       |
+| `%s/from/to/g`     | replace string in whole file             |
+| `<Esc>:wq!`        | force write and quit                     |
+| `<Esc>:q!`         | force quit and dont write                |
 
 # Vim Reference Card
 
