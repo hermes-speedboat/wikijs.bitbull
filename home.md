@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-21T21:34:27.766Z
+date: 2026-02-21T21:37:32.418Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -11,6 +11,7 @@ dateCreated: 2026-02-13T09:06:58.094Z
 # Welcome
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
+
 
 # My Ressources
 * [Script Archive](https://github.com/joe-speedboat/scripts)
