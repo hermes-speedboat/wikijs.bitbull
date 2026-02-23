@@ -2,7 +2,7 @@
 title: helpers
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-20T13:07:42.545Z
+date: 2026-02-23T10:59:32.165Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -37,6 +37,17 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | sh
 helm completion bash > /etc/bash_completion.d/helm
 grep KUBECONFIG $HOME/.bashrc || echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> $HOME/.bashrc
 ```
+
+### kubectl-neat
+```bash
+cd /usr/local/bin
+rm -f kubectl-neat
+wget https://github.com/itaysk/kubectl-neat/releases/latest/download/kubectl-neat_linux_amd64.tar.gz
+chmod 700 kubectl-neat
+tar vxfz kubectl-neat_linux_amd64.tar.gz
+rm -f LICENSE kubectl-neat_linux_amd64.tar.gz
+```
+
 ### headlamp (admin ui)
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
