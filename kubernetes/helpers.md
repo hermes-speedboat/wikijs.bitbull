@@ -2,7 +2,7 @@
 title: helpers
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-23T10:59:32.165Z
+date: 2026-02-23T12:41:49.285Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -114,4 +114,12 @@ mariadb \
   -u "$MARIADB_USER" \
   -p"$MARIADB_PASSWORD" \
   "$MARIADB_DATABASE"
+```
+
+# Troubleshoot/Fix
+## cleanup
+### Remove pods that refuse to terminate
+```bash
+kubectl get pods -n kube-system | awk '/Terminating/ {print $1}' | \
+  xargs -r kubectl delete pod -n kube-system --grace-period=0 --force
 ```
