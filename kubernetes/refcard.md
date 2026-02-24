@@ -2,7 +2,7 @@
 title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-24T08:32:57.935Z
+date: 2026-02-24T17:31:18.942Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -46,6 +46,7 @@ rm -f LICENSE kubectl-neat_linux_amd64.tar.gz
 ```
 
 ### headlamp (admin ui)
+* Install
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/headlamp/main/kubernetes-headlamp.yaml
 kubectl config set-context --current --namespace kube-system
@@ -70,6 +71,12 @@ spec:
             port:
               number: 80
 EOF
+```
+* Create creds to access the ui
+```bash
+kubectl -n kube-system create serviceaccount headlamp-admin
+kubectl create clusterrolebinding headlamp-admin --serviceaccount=kube-system:headlamp-admin --clusterrole=cluster-admin
+kubectl -n kube-system create token headlamp-admin --duration=8760h   # ~1 year
 ```
 
 # applications
