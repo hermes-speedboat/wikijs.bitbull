@@ -2,7 +2,7 @@
 title: OpenLDAP proxy
 description: setup openldap proxy on Rocky 9
 published: true
-date: 2026-02-20T14:52:11.530Z
+date: 2026-02-24T07:24:30.866Z
 tags: proxy, ldap, openldap
 editor: markdown
 dateCreated: 2026-02-20T14:52:11.530Z
@@ -11,7 +11,7 @@ dateCreated: 2026-02-20T14:52:11.530Z
 # General
 OpenLDAP Proxy to present read only view to AD
 
-* [https://www.zytrax.com/books/ldap/ https://www.zytrax.com/books/ldap/]
+* [https://www.zytrax.com/books/ldap/](https://www.zytrax.com/books/ldap/)
 
 ## Prerequisites
 * Install AD Server
