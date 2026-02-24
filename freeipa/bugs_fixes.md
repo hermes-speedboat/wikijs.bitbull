@@ -2,7 +2,7 @@
 title: Bugs & Fixes
 description: FreeIPA/IDM Bugs and Solutions
 published: true
-date: 2026-02-24T07:19:28.650Z
+date: 2026-02-24T07:21:56.535Z
 tags: bugfix, freeipa
 editor: markdown
 dateCreated: 2026-02-24T07:19:28.650Z
@@ -10,7 +10,9 @@ dateCreated: 2026-02-24T07:19:28.650Z
 
 # Fresh Install
 ## Replica Issues
-* Error: IPADNARangeCheck.no_dna_range_defined
+### IPADNARangeCheck.no_dna_range_defined
+* Error: `ipa-healthcheck --all --output-type human 2>&1 | grep -v -e SUCCESS:`
+  >ipahealthcheck.ipa.dna.IPADNARangeCheck.no_dna_range_defined: No DNA range defined.
 * Solution: create/delete user on new replica
 ```bash
 [root@freeipa02 ~]# /usr/local/bin/ipa-health-check.sh
