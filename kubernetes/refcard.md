@@ -1,8 +1,8 @@
 ---
-title: helpers
+title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-23T12:41:49.285Z
+date: 2026-02-24T08:32:57.935Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -17,10 +17,7 @@ dnf -y install setroubleshoot-server curl lsof wget tar vim git bash-completion
 
 sed -i  '/swap/d' /etc/fstab
 swapoff -a
-
-systemctl disable firewalld --now
-firewall-cmd --permanent --add-port=443/tcp   # ingress controller
-firewall-cmd --reload
+dnf -y upgrade
 reboot
 ```
 
