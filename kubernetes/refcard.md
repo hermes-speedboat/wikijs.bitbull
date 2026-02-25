@@ -2,7 +2,7 @@
 title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-25T08:44:05.250Z
+date: 2026-02-25T12:04:09.740Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -35,6 +35,10 @@ helm completion bash > /etc/bash_completion.d/helm
 grep KUBECONFIG $HOME/.bashrc || echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> $HOME/.bashrc
 ```
 
+### kustomize
+```bash
+sudo 'cd /usr/local/bin ; curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash'
+```
 ### kubectl-neat
 ```bash
 cd /usr/local/bin
