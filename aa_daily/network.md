@@ -2,13 +2,19 @@
 title: network
 description: network related
 published: true
-date: 2026-02-25T05:51:41.368Z
+date: 2026-02-25T05:52:29.105Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-02-13T09:07:06.470Z
 ---
 
 # settings
+
+## Remember SSH Private Key Passphrase on Console
+```bash
+alias skey='ssh-agent > /tmp/.k ; . /tmp/.k ; rm -f /tmp/.k ; ssh-add'
+```
+
 ## Private Key with Keychain in `.bashrc`
 ```bash
 # SSH
@@ -249,11 +255,6 @@ ssh -g -L local_port:remote_host:remote_port user@dst_host -p23
 # -g  Allows remote hosts to connect to local forwarded ports
 # -L  [bind_address:]port:host:hostport
 # -p  use different port for ssh connection
-```
-
-## Remember SSH Private Key Passphrase on Console
-```bash
-alias skey='ssh-agent > /tmp/.k ; . /tmp/.k ; rm -f /tmp/.k ; ssh-add'
 ```
 
 # diag
