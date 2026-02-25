@@ -2,8 +2,8 @@
 title: tftpd setup
 description: Setup tftpd on Rocky9
 published: true
-date: 2026-02-25T06:13:53.352Z
-tags: howto, setup, tftpd, os:rocky9
+date: 2026-02-25T06:14:25.179Z
+tags: howto, setup, tftpd, rocky9
 editor: markdown
 dateCreated: 2026-02-13T09:07:19.793Z
 ---
