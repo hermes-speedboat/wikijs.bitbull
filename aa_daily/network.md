@@ -2,72 +2,13 @@
 title: network
 description: network related
 published: true
-date: 2026-02-15T08:04:52.277Z
+date: 2026-02-25T05:51:05.960Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-02-13T09:07:06.470Z
 ---
 
-## Proxy Environment
-- [GitLab: We need to talk: NO_PROXY](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
-
-**In `$HOME/.bashrc`:**
-```bash
-export http_proxy=http://proxy.example.com:8080
-export no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-```
-
-**In `/etc/environment`:**
-```bash
-http_proxy=http://proxy.example.com:8080
-no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
-```
-
-|                       | curl      | wget           | Ruby      | Python    | Go        |
-| --------------------- | --------- | -------------- | --------- | --------- | --------- |
-| no_proxy              | Yes       | Yes            | Yes       | Yes       | Yes       |
-| NO_PROXY              | Yes       | No             | Yes       | Yes       | Yes       |
-| Case precedence       | lowercase | lowercase only | lowercase | lowercase | Uppercase |
-| Matches suffixes?     | Yes       | Yes            | Yes       | Yes       | Yes       |
-| Strips leading .?     | Yes       | No             | Yes       | Yes       | No        |
-| * matches all hosts?  | Yes       | No             | No        | Yes       | Yes       |
-| Supports regexes?     | No        | No             | No        | No        | No        |
-| Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
-| Detects loopback IPs? | No        | No             | No        | No        | Yes       |
-
-## Blink NIC LED
-```bash
-NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
-END=$((SECONDS+300))
-while [ $SECONDS -lt $END ]; do
-    ip link set $NIC down
-    sleep 2
-    ip link set $NIC up
-    sleep 2
-done
-```
-
-## mirror website with cli
-```bash
-wget --random-wait -r -U Mozilla -e robots=off --span-hosts --domains miyuru.lk --convert-links https://www.miyuru.lk/geoiplegacy/
-httrack "https://lab9.lab.domain.info/" -s0 -O "./" "+*.lab.domain.info/*" -v
-```
-
-## change description of SSH Private Key
-- [StackOverflow: Rename SSH key agent that was already added](https://stackoverflow.com/questions/73676798/rename-ssh-key-agent-that-was-already-added)
-
-```bash
-ssh-keygen -c -C 'migration:rundeck@host' -f ssh/id_rsa_migration
-# Enter passphrase:
-# Old comment: rundeck@host
-# Comment 'migration:rundeck@host' applied
-```
-
-**Verify added keys:**
-```bash
-ssh-add -l
-```
-
+# settings
 ## Private Key with Keychain in `.bashrc`
 ```bash
 # SSH
@@ -78,6 +19,40 @@ keychain -Q -q ~/.ssh/id_dsa < /dev/null
 # gpg --list-keys
 keychain --agents gpg 297E196D
 [ -f $HOME/.keychain/$(uname -n)-sh-gpg ] && source $HOME/.keychain/$(uname -n)-sh-gpg
+```
+
+## Avoid Bash Auto Logout
+### TMOUT Variable
+* Logout message: timed out waiting for input: auto-logout
+```bash
+echo $TMOUT
+man bash
+# rpm -qf /etc/profile.d/tmout.sh
+#   file /etc/profile.d/tmout.sh is not owned by any package
+# cat /etc/profile.d/tmout.sh
+#   # Set TMOUT to 900 per security requirements
+#   TMOUT=900
+```
+
+### SSH Config
+```bash
+grep -B1 Alive /etc/ssh/ssh*_config
+# /etc/ssh/ssh_config:Host *
+# /etc/ssh/ssh_config:   ServerAliveInterval 60
+# --
+# /etc/ssh/sshd_config:ClientAliveInterval 60
+
+fgrep -r Alive /etc/ssh/
+```
+
+## change description of SSH Private Key
+- [StackOverflow: Rename SSH key agent that was already added](https://stackoverflow.com/questions/73676798/rename-ssh-key-agent-that-was-already-added)
+
+```bash
+ssh-keygen -c -C 'migration:rundeck@host' -f ssh/id_rsa_migration
+# Enter passphrase:
+# Old comment: rundeck@host
+# Comment 'migration:rundeck@host' applied
 ```
 
 ## Keychain / Ansible SSH Private Keys
@@ -123,26 +98,13 @@ cat cron.out
 # localhost | SUCCESS => { "changed": false, "ping": "pong" }
 ```
 
-## Random MAC Address gen
+## Add CA Cert to Java Keystore
 ```bash
-printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
-date +%s | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
-```
-
-## Server Current Directory by HTTP
-```bash
-python3 -m http.server
-```
-
-## Find Routing Decision
-```bash
-ip route show match 1.2.3.4
-ip route get 1.2.3.4
-```
-
-## Get Host IP
-```bash
-hostname -i
+TMPF=/tmp/myca.crt
+EP="directory01.sun.bitbull.ch:636"
+echo -n | openssl s_client -connect $EP | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $TMPF
+openssl x509 -in $TMPF
+keytool -import -alias idm -file $TMPF -keystore /etc/pki/ca-trust/extracted/java/cacerts -storepass changeit
 ```
 
 ## Set IP Address on the Fly
@@ -152,6 +114,69 @@ ip addr add 192.168.111.1/24 dev eth0
 ip route add 192.168.33.1/32 dev eth0
 ip route add default via 192.168.0.254 dev eth0
 ```
+
+## Random MAC Address gen
+```bash
+printf 'DE:AD:BE:EF:%02X:%02X\n' $((RANDOM%256)) $((RANDOM%256))
+date +%s | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
+```
+
+## Proxy Environment
+- [GitLab: We need to talk: NO_PROXY](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
+
+**In `$HOME/.bashrc`:**
+```bash
+export http_proxy=http://proxy.example.com:8080
+export no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+```
+
+**In `/etc/environment`:**
+```bash
+http_proxy=http://proxy.example.com:8080
+no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+```
+
+|                       | curl      | wget           | Ruby      | Python    | Go        |
+| --------------------- | --------- | -------------- | --------- | --------- | --------- |
+| no_proxy              | Yes       | Yes            | Yes       | Yes       | Yes       |
+| NO_PROXY              | Yes       | No             | Yes       | Yes       | Yes       |
+| Case precedence       | lowercase | lowercase only | lowercase | lowercase | Uppercase |
+| Matches suffixes?     | Yes       | Yes            | Yes       | Yes       | Yes       |
+| Strips leading .?     | Yes       | No             | Yes       | Yes       | No        |
+| * matches all hosts?  | Yes       | No             | No        | Yes       | Yes       |
+| Supports regexes?     | No        | No             | No        | No        | No        |
+| Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
+| Detects loopback IPs? | No        | No             | No        | No        | Yes       |
+
+## Blink NIC LED
+```bash
+NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
+END=$((SECONDS+300))
+while [ $SECONDS -lt $END ]; do
+    ip link set $NIC down
+    sleep 2
+    ip link set $NIC up
+    sleep 2
+done
+```
+
+# tasks
+## mirror website
+```bash
+wget --random-wait -r -U Mozilla -e robots=off --span-hosts --domains miyuru.lk --convert-links https://www.miyuru.lk/geoiplegacy/
+httrack "https://lab9.lab.domain.info/" -s0 -O "./" "+*.lab.domain.info/*" -v
+```
+
+**Verify added keys:**
+```bash
+ssh-add -l
+```
+
+## Server Current Directory by HTTP
+```bash
+python3 -m http.server
+```
+
 
 ## Pipe tar via SSH
 **Put data:**
@@ -243,6 +268,18 @@ ssh -g -L local_port:remote_host:remote_port user@dst_host -p23
 alias skey='ssh-agent > /tmp/.k ; . /tmp/.k ; rm -f /tmp/.k ; ssh-add'
 ```
 
+# diag
+## Find Routing Decision
+```bash
+ip route show match 1.2.3.4
+ip route get 1.2.3.4
+```
+
+## Get Host IP
+```bash
+hostname -i
+```
+
 ## Validate Date of SSL Certificate
 ```bash
 echo | openssl s_client -connect www.google.com:443 2>/dev/null | openssl x509 -dates -noout
@@ -256,15 +293,6 @@ ssl-test www.google.ch
 # *  start date: Jan  5 12:14:12 2021 GMT
 # *  expire date: Mar 30 12:14:11 2021 GMT
 # *  issuer: C=US; O=Google Trust Services; CN=GTS CA 1O1
-```
-
-## Add CA Cert to Java Keystore
-```bash
-TMPF=/tmp/myca.crt
-EP="directory01.sun.bitbull.ch:636"
-echo -n | openssl s_client -connect $EP | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $TMPF
-openssl x509 -in $TMPF
-keytool -import -alias idm -file $TMPF -keystore /etc/pki/ca-trust/extracted/java/cacerts -storepass changeit
 ```
 
 ## SSL/TLS Debugging
@@ -405,27 +433,5 @@ check_port() {
   fi
 }
 ```
-## Avoid Bash Auto Logout
-### TMOUT Variable
-* Logout message: timed out waiting for input: auto-logout
-```bash
-echo $TMOUT
-man bash
-# rpm -qf /etc/profile.d/tmout.sh
-#   file /etc/profile.d/tmout.sh is not owned by any package
-# cat /etc/profile.d/tmout.sh
-#   # Set TMOUT to 900 per security requirements
-#   TMOUT=900
-```
 
-### SSH Config
-```bash
-grep -B1 Alive /etc/ssh/ssh*_config
-# /etc/ssh/ssh_config:Host *
-# /etc/ssh/ssh_config:   ServerAliveInterval 60
-# --
-# /etc/ssh/sshd_config:ClientAliveInterval 60
-
-fgrep -r Alive /etc/ssh/
-```
 
