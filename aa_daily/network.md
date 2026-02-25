@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-02-25T05:51:05.960Z
+date: 2026-02-25T05:51:41.368Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-02-13T09:07:06.470Z
@@ -147,18 +147,6 @@ no_proxy=whole-domain-direct.com,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 | Supports regexes?     | No        | No             | No        | No        | No        |
 | Supports CIDR blocks? | No        | No             | Yes       | No        | Yes       |
 | Detects loopback IPs? | No        | No             | No        | No        | Yes       |
-
-## Blink NIC LED
-```bash
-NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
-END=$((SECONDS+300))
-while [ $SECONDS -lt $END ]; do
-    ip link set $NIC down
-    sleep 2
-    ip link set $NIC up
-    sleep 2
-done
-```
 
 # tasks
 ## mirror website
@@ -432,6 +420,17 @@ check_port() {
     (echo > "/dev/tcp/$host/$port") >/dev/null 2>&1 && echo "$host,$port,open" || echo "$host,$port,closed"
   fi
 }
+```
+## Blink NIC LED
+```bash
+NIC=$(ip route show default 0.0.0.0/0 | awk '{print $5; exit}')
+END=$((SECONDS+300))
+while [ $SECONDS -lt $END ]; do
+    ip link set $NIC down
+    sleep 2
+    ip link set $NIC up
+    sleep 2
+done
 ```
 
 
