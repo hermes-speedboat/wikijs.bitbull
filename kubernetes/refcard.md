@@ -2,7 +2,7 @@
 title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-25T12:04:09.740Z
+date: 2026-02-26T05:04:09.176Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -32,7 +32,6 @@ grep 'kubectl completion bash' $HOME/.bashrc || echo 'source <(kubectl completio
 ```bash
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | sh
 helm completion bash > /etc/bash_completion.d/helm
-grep KUBECONFIG $HOME/.bashrc || echo 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' >> $HOME/.bashrc
 ```
 
 ### kustomize
