@@ -2,16 +2,19 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-27T04:40:50.923Z
+date: 2026-02-27T04:42:39.926Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
 ---
 
+<img src="/pics/che.png"
+     alt="System Architecture Diagram"
+     style="float:right;width:512px;margin:0 0 15px 20px;" />
 # Welcome
 
-<img src="/pics/che.png"
-     style="float: right; width:768px; margin: 0 0 15px 15px;" />
+     
+     
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
 
