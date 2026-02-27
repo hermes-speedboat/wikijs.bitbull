@@ -2,7 +2,7 @@
 title: system
 description: System related comands
 published: true
-date: 2026-02-15T08:05:17.099Z
+date: 2026-02-27T13:53:30.371Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-02-13T09:07:09.829Z
@@ -117,13 +117,15 @@ sudo !!
 ## Change into Shell of a Disabled System User
 
 ```bash
-getent passwd nginx
-# nginx:x:995:993:Nginx web server:/var/lib/nginx:/sbin/nologin
-su - nginx
-# This account is currently not available.
-su -s /bin/bash nginx
-# bash-4.2$ id
-# uid=995(nginx) gid=993(nginx) groups=993(nginx) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+getent passwd nginx # check if shell is disabled
+  # nginx:x:995:993:Nginx web server:/var/lib/nginx:/sbin/nologin
+
+su - nginx # which will not work
+  # This account is currently not available.
+
+su -s /bin/bash nginx # which will work
+  # bash-4.2$ id
+  # uid=995(nginx) gid=993(nginx) groups=993(nginx) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
 ```
 
 ## Runs Previous Command but Replacing
