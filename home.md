@@ -2,22 +2,21 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-27T04:42:39.926Z
+date: 2026-02-27T06:19:54.695Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
 ---
 
 <img src="/pics/che.png"
-     alt="System Architecture Diagram"
-     style="float:right;width:512px;margin:0 0 15px 20px;" />
+     style="float:right;width:512px;margin:0 0 0px 0px;" />
+     <br><br><br><br><br><br><br>
+     
+     
+     
 # Welcome
-
-     
-     
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
-
 
 # My Ressources
 * [Script Archive](https://github.com/joe-speedboat/scripts)
@@ -34,7 +33,6 @@ Content is focused on business and lean usage of Linux and Open Source applicati
     curl -L https://mirror.iscas.ac.cn/fedora-riscv/releases/42/Spins/aarch64/images/QCS6490/Radxa-Dragon-Q6A/Fedora-GNOME-42-20251017000000.QCS6490.Radxa-Dragon-Q6A.raw.gz | gzip -d | sudo dd of=/dev/nvme0n1 bs=4M status=progress conv=fsync oflag=sync
     fstrim -av
     ```
-    
 * [Personal onpremise AI assistant](https://openclaw.ai/)
 * [AI Workflow Automation Platform & Tools](https://n8n.io/)
 * [Ollama is the easiest way to automate your work using open models onprem](https://ollama.com/)
