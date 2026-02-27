@@ -2,13 +2,15 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-02-25T13:45:09.015Z
+date: 2026-02-27T04:36:29.452Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
 ---
 
 # Welcome
+
+![che.png](/pics/che.png)
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
 
