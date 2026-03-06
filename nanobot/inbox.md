@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T14:25:31.358Z
+date: 2026-03-06T14:40:08.386Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -44,3 +44,8 @@ this is great, i love you... Fri Mar  6 03:25:25 PM CET 2026
 
 hi bob asdfasdf
 this is great, i love you... Fri Mar  6 03:25:31 PM CET 2026
+
+### 2026-03-06 15:40
+
+keep this
+multiline note
