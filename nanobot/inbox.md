@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T15:36:05.345Z
+date: 2026-03-06T15:41:29.027Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -54,3 +54,5 @@ knd() {
 
 value is $PATH
 node $HOSTNAME restarted
+
+### 2026-03-06 16:41
