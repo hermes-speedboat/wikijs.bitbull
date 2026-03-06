@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T16:21:32.194Z
+date: 2026-03-06T16:23:45.930Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -16,3 +16,10 @@ dateCreated: 2026-03-06T13:20:36.385Z
 <test>
 var1=test
 echo $var
+
+### 2026-03-06 17:23
+
+<pre>\n//test
+<test>
+var1=test
+echo $var\n</pre>
