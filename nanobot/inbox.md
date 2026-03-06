@@ -2,15 +2,10 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T13:44:24.323Z
-tags: nanobot
+date: 2026-03-06T13:46:53.592Z
+tags: nanobot, nanobob_api_write
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
 ---
 
-null
-
-### 2026-03-06 14:44
-
-testsdgad
-
+# NanoBobs Notes
