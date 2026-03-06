@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T15:42:33.692Z
+date: 2026-03-06T15:42:54.966Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -58,3 +58,8 @@ node $HOSTNAME restarted
 ### 2026-03-06 16:41
 
 ### 2026-03-06 16:42
+
+### 2026-03-06 16:42
+
+value is $PATH
+node $HOSTNAME restarted
