@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-06T14:57:21.654Z
+date: 2026-03-06T15:36:05.345Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -49,3 +49,8 @@ knd() {
         kubectl get namespaces --no-headers -o custom-columns=":metadata.name"
     fi
 }
+
+### 2026-03-06 16:36
+
+value is $PATH
+node $HOSTNAME restarted
