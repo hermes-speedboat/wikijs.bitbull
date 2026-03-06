@@ -2,7 +2,7 @@
 title: Git Notes
 description: Helpful git comands
 published: true
-date: 2026-03-06T06:05:42.914Z
+date: 2026-03-06T06:07:05.638Z
 tags: helpers, git
 editor: markdown
 dateCreated: 2026-03-06T06:05:42.914Z
@@ -10,72 +10,71 @@ dateCreated: 2026-03-06T06:05:42.914Z
 
 # Git Daily Commands Cheat Sheet
 
-Praktische Git-Kommandos für den täglichen Einsatz.  
-Diese Liste deckt ~95% typischer Entwickler-Workflows ab.
+A practical reference for the most common Git commands used in daily development workflows.
 
 ---
 
 # Repository Setup
 
-## Neues Repository erstellen
+## Initialize a new repository
 ```bash
 git init
 ```
 
-## Repository klonen
+## Clone an existing repository
 ```bash
-git clone <repo-url>
+git clone <repository-url>
 ```
 
 ---
 
-# Status & Überblick
+# Repository Status & Inspection
 
-## Status anzeigen
+## Show repository status
 ```bash
 git status
 ```
 
-## Commit-Historie anzeigen
+## Show commit history
 ```bash
 git log
 ```
 
-## Kompakte Historie
+## Compact commit history
 ```bash
 git log --oneline --graph --decorate
 ```
 
-## Änderungen anzeigen
+## Show changes not yet staged
 ```bash
 git diff
 ```
 
-## Änderungen im Staging-Bereich
+## Show staged changes
 ```bash
 git diff --staged
 ```
 
 ---
 
-# Dateien hinzufügen / Commit
+# Adding and Committing Changes
 
-## Einzelne Datei hinzufügen
+## Add a single file
 ```bash
 git add file.txt
 ```
 
-## Alle Änderungen hinzufügen
+## Add all changes
 ```bash
 git add .
 ```
 
-## Commit erstellen
+## Create a commit
 ```bash
 git commit -m "commit message"
 ```
 
-## Commit inklusive aller Änderungen
+## Commit all modified tracked files
 ```bash
 git commit -am "commit message"
 ```
@@ -84,51 +83,56 @@ git commit -am "commit message"
 
 # Remote Repositories
 
-## Remote anzeigen
+## Show configured remotes
 ```bash
 git remote -v
 ```
 
-## Änderungen herunterladen
+## Add a remote repository
+```bash
+git remote add origin <repository-url>
+```
+
+## Fetch changes from remote
 ```bash
 git fetch
 ```
 
-## Änderungen herunterladen und mergen
+## Pull latest changes
 ```bash
 git pull
 ```
 
-## Änderungen hochladen
+## Push local commits
 ```bash
 git push
 ```
 
 ---
 
-# Branching
+# Branch Management
 
-## Branch anzeigen
+## List branches
 ```bash
 git branch
 ```
 
-## Branch erstellen
+## Create a new branch
 ```bash
 git branch feature-x
 ```
 
-## Branch wechseln
+## Switch to a branch
 ```bash
 git switch feature-x
 ```
 
-## Branch erstellen und wechseln
+## Create and switch branch
 ```bash
 git switch -c feature-x
 ```
 
-## Branch löschen
+## Delete a branch
 ```bash
 git branch -d feature-x
 ```
@@ -137,88 +141,88 @@ git branch -d feature-x
 
 # Merging
 
-## Branch mergen
+## Merge another branch into current branch
 ```bash
 git merge feature-x
 ```
 
-## Merge abbrechen
+## Abort merge
 ```bash
 git merge --abort
 ```
 
 ---
 
-# Undo / Fehler korrigieren
+# Undo and Restore Changes
 
-## Datei zurücksetzen (lokale Änderungen verwerfen)
+## Restore a file to last commit
 ```bash
 git restore file.txt
 ```
 
-## Alle Änderungen verwerfen
+## Restore all files
 ```bash
 git restore .
 ```
 
-## Datei aus Staging entfernen
+## Remove file from staging area
 ```bash
 git restore --staged file.txt
 ```
 
-## Letzten Commit ändern
+## Amend the last commit
 ```bash
 git commit --amend
 ```
 
-## Letzten Commit rückgängig machen (ohne Änderungen zu verlieren)
+## Reset last commit but keep changes
 ```bash
 git reset --soft HEAD~1
 ```
 
-## Hard Reset auf letzten Commit
+## Hard reset to last commit
 ```bash
 git reset --hard HEAD
 ```
 
 ---
 
-# Stash (temporäre Änderungen speichern)
+# Working with Stash
 
-## Änderungen stashen
+## Save current changes temporarily
 ```bash
 git stash
 ```
 
-## Stashes anzeigen
+## List stashes
 ```bash
 git stash list
 ```
 
-## Stash wiederherstellen
+## Restore latest stash
 ```bash
 git stash pop
 ```
 
 ---
 
-# Dateien löschen / verschieben
+# File Operations
 
-## Datei löschen
+## Remove a file from repository
 ```bash
 git rm file.txt
 ```
 
-## Datei verschieben / umbenennen
+## Rename or move a file
 ```bash
-git mv old.txt new.txt
+git mv oldname.txt newname.txt
 ```
 
 ---
 
-# .gitignore Änderungen anwenden
+# Apply Updated .gitignore Rules
 
-Wenn Dateien bereits getrackt sind und du `.gitignore` angepasst hast:
+If you updated `.gitignore` but files are already tracked:
 
 ```bash
 git rm -r --cached .
@@ -228,60 +232,55 @@ git commit -m "Remove ignored files"
 
 ---
 
-# Nützliche Power Commands
+# Useful Debugging Commands
 
-## Gelöschte Dateien finden
+## Show commits where a file was deleted
 ```bash
 git log --diff-filter=D --summary
 ```
 
-## Datei aus einem alten Commit wiederherstellen
+## Restore a file from a specific commit
 ```bash
-git checkout <commit> -- path/to/file
-```
-
-## Letzten Branch wechseln
-```bash
-git switch -
+git checkout <commit-hash> -- path/to/file
 ```
 
 ---
 
-# Sehr hilfreiche Aliases
+# Useful Aliases
 
 ```bash
-git config --global alias.lg "log --oneline --graph --decorate"
 git config --global alias.st status
+git config --global alias.lg "log --oneline --graph --decorate"
 git config --global alias.co checkout
 ```
 
-Beispiele:
+Example usage:
 
 ```bash
-git lg
 git st
+git lg
 ```
 
 ---
 
-# Typischer Daily Workflow
+# Typical Daily Workflow
 
 ```bash
 git pull
 git status
 git add .
-git commit -m "feature update"
+git commit -m "update feature"
 git push
 ```
 
 ---
 
-# Tipp
+# Quick Tip
 
-Bei Problemen:
+If something looks wrong, run:
 
 ```bash
 git status
 ```
 
-ist fast immer der erste Schritt.
+This command usually tells you exactly what Git expects next.
