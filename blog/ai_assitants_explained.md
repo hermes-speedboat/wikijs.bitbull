@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-08T09:06:01.599Z
+date: 2026-03-08T09:09:56.411Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -154,7 +154,7 @@ Common properties:
 | ZeroClaw | Rust | <5 MB | <0.01 s | ultra‑lightweight |
 | PicoClaw | Go | <10 MB | <1 s | edge / IoT |
 | Nanobot | Python | ~100 MB | <30 s | research prototype |
-| IronClaw | Rust | moderate | cloud | high security |
+| IronClaw | Rust | >1GB | cloud | high security |
 | TinyClaw | TypeScript | ~200 MB | <5 s | multi‑agent workflows |
 
 ## Conclusion
