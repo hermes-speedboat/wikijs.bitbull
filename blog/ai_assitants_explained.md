@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-08T09:02:24.481Z
+date: 2026-03-08T09:04:09.995Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -37,10 +37,10 @@ This architecture is illustrated by the following diagram (simplified):
 
 ```mermaid
 graph LR
-  Chat[Chat-Plattformen] --> Agent[KI-Agent (Orchestrator)]
-  Agent --> LLM["Sprachmodell (LLM)"]
-  Agent --> Memory["Gedächtnis/DB"]
-  Agent --> Tools["Externe Tools/APIs"]
+  Chat["Chat Platforms"] --> Agent["AI Agent (Orchestrator)"]
+  Agent --> LLM["Language Model (LLM)"]
+  Agent --> Memory["Memory / Database"]
+  Agent --> Tools["External Tools / APIs"]
   Memory --> Agent
   LLM --> Agent
   Tools --> Agent
@@ -51,20 +51,20 @@ A typical sequence looks roughly like this:
 
 ```mermaid
 sequenceDiagram
-  participant Benutzer
-  participant Kanal
+  participant User
+  participant Channel
   participant Agent
   participant LLM
   participant Tool
-  Benutzer->>Kanal: Befehl/Text senden
-  Kanal->>Agent: Agent empfängt Nachricht
-  Agent->>LLM: Anfrage an Modell (mit Kontext + Gedächtnis)
-  LLM-->>Agent: Modellantwort
-  alt Falls nötig
-    Agent->>Tool: Externe Aktion (z.B. Websuche, Kommando)
-    Tool-->>Agent: Ergebnis
+  User->>Channel: Send command/text
+  Channel->>Agent: Agent receives message
+  Agent->>LLM: Request to model (with context + memory)
+  LLM-->>Agent: Model response
+  alt If required
+    Agent->>Tool: External action (e.g., web search, command)
+    Tool-->>Agent: Result
   end
-  Agent->>Kanal: Antwort an Benutzer senden
+  Agent->>Channel: Send response to user
 ```
 
 **Shared patterns:** Almost all systems are open source and allow self‑hosted execution on personal hardware (e.g., Raspberry Pi, Mac Mini, Linux servers). They connect to messaging services through common APIs (Telegram/WhatsApp bots, Discord, Slack, etc.), typically use API tokens or pairing codes for authentication, and usually include built‑in **persistence** (file‑ or SQL‑based storage) for long‑term memory. Technically they differ in programming language (TypeScript/Node.js, Python, Rust, Go, Shell), the security model (sandboxing vs. full access), and the degree of agent collaboration (single agent vs. multi‑agent system). The following sections summarize the key characteristics of the individual projects.
