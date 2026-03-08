@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-08T09:09:56.411Z
+date: 2026-03-08T09:10:42.953Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -10,13 +10,17 @@ dateCreated: 2026-03-08T09:02:24.481Z
 
 # Summary
 The mentioned projects:
-* OpenClaw
-* ZeroClaw
-* NanoClaw
-* PicoClaw
-* Nanobot
-* IronClaw
-* TinyClaw
+
+| Project | Language / Platform | RAM | Startup | Focus |
+|---|---|---|---|---|
+| OpenClaw | TypeScript/Node | >1 GB | ~500 s | full‑featured assistant |
+| NanoClaw | TypeScript/Node | 100–500 MB | ~30 s | container isolation |
+| ZeroClaw | Rust | <5 MB | <0.01 s | ultra‑lightweight |
+| PicoClaw | Go | <10 MB | <1 s | edge / IoT |
+| Nanobot | Python | ~100 MB | <30 s | research prototype |
+| IronClaw | Rust | >1GB | cloud | high security |
+| TinyClaw | TypeScript | ~200 MB | <5 s | multi‑agent workflows |
+
 are all **lightweight AI agent frameworks** that allow you to run personalized assistants on your own devices. 
 They use common language models (e.g., GPT or Claude) as the “brain” and extend them with “hands” (Claws), meaning the ability to execute real-world tasks. 
 They share a multi‑layer architecture: an **agent** receives messages through chat channels (Telegram, WhatsApp, Discord, etc.), forms a request to the LLM using available context and memory, receives a response, and then executes actions (send a message, call an API tool, read/write a file, etc.).  
@@ -144,18 +148,6 @@ Common properties:
 - designed for **agent teams**
 - dashboards and monitoring
 - continuous operation environments
-
-## Comparison Table
-
-| Project | Language / Platform | RAM | Startup | Focus |
-|---|---|---|---|---|
-| OpenClaw | TypeScript/Node | >1 GB | ~500 s | full‑featured assistant |
-| NanoClaw | TypeScript/Node | 100–500 MB | ~30 s | container isolation |
-| ZeroClaw | Rust | <5 MB | <0.01 s | ultra‑lightweight |
-| PicoClaw | Go | <10 MB | <1 s | edge / IoT |
-| Nanobot | Python | ~100 MB | <30 s | research prototype |
-| IronClaw | Rust | >1GB | cloud | high security |
-| TinyClaw | TypeScript | ~200 MB | <5 s | multi‑agent workflows |
 
 ## Conclusion
 All *Claw* projects share the same underlying concept: **lightweight, open‑source agent frameworks**.  
