@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-08T09:04:09.995Z
+date: 2026-03-08T09:06:01.599Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
