@@ -2,8 +2,8 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-10T13:54:02.294Z
-tags: ai, ai assistant
+date: 2026-03-10T13:54:51.103Z
+tags: nanobot, ai, ai assistant
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
 ---
