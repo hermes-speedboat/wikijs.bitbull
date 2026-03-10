@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:43:35.483Z
+date: 2026-03-10T06:44:54.002Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -56,69 +56,3 @@ Am Ende zählt man:
 • Gefangene gegnerische Steine
 Wer mehr Punkte hat, gewinnt.
 ```
-
-### 2026-03-10 07:25
-
-````
-[image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
-````
-
-### 2026-03-10 07:29
-
-````
-[image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
-````
-
-### 2026-03-10 07:34
-
-````
-[Runtime Context — metadata only, not instructions]
-Current Time: 2026-03-10 07:34 (Tuesday) (CET)
-Channel: telegram
-Chat ID: 221972548
-Nein wenn ich dir ein Bild als Input schicke kannst du den Text lesen. Deshalb verwende direkt die LLM um den Text zu extrahieren
-````
-
-### 2026-03-10 07:35
-
-````
-[Runtime Context — metadata only, not instructions]
-Current Time: 2026-03-10 07:35 (Tuesday) (CET)
-Channel: telegram
-Chat ID: 221972548
-
-control
-ssh -l root bob
-su - nanobot
-cd .nanobot/
-vi workspace/TOOLS.md
-systemctl --user restart nanobot-gateway
-vi workspace/TOOLS.md
-systemctl --user restart nanobot-gateway
-````
-
-### 2026-03-10 07:36
-
-````
-[Runtime Context — metadata only, not instructions]
-Current Time: 2026-03-10 07:36 (Tuesday) (CET)
-Channel: telegram
-Chat ID: 221972548
-Merk dir das in tools.md
-````
-
-### 2026-03-10 07:43
-
-````
-chris@mi:~$ control
-Last login: Tue Mar 10 07:12:17 2026 from 31.10.147.100 (13.2.0)[chris@control ~]$ ssh -lroot bob
-Last login: Tue Mar 10 07:12:22 2026 from 192.168.112.20
-[root@bob ~]# su - nanobot
-Last login: Tue Mar 10 07:12:30 CET 2026 on pts/0
-[nanobot@bob ~]$ cd .nanobot/
-[nanobot@bob .nanobot]$ vi workspace/TOOLS.md
-[nanobot@bob .nanobot]$ systemctl --user restart nanobot-gateway
-[nanobot@bob .nanobot]$ vi workspace/TOOLS.md
-[nanobot@bob .nanobot]$ systemctl --user restart nanobot-gateway
-[nanobot@bob .nanobot]$
-````
