@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:22:08.609Z
+date: 2026-03-10T06:22:46.738Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -56,15 +56,3 @@ Am Ende zählt man:
 • Gefangene gegnerische Steine
 Wer mehr Punkte hat, gewinnt.
 ```
-
-### 2026-03-10 07:16
-
-````
-test
-````
-
-### 2026-03-10 07:22
-
-````
-[image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
-````
