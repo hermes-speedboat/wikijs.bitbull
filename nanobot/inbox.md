@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T13:34:12.463Z
+date: 2026-03-10T13:38:13.440Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -62,12 +62,12 @@ Wer mehr Punkte hat, gewinnt.
 ````
 DMSG:
 Vor der anpassung an der FW:
-[Tue Mar 10 08:34:00 2026] lockd: server 10.0.75.80 not responding, still trying
+[Tue Mar 10 08:34:00 2026] lockd: server 10.0.7.8 not responding, still trying
 Nach der Anpassung an der FW:
-[Tue Mar 10 08:43:52 2026] lockd: server 10.0.75.80 OK
+[Tue Mar 10 08:43:52 2026] lockd: server 10.0.7.8 OK
 
 Debug Helper CMD:
-root@srv-pmail-01.~# rpcinfo -p 10.0.75.80
+root@mail01.~# rpcinfo -p 10.0.7.8
 program vers proto   port service
     100000  4   tcp  111  portmapper
     100000  3   tcp  111  portmapper
@@ -97,6 +97,6 @@ program vers proto   port service
     100021  4   udp 32000  nlockmgr
 
 AKTUELLE MOUNT OPTIONEN, ABGESTIMMT AUF QUANTUM UND STATEFUL:
-root@srv-pmail-01.~# grep ^10 /etc/fstab
-10.0.75.80:/Q/shares/Mail_Backup_dumps /opt/zimbra/backup nfs _netdev,nofail,vers=3,proto=tcp,mountproto=tcp,noatime,hard,timeo=600,retrans=2,rsize=1048576,wsize=1048576 0 0
+root@mail01.~# grep ^10 /etc/fstab
+10.0.7.8:/Q/shares/Mail_Backup_dumps /opt/zimbra/backup nfs _netdev,nofail,vers=3,proto=tcp,mountproto=tcp,noatime,hard,timeo=600,retrans=2,rsize=1048576,wsize=1048576 0 0
 ````
