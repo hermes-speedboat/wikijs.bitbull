@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:34:36.034Z
+date: 2026-03-10T06:35:25.888Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -77,4 +77,22 @@ Current Time: 2026-03-10 07:34 (Tuesday) (CET)
 Channel: telegram
 Chat ID: 221972548
 Nein wenn ich dir ein Bild als Input schicke kannst du den Text lesen. Deshalb verwende direkt die LLM um den Text zu extrahieren
+````
+
+### 2026-03-10 07:35
+
+````
+[Runtime Context — metadata only, not instructions]
+Current Time: 2026-03-10 07:35 (Tuesday) (CET)
+Channel: telegram
+Chat ID: 221972548
+
+control
+ssh -l root bob
+su - nanobot
+cd .nanobot/
+vi workspace/TOOLS.md
+systemctl --user restart nanobot-gateway
+vi workspace/TOOLS.md
+systemctl --user restart nanobot-gateway
 ````
