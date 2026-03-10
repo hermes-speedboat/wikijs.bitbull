@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:29:37.175Z
+date: 2026-03-10T06:34:36.034Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -67,4 +67,14 @@ Wer mehr Punkte hat, gewinnt.
 
 ````
 [image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
+````
+
+### 2026-03-10 07:34
+
+````
+[Runtime Context — metadata only, not instructions]
+Current Time: 2026-03-10 07:34 (Tuesday) (CET)
+Channel: telegram
+Chat ID: 221972548
+Nein wenn ich dir ein Bild als Input schicke kannst du den Text lesen. Deshalb verwende direkt die LLM um den Text zu extrahieren
 ````
