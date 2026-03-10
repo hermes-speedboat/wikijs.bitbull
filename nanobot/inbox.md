@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:35:25.888Z
+date: 2026-03-10T06:36:58.526Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -95,4 +95,14 @@ vi workspace/TOOLS.md
 systemctl --user restart nanobot-gateway
 vi workspace/TOOLS.md
 systemctl --user restart nanobot-gateway
+````
+
+### 2026-03-10 07:36
+
+````
+[Runtime Context — metadata only, not instructions]
+Current Time: 2026-03-10 07:36 (Tuesday) (CET)
+Channel: telegram
+Chat ID: 221972548
+Merk dir das in tools.md
 ````
