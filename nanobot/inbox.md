@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:44:54.002Z
+date: 2026-03-10T06:45:24.743Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -56,3 +56,19 @@ Am Ende zählt man:
 • Gefangene gegnerische Steine
 Wer mehr Punkte hat, gewinnt.
 ```
+
+### 2026-03-10 07:45
+
+````
+chris@mi:~$ control
+Last login: Tue Mar 10 07:12:17 2026 from 31.10.147.100 (13.2.0)[chris@control ~]$ ssh -lroot bob
+Last login: Tue Mar 10 07:12:22 2026 from 192.168.112.20
+[root@bob ~]# su - nanobot
+Last login: Tue Mar 10 07:12:30 CET 2026 on pts/0
+[nanobot@bob ~]$ cd .nanobot/
+[nanobot@bob .nanobot]$ vi workspace/TOOLS.md
+[nanobot@bob .nanobot]$ systemctl --user restart nanobot-gateway
+[nanobot@bob .nanobot]$ vi workspace/TOOLS.md
+[nanobot@bob .nanobot]$ systemctl --user restart nanobot-gateway
+[nanobot@bob .nanobot]$
+````
