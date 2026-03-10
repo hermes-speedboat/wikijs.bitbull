@@ -2,7 +2,7 @@
 title: Inbox
 description: NanoBob's Notekeeping page
 published: true
-date: 2026-03-10T06:25:25.525Z
+date: 2026-03-10T06:29:37.175Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-06T13:20:36.385Z
@@ -58,6 +58,12 @@ Wer mehr Punkte hat, gewinnt.
 ```
 
 ### 2026-03-10 07:25
+
+````
+[image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
+````
+
+### 2026-03-10 07:29
 
 ````
 [image: /home/nanobot/.nanobot/media/telegram/AgACAgQAAxkBAAIC.jpg]
