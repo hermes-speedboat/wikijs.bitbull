@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-03-06T13:42:28.540Z
+date: 2026-03-11T13:47:39.161Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -10,8 +10,15 @@ dateCreated: 2026-02-13T09:06:58.094Z
 
 <img src="/pics/che.png"
      style="float:right;width:512px;margin:0 0 0px 0px;" />
-     <br><br><br><br><br><br><br>
-     
+     <br><br><br><br><br><br><br><br>
+# Quick and Dirty
+```bash
+# install ansible
+curl -L ansible.bitbull.ch | bash
+
+# cleanup rhel and ubuntu templates
+curl -L sysprep.bitbull.ch | bash
+```
      
      
 # Welcome
