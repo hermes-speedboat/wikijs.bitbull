@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-08T09:10:42.953Z
+date: 2026-03-12T04:46:48.755Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -11,15 +11,26 @@ dateCreated: 2026-03-08T09:02:24.481Z
 # Summary
 The mentioned projects:
 
-| Project | Language / Platform | RAM | Startup | Focus |
-|---|---|---|---|---|
-| OpenClaw | TypeScript/Node | >1 GB | ~500 s | full‑featured assistant |
-| NanoClaw | TypeScript/Node | 100–500 MB | ~30 s | container isolation |
-| ZeroClaw | Rust | <5 MB | <0.01 s | ultra‑lightweight |
-| PicoClaw | Go | <10 MB | <1 s | edge / IoT |
-| Nanobot | Python | ~100 MB | <30 s | research prototype |
-| IronClaw | Rust | >1GB | cloud | high security |
-| TinyClaw | TypeScript | ~200 MB | <5 s | multi‑agent workflows |
+| Project      | Language          | Deployment             | RAM        | Startup | Focus                     | Interfaces                   | Admin        | Tools / Features                         | MCP     | Security   | GitHub  |
+| ------------ | ----------------- | ---------------------- | ---------- | ------- | ------------------------- | ---------------------------- | ------------ | ---------------------------------------- | ------- | ---------- | ------- |
+| **ZeroClaw** | Rust              | Static binary / Docker | <5 MB      | <0.01 s | Ultra-light runtime       | CLI + chat apps              | CLI + TOML   | Shell, browser, git, HTTP, vector memory | Yes     | Strong     | ⭐ ~24k  |
+| **PicoClaw** | Go                | Single binary          | <10 MB     | <1 s    | Edge / SBC                | CLI + chat apps              | YAML / JSON  | Cron, file ops, search, SQLite memory    | Planned | Basic      | ⭐ ~23k  |
+| **nanobot**  | Python            | pip / Docker           | ~10–100 MB | <30 s   | Research prototype        | Chat apps + email            | JSON + CLI   | Web, mail, shell, scheduler              | Yes     | Medium     | ⭐ ~30k  |
+| **TinyClaw** | TypeScript        | Node / Docker          | ~200 MB    | <5 s    | Multi-agent orchestration | Discord, WhatsApp, Telegram  | JSON + CLI   | Agent routing, parallel agents           | No      | Low        | ⭐ ~3k   |
+| **NanoClaw** | TypeScript        | Docker / Node          | 100–500 MB | ~30 s   | Container assistant       | Many chat apps               | JSON + CLI   | Web, Gmail, scheduler                    | Yes     | Medium     | ⭐ ~20k  |
+| **OpenClaw** | TypeScript / Node | Node / Docker          | >1 GB      | ~500 s  | Full assistant            | CLI + many chat apps         | CLI + config | Browser automation, plugins              | Yes     | Low-Medium | ⭐ ~40k+ |
+| **IronClaw** | Rust              | Binary + Docker        | >1 GB      | Cloud   | Security-first            | CLI, Web UI, Slack, Telegram | Web UI + CLI | WASM sandbox tools                       | Yes     | Very high  | ⭐ ~6k   |
+
+
+**Short Conclusion**
+
+- **Efficiency / Edge:** PicoClaw, ZeroClaw  
+- **Simple & flexible:** nanobot  
+- **Security-focused:** IronClaw  
+- **Container isolation:** NanoClaw  
+- **Multi-agent workflow:** TinyClaw  
+
+
 
 are all **lightweight AI agent frameworks** that allow you to run personalized assistants on your own devices. 
 They use common language models (e.g., GPT or Claude) as the “brain” and extend them with “hands” (Claws), meaning the ability to execute real-world tasks. 
