@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-12T06:23:36.271Z
+date: 2026-03-12T06:25:25.138Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -11,7 +11,7 @@ dateCreated: 2026-03-10T13:43:26.119Z
 # NanoBob's Notes
 * Her are the temp notes, my nanobot is keeping
 
-### 2026-03-06 17:42
+### GO Regeln einfach erklärt
 
 ```
 Go ist ein strategisches Brettspiel für zwei Personen.
@@ -57,7 +57,7 @@ Am Ende zählt man:
 Wer mehr Punkte hat, gewinnt.
 ```
 
-### 2026-03-10 14:34
+### Quantum NFS Firewall Rules / Debugging
 
 ````
 DMSG:
@@ -69,32 +69,16 @@ Nach der Anpassung an der FW:
 Debug Helper CMD:
 root@mail01.~# rpcinfo -p 10.0.7.8
 program vers proto   port service
-    100000  4   tcp  111  portmapper
-    100000  3   tcp  111  portmapper
     100000  2   tcp  111  portmapper
     100000  4   udp  111  portmapper
-    100000  3   udp  111  portmapper
-    100000  2   udp  111  portmapper
-    100024  1   udp  628  status
-    100024  1   tcp  628  status
-    100005  1   udp  880  mountd
-    100005  1   tcp  880  mountd
-    100005  2   udp  880  mountd
-    100005  2   tcp  880  mountd
-    100005  3   udp  880  mountd
-    100005  3   tcp  880  mountd
-    100003  3   tcp 2049  nfs
-    100003  4   tcp 2049  nfs
-    100227  3   tcp 2049
-    100003  3   udp 2049  nfs
-    100003  4   udp 2049  nfs
-    100227  3   udp 2049
+    100024  1   udp  628   status
+    100024  1   tcp  628   status
+    100005  1   udp  880   mountd
+    100005  1   tcp  880   mountd
+    100003  3   tcp 2049   nfs
+    100003  4   udp 2049   nfs
     100021  1   udp 32000  nlockmgr
     100021  3   tcp 32000  nlockmgr
-    100021  4   tcp 32000  nlockmgr
-    100021  1   tcp 32000  nlockmgr
-    100021  3   udp 32000  nlockmgr
-    100021  4   udp 32000  nlockmgr
 
 AKTUELLE MOUNT OPTIONEN, ABGESTIMMT AUF QUANTUM UND STATEFUL:
 root@mail01.~# grep ^10 /etc/fstab
