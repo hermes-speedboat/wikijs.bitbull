@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-12T08:31:48.959Z
+date: 2026-03-12T08:32:01.707Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -99,4 +99,10 @@ https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
 
 ````
 Thu 12 Mar 09:31:48 CET 2026
+````
+
+### 2026-03-12 09:32
+
+````
+juhu
 ````
