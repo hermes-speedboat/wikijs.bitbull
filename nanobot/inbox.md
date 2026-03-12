@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-12T06:25:49.827Z
+date: 2026-03-12T06:26:25.408Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -84,7 +84,7 @@ root@mail01.~# grep ^10 /etc/fstab
 10.0.7.8:/Q/shares/Mail_Backup_dumps /opt/zimbra/backup nfs _netdev,nofail,vers=3,proto=tcp,mountproto=tcp,noatime,hard,timeo=600,retrans=2,rsize=1048576,wsize=1048576 0 0
 ````
 
-### 2026-03-12 07:20
+### Crypto Vermögens Steuer Schweiz
 
 🔗 Link zum Berechnen von Cryptos in der Schweizer Steuer Erklärung🇨🇭:
 https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
