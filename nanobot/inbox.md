@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-10T13:57:13.008Z
+date: 2026-03-12T06:20:23.122Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -99,4 +99,22 @@ program vers proto   port service
 AKTUELLE MOUNT OPTIONEN, ABGESTIMMT AUF QUANTUM UND STATEFUL:
 root@mail01.~# grep ^10 /etc/fstab
 10.0.7.8:/Q/shares/Mail_Backup_dumps /opt/zimbra/backup nfs _netdev,nofail,vers=3,proto=tcp,mountproto=tcp,noatime,hard,timeo=600,retrans=2,rsize=1048576,wsize=1048576 0 0
+````
+
+### 2026-03-12 07:20
+
+````
+🔗 Link zum Berechnen von Cryptos in der Schweizer Steuer Erklärung🇨🇭:
+
+https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
+
+---
+
+✅ Checkliste (Jahresende)
+
+• [ ] Alle Wallets audieren  
+• [ ] Wert zum 31.12. ermitteln (CHF)  
+• [ ] Kantonalen Steuersatz prüfen (via ICTAX Link)  
+• [ ] Berechnung: Portfolio × Satz = Steuer  
+• [ ] In Steuererklärung deklarieren
 ````
