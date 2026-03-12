@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-12T04:51:29.479Z
+date: 2026-03-12T04:52:53.370Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -23,7 +23,6 @@ The mentioned projects:
 
 
 **Short Conclusion**
-
 - **Efficiency / Edge:** PicoClaw, ZeroClaw  
 - **Simple & flexible:** nanobot  
 - **Security-focused:** IronClaw  
