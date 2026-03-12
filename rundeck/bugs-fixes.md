@@ -2,7 +2,7 @@
 title: Bugs & Fixes
 description: Known issues and solutions for Rundeck
 published: true
-date: 2026-02-15T06:25:30.397Z
+date: 2026-03-12T15:15:49.500Z
 tags: rundeck, bugfix
 editor: markdown
 dateCreated: 2026-02-14T13:58:24.019Z
@@ -42,4 +42,35 @@ EOF
 logrotate -fv /etc/logrotate.d/rundeck_service
 ```
 
+## pass on environment vars into playbook (rundeck & twilio issue)
+```yaml
+  - name: Load proxy variables from /etc/environment
+    shell: |
+      set -a
+      source /etc/environment
+      env | grep -i proxy
+    register: proxy_env
+    changed_when: false
+
+  - name: Send user password via Twilio SMS
+    environment: "{{ dict(proxy_env.stdout_lines | map('split','=',1) | list) }}"
+    community.general.twilio:
+      account_sid: "{{ twilio_account_sid }}"
+      auth_token: "{{ twilio_auth_token }}"
+      from_number: "{{ twilio_from_number }}"
+      to_numbers:
+        - "{{ ipa_user_phone | regex_replace('^00', '+') }}"
+      msg: |
+        ACME Access Infos
+        
+        Name: {{ ipa_user }}
+        Givenname: {{ ipa_user_gn }}
+        Surname: {{ ipa_user_sn }}
+        E-Mail: {{ ipa_user_mail }}
+        Password: {{ ipa_pass }}
+        Expire: {{ ipa_user_expire_in_days }} Tage
+        
+        Self Service Portal: https://idm99.acme.com
+      register: ipa_reset_password_cmd
+```
 
