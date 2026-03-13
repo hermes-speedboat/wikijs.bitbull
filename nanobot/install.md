@@ -2,7 +2,7 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T06:20:01.705Z
+date: 2026-03-13T08:56:31.159Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
@@ -127,4 +127,202 @@ If you do not understand what to insert in values, read project doc first
     },
 ```
 
-WIP, hang on
+* get aware of whats in there
+```bash
+[nanobot@nanobot ~]$ tree -L 3 ~/.nanobot
+/home/nanobot/.nanobot
+├── config.json
+├── cron
+│   └── jobs.json
+├── media
+└── workspace
+    ├── AGENTS.md
+    ├── HEARTBEAT.md
+    ├── memory
+    │   ├── HISTORY.md
+    │   └── MEMORY.md
+    ├── sessions
+    │   ├── cli_direct.jsonl
+    │   ├── cron_xxx.jsonl
+    │   └── telegram_xxx.jsonl
+    ├── skills
+    ├── SOUL.md
+    ├── TOOLS.md
+    └── USER.md
+```
+
+* create systemd service in user space
+```bash
+mkdir ~/.config/systemd/user/ -p
+```
+* `vi ~/.config/systemd/user/nanobot-gateway.service`
+```
+[Unit]
+Description=Nanobot Gateway
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/nanobot gateway
+Restart=always
+RestartSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=%h
+ 
+[Install]
+WantedBy=default.target
+```
+
+* activate service
+```bash
+[root@bob ~]# loginctl list-users
+ UID USER    LINGER STATE    
+   0 root    no     active
+1000 nanobot yes    lingering
+
+[root@bob ~]# su - bob
+
+# if this is not present, lingering is not working
+[bob@bob ~]# ls -ld /run/user/$(id -u myuser)
+
+echo '
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+' >> .bashrc
+
+.  .bashrc
+
+systemctl --user daemon-reload
+systemctl --user enable --now nanobot-gateway
+systemctl --user restart nanobot-gateway
+```
+
+## MCP Agent Setup
+### Setup Docker
+I do not want to compile on my "work horses" so I use docker to hook into my mcp agents
+```bash
+dnf install epel-release
+dnf -y install dnf-plugins-core
+dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+systemctl enable --now docker
+usermod -aG docker nanobot
+mkdir /srv/docker
+chown -R root:nanobot 750 /srv/docker
+``` 
+
+### Google Calendar
+```bash
+cd /srv/docker
+git clone https://github.com/nspady/google-calendar-mcp.git
+cd google-calendar-mcp
+cp -av .env.example .env
+ 
+# see here: https://github.com/nspady/google-calendar-mcp.git
+cp /path/to/your/gcp-oauth.keys.json ./gcp-oauth.keys.json
+chmod 644 ./gcp-oauth.keys.json
+ 
+docker compose up -d
+docker compose down
+ 
+docker run --rm -it --mount type=bind,src=/srv/docker/google-calendar-mcp/gcp-oauth.keys.json,dst=/app/gcp-oauth.keys.json --mount type=volume,src=google-calendar-mcp_calendar-tokens,dst=/home/nodejs/.config/google-calendar-mcp google-calendar-mcp-calendar-mcp:latest npm run auth
+# run link on any browser
+# paste answer with curl on docker host, or within container if no access to network
+
+docker ps
+`` 
+ 
+* `vi .nanobot/config.json`
+```
+"mcpServers": {
+    "google-calendar": {
+      "command": "docker",
+      "args": [
+        "run", "--rm", "-i",
+        "--mount", "type=bind,src=/srv/docker/google-calendar-mcp/gcp-oauth.keys.json,dst=/app/gcp-oauth.keys.json",
+        "--mount", "type=volume,src=google-calendar-mcp_calendar-tokens,dst=/home/nodejs/.config/google-calendar-mcp",
+        "google-calendar-mcp-calendar-mcp:latest"
+      ]
+    }
+  }
+```
+* reload nanobot config
+```bash
+systemctl --user restart nanobot-gateway
+```
+
+### Google Maps
+* `vi .nanobot/config.json`                                                                     
+```
+    "google-maps": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-e", "GOOGLE_MAPS_API_KEY=AI...Xqpg",
+        "mcp/google-maps-comprehensive:latest"
+      ]
+    },
+```
+* reload nanobot config
+```bash
+systemctl --user restart nanobot-gateway
+```
+### Github
+* `vi .nanobot/config.json`
+```
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_GITHUB_PAT"
+      }
+    }
+```
+* reload nanobot config
+```bash
+systemctl --user restart nanobot-gateway
+```
+
+### Context7
+* `vi .nanobot/config.json`
+```
+    "context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "c...7",
+        "Accept": "application/json, text/event-stream"
+      }
+    },
+```
+* reload nanobot config
+```bash
+systemctl --user restart nanobot-gateway
+```
+
+### DuckDuckGo
+* `vi .nanobot/config.json`
+```
+     "duckduckgo": {
+        "command": "docker",
+        "args": [
+          "run",
+          "-i",
+          "--rm",
+          "mcp/duckduckgo"
+        ] 
+      },
+
+* reload nanobot config
+```bash
+systemctl --user restart nanobot-gateway
+```
