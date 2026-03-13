@@ -2,7 +2,7 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T08:56:31.159Z
+date: 2026-03-13T09:01:50.648Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
@@ -326,3 +326,19 @@ systemctl --user restart nanobot-gateway
 ```bash
 systemctl --user restart nanobot-gateway
 ```
+
+## Some Ideas of what you can do
+```
+If I tell you "remember that" then write it into `MEMORY.md` and show me what you 
+changed for confirmation
+```
+
+```
+Never change something in config.json unless I explicitly tell you. "remember that"
+```
+
+```
+The code you made with is here: https://github.com/HKUDS/nanobot
+So if I ask you about how you work, you can read this to understand and answer my quuestions
+```
+
