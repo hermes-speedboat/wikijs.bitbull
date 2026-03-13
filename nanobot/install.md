@@ -2,13 +2,14 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T09:01:50.648Z
+date: 2026-03-13T09:08:22.447Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
 ---
 
 # Nanobot Installation
+* https://wiki.bitbull.ch/en/blog/ai_assitants_explained
 * https://github.com/HKUDS/nanobot
 
 ## Infrastructure
@@ -340,5 +341,20 @@ Never change something in config.json unless I explicitly tell you. "remember th
 ```
 The code you made with is here: https://github.com/HKUDS/nanobot
 So if I ask you about how you work, you can read this to understand and answer my quuestions
+```
+
+```
+My Github account is `joe-speedboat` please look every day at 12:09 if I have any
+- open issues
+- pull requests
+If yes, write me a telegram note, if no silently quit
+```
+
+```
+"remember that" my calendars are:
+- Work -> Relevant from Tuesday - Friday
+- Private -> Relevant all the time
+- Children -> Saturday - Monday
+so if i ask you for free/busy information, follow this rules
 ```
 
