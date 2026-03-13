@@ -2,7 +2,7 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T09:08:22.447Z
+date: 2026-03-13T09:09:08.450Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
@@ -232,7 +232,7 @@ docker run --rm -it --mount type=bind,src=/srv/docker/google-calendar-mcp/gcp-oa
 # paste answer with curl on docker host, or within container if no access to network
 
 docker ps
-`` 
+```
  
 * `vi .nanobot/config.json`
 ```
