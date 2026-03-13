@@ -2,7 +2,7 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T09:09:08.450Z
+date: 2026-03-13T20:56:33.768Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
@@ -322,7 +322,7 @@ systemctl --user restart nanobot-gateway
           "mcp/duckduckgo"
         ] 
       },
-
+```
 * reload nanobot config
 ```bash
 systemctl --user restart nanobot-gateway
