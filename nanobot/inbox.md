@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-14T08:59:45.749Z
+date: 2026-03-14T09:05:38.152Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -95,3 +95,24 @@ https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
 • ✅ Berechnung: Portfolio × Satz = Versteuerbares Vermögen
 • ✅ In Steuererklärung unter Vermögen deklarieren (am besten Berechnungs Grundlage beilegen)
 
+### 2026-03-14 10:05
+
+````
+Modell-Liste in Ollama:
+- qwen3.5:35b-a3b
+- qwen3.5:35b
+- translategemma:27b
+- qwen3.5:27b
+- qwen3.5:122b
+- qwen3.30b-a3b-instruct-2507-q4_K_M
+- qwen3-next:latest
+- qwen3-embedding:8b
+- qwen3-embedding:4b
+- qwen3-coder-next:q8_0
+- nomlc-embed-text:latest
+- nemotron-3-nano:30b
+- mistral-nemo:latest
+- mistral-3:latest
+- ministral-3:14b
+- lfm2:latest
+````
