@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-14T11:19:01.026Z
+date: 2026-03-14T11:20:57.558Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -95,9 +95,7 @@ https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
 • ✅ Berechnung: Portfolio × Satz = Versteuerbares Vermögen
 • ✅ In Steuererklärung unter Vermögen deklarieren (am besten Berechnungs Grundlage beilegen)
 
-### 2026-03-14 12:19
-
-````
+### Windows Registry 
 Verständnis der Struktur der Windows-Registry:
 
 **Registry-Hierarchie:**
@@ -130,4 +128,3 @@ Jeder Wert enthält:
 - Leistungsoptimierung
 - Softwarebereitstellung
 - Fortgeschrittene Windows-Verwaltung
-````
