@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-14T17:04:14.619Z
+date: 2026-03-14T17:05:02.452Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -140,7 +140,7 @@ POST /collections/wiki/points/delete
 }
 ````
 
-### 2026-03-14 18:04
+### Curl Qdrant search
 
 ````
 python3 - <<'PY' | curl -X POST "http://rag.domain.tld/collections/wiki/points/search" \
