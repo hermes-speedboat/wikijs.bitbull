@@ -2,7 +2,7 @@
 title: MCP Agents explained
 description: How MCP Agents work
 published: true
-date: 2026-03-16T05:02:41.769Z
+date: 2026-03-16T05:12:56.637Z
 tags: blog, ai, mcp
 editor: markdown
 dateCreated: 2026-03-16T05:02:41.769Z
@@ -10,15 +10,17 @@ dateCreated: 2026-03-16T05:02:41.769Z
 
 ## MCP (Model Context Protocol)
 
-Many modern agent frameworks integrate **MCP (Model Context Protocol)** to standardize how agents interact with external tools, memory providers, and services.
-Instead of embedding tool logic directly in the agent runtime, MCP introduces a **separate tool server layer** with a well-defined protocol.
-This separation improves modularity, portability, and security: tools can run in isolated processes or even on remote machines while the agent interacts with them through a consistent interface.
+Modern agent frameworks increasingly use **MCP (Model Context Protocol)** to standardize how AI agents interact with external tools, memory systems, and APIs. Instead of embedding tool logic directly inside the agent runtime, MCP introduces a **separate tool server layer** that exposes capabilities via a common protocol.
+
+The protocol acts like a universal interface between **LLMs and external systems**, enabling agents to access files, APIs, databases, or automation scripts in a consistent way. MCP was introduced as an open standard in 2024 to simplify tool integration across AI applications. ([Google Cloud][1])
 
 ---
 
+# MCP Architecture
+
 ## Component Overview
 
-An MCP-based architecture separates responsibilities into three main components.
+An MCP-based architecture separates the reasoning system (LLM) from the tool execution layer.
 
 ```mermaid
 graph LR
@@ -26,7 +28,7 @@ graph LR
   LLM["Language Model"]
   MCPClient["MCP Client"]
   MCPServer["MCP Server"]
-  Tools["Tools (FS, Git, Web, DB, APIs)"]
+  Tools["Tools (filesystem, git, APIs, DB, shell)"]
 
   Agent --> MCPClient
   MCPClient --> MCPServer
@@ -34,123 +36,157 @@ graph LR
   Agent --> LLM
 ```
 
-**Components**
+### Agent / Orchestrator
 
-**Agent / Orchestrator**
+The runtime managing the assistant.
 
-* Main runtime controlling the workflow
-* Sends prompts to the LLM
-* Decides when to call tools
-* Maintains memory/context
+Responsibilities:
 
-**LLM**
+* receive user input
+* maintain context and memory
+* decide when to call tools
+* coordinate the LLM and MCP client
 
-* Provides reasoning and planning
-* Suggests tool usage
-* Generates structured tool calls
+### LLM
 
-**MCP Client**
+The reasoning component.
 
-* Library embedded in the agent
-* Implements the MCP protocol
-* Handles discovery of tools and execution requests
+It:
 
-**MCP Server**
+* interprets user intent
+* selects tools when necessary
+* generates structured tool calls
 
-* External process exposing tools via MCP
-* Can run locally or remotely
-* Registers available tools and their schemas
+### MCP Client
 
-**Tools**
+Library integrated in the agent.
 
-* Actual capabilities (filesystem, git, APIs, databases, shell commands, etc.)
-* Implemented behind the MCP server
+Functions:
 
-Key idea: **agents never call tools directly — they communicate with an MCP server through the protocol.**
+* communicates with MCP servers
+* performs tool discovery
+* executes tool requests
+
+### MCP Server
+
+External process exposing capabilities through MCP.
+
+Typical examples:
+
+* filesystem server
+* git server
+* web search server
+* database server
+
+### Tools
+
+Actual implementations that perform real work.
+
+Examples:
+
+* read file
+* run shell command
+* fetch API data
+* query database
+
+Important principle:
+
+**Agents never call tools directly — they communicate through the MCP protocol.**
 
 ---
 
-## MCP Handshake / Initialization
+# MCP Initialization / Handshake
 
-Before an agent can execute tools, the MCP client and server perform a short initialization handshake.
+Before tools can be used, the MCP client and server negotiate capabilities.
 
 ```mermaid
 sequenceDiagram
   participant Agent
   participant MCPClient
   participant MCPServer
-  participant Tools
 
-  Agent->>MCPClient: Start agent runtime
+  Agent->>MCPClient: start runtime
   MCPClient->>MCPServer: initialize()
   MCPServer-->>MCPClient: protocol version + capabilities
   MCPClient->>MCPServer: listTools()
   MCPServer-->>MCPClient: tool schemas
-  MCPClient-->>Agent: tool registry ready
+  MCPClient-->>Agent: tools registered
 ```
 
-**Step-by-step**
+### Initialization Steps
 
-1. **Agent startup**
+**1. Agent startup**
 
-   * Agent initializes the MCP client.
-   * MCP client connects to the MCP server (usually via stdio, HTTP, or WebSocket).
+The agent launches its MCP client and connects to one or more MCP servers (via stdio, HTTP, or WebSocket).
 
-2. **Protocol initialization**
+**2. Protocol negotiation**
 
-   * Client sends `initialize` request.
-   * Server responds with protocol version and capabilities.
+The client sends:
 
-3. **Tool discovery**
+```
+initialize
+```
 
-   * Client requests `listTools`.
-   * Server returns all registered tools with metadata.
+The server returns:
 
-4. **Schema registration**
+* protocol version
+* supported features
 
-   * Each tool includes:
+MCP is a **stateful protocol**, meaning both sides negotiate capabilities during initialization. ([Model Context Protocol][2])
 
-     * name
-     * description
-     * JSON input schema
-     * expected output
+**3. Tool discovery**
 
-5. **Tool registry ready**
+The client requests:
 
-   * Agent now knows which tools exist and how to call them.
-   * The tool schemas are injected into the LLM context.
+```
+listTools
+```
 
-This step is crucial because it allows **dynamic tool discovery**.
-Agents can connect to new MCP servers and immediately gain new capabilities.
+The server responds with a list of tools and their metadata.
+
+**4. Schema registration**
+
+Each tool provides:
+
+* name
+* description
+* JSON input schema
+* expected output
+
+**5. Tool registry ready**
+
+The agent injects these tool schemas into the LLM prompt context.
+
+This enables **dynamic tool discovery** — agents can connect to new MCP servers and automatically gain new capabilities.
 
 ---
 
-## Example Workflow
+# Example MCP Workflow
 
-The following example shows how an agent performs a web search using MCP.
-
-### Step 1 — User request
+Example task:
 
 ```
 User: "Find the latest Linux kernel version."
 ```
 
-### Step 2 — Agent planning
+### Step 1 — Agent reasoning
 
-The agent sends the request to the LLM along with the available MCP tools.
+The agent sends the request to the LLM along with available MCP tools.
 
-Example tools discovered earlier:
+Example tool registry:
 
 ```
 web.search
-git.clone
 filesystem.read
+git.clone
 database.query
 ```
 
-The LLM decides that **web.search** is required.
+The LLM decides to use **web.search**.
 
-### Step 3 — Tool invocation via MCP
+---
+
+### Step 2 — Tool invocation
 
 ```mermaid
 sequenceDiagram
@@ -162,20 +198,18 @@ sequenceDiagram
   participant Tool
 
   User->>Agent: "Latest Linux kernel?"
-  Agent->>LLM: Prompt + tool schemas
-  LLM-->>Agent: Call tool web.search
-  Agent->>MCPClient: execute(web.search)
-  MCPClient->>MCPServer: tool request
-  MCPServer->>Tool: perform search
+  Agent->>LLM: prompt + tool schemas
+  LLM-->>Agent: call web.search
+  Agent->>MCPClient: execute tool
+  MCPClient->>MCPServer: request
+  MCPServer->>Tool: run search
   Tool-->>MCPServer: results
   MCPServer-->>MCPClient: response
-  MCPClient-->>Agent: tool output
-  Agent->>LLM: summarize result
+  MCPClient-->>Agent: result
+  Agent->>LLM: summarize
   LLM-->>Agent: final answer
   Agent-->>User: response
 ```
-
-### Step 4 — Tool execution
 
 Example MCP request:
 
@@ -185,7 +219,7 @@ input:
   query: "latest Linux kernel version"
 ```
 
-Server executes the tool and returns structured output:
+Example response:
 
 ```
 {
@@ -194,43 +228,105 @@ Server executes the tool and returns structured output:
 }
 ```
 
-### Step 5 — Response synthesis
-
-The agent sends the tool output back to the LLM and asks it to generate a final answer.
-
-Result returned to the user:
-
-```
-The latest stable Linux kernel version is 6.9.
-```
+The agent sends this back to the LLM to generate a human-readable answer.
 
 ---
 
-## Advantages of MCP
+# LLM Support for MCP
 
-**Standardization**
+A critical detail: **MCP is not implemented directly inside LLMs.**
 
-All tools follow the same protocol regardless of language or environment.
+Instead, the **agent runtime implements MCP**, while the LLM must support **structured tool calling**.
 
-**Tool portability**
+Therefore, only models capable of **function calling / tool use** can effectively work with MCP.
 
-Tools can be reused across many agents and frameworks.
+Typical requirements:
 
-**Isolation**
+* structured JSON tool calls
+* reliable reasoning for tool selection
+* multi-step reasoning
+* large context window
 
-Tools run in separate processes or containers.
-
-**Dynamic capability discovery**
-
-Agents can attach to new MCP servers at runtime.
-
-**Language-agnostic**
-
-MCP servers can be written in Rust, Go, Python, Node, etc.
+Without these capabilities, the model cannot reliably interact with MCP servers.
 
 ---
 
-## Typical MCP Deployment
+## Common LLMs used with MCP
+
+### Claude models
+
+Anthropic created MCP and Claude is the primary reference implementation.
+
+Used in:
+
+* Claude Desktop
+* Cursor IDE
+* MCP developer tooling
+
+### OpenAI GPT models
+
+GPT-4 and GPT-4o can use MCP through agent runtimes and adapters.
+
+Example frameworks:
+
+* OpenAI Agents SDK
+* LangChain MCP adapters
+
+These models support structured tool calls required by MCP. ([LangChain Docs][3])
+
+### Google Gemini
+
+Gemini can interact with MCP through bridge SDKs and agent frameworks. ([DaveAI][4])
+
+### Local models (via agent frameworks)
+
+Local models can also use MCP if the framework translates tool calls correctly.
+
+Typical setups:
+
+* Ollama + MCP client
+* LangChain agents
+* AutoGen agents
+
+---
+
+## Qwen 3.5 and MCP
+
+The **Qwen 3.5 series** (Alibaba) is increasingly used in autonomous agents because of its strong tool-calling and reasoning capabilities.
+
+Relevant properties:
+
+* advanced **function calling support**
+* strong **multi-step reasoning**
+* good **JSON structured output reliability**
+* large context windows (depending on model variant)
+
+These capabilities make Qwen-3.5 suitable for MCP-based agents when used with frameworks like:
+
+* OpenAI-compatible APIs
+* Ollama
+* vLLM runtimes
+* LangChain / LlamaIndex agents
+
+Typical deployments:
+
+```
+Agent runtime
+     |
+     | MCP client
+     |
+Qwen-3.5 model
+     |
+MCP servers (tools)
+```
+
+Because MCP itself is **model-agnostic**, any LLM capable of reliable structured tool calls can be integrated.
+
+---
+
+# Typical MCP Deployment
+
+Large agent systems often run multiple MCP servers simultaneously.
 
 ```mermaid
 graph LR
@@ -246,25 +342,42 @@ graph LR
   Agent --> MCP3
 ```
 
-In larger systems multiple MCP servers may run simultaneously:
+Examples of MCP servers:
 
-* **filesystem MCP server**
-* **git MCP server**
-* **web search MCP server**
-* **database MCP server**
+* filesystem access
+* git operations
+* browser automation
+* database queries
+* cloud APIs
 
-Agents simply connect to all of them and merge the tool registry.
+Agents automatically merge all available tools into one registry.
 
 ---
 
-## Summary
+# Summary
 
-MCP introduces a **clean separation between agents and tools**.
+MCP introduces a **standardized interface between LLM agents and external tools**.
 
-Instead of embedding tool logic directly into the agent runtime, MCP provides:
+Key characteristics:
 
-* a **tool discovery protocol**
-* a **standard execution interface**
-* a **modular tool ecosystem**
+* open protocol for tool integration
+* client-server architecture
+* dynamic tool discovery
+* language-agnostic tool servers
+* compatible with many LLMs
 
-This allows agent frameworks to remain lightweight while gaining powerful capabilities through external MCP servers.
+However, only **LLMs capable of structured tool calling** can reliably use MCP.
+
+Examples include:
+
+* Claude models
+* GPT-4 / GPT-4o
+* Gemini
+* modern open models such as **Qwen-3.5**
+
+With MCP, agent frameworks can remain lightweight while gaining powerful capabilities through external tool servers.
+
+[1]: https://cloud.google.com/discover/what-is-model-context-protocol?utm_source=chatgpt.com "What is Model Context Protocol (MCP)? A guide"
+[2]: https://modelcontextprotocol.io/docs/learn/architecture?utm_source=chatgpt.com "Architecture overview"
+[3]: https://docs.langchain.com/oss/python/langchain/mcp?utm_source=chatgpt.com "Model Context Protocol (MCP) - Docs by LangChain"
+[4]: https://www.iamdave.ai/blog/top-10-model-context-protocol-use-cases-complete-guide-for-2025/?utm_source=chatgpt.com "Top 10 Model Context Protocol Use Cases"
