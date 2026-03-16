@@ -2,7 +2,7 @@
 title: MCP Agents explained
 description: How MCP Agents work
 published: true
-date: 2026-03-16T05:12:56.637Z
+date: 2026-03-16T05:14:14.240Z
 tags: blog, ai, mcp
 editor: markdown
 dateCreated: 2026-03-16T05:02:41.769Z
@@ -377,7 +377,7 @@ Examples include:
 
 With MCP, agent frameworks can remain lightweight while gaining powerful capabilities through external tool servers.
 
-[1]: https://cloud.google.com/discover/what-is-model-context-protocol?utm_source=chatgpt.com "What is Model Context Protocol (MCP)? A guide"
-[2]: https://modelcontextprotocol.io/docs/learn/architecture?utm_source=chatgpt.com "Architecture overview"
-[3]: https://docs.langchain.com/oss/python/langchain/mcp?utm_source=chatgpt.com "Model Context Protocol (MCP) - Docs by LangChain"
-[4]: https://www.iamdave.ai/blog/top-10-model-context-protocol-use-cases-complete-guide-for-2025/?utm_source=chatgpt.com "Top 10 Model Context Protocol Use Cases"
+[1]: https://cloud.google.com/discover/what-is-model-context-protocol "What is Model Context Protocol (MCP)? A guide"
+[2]: https://modelcontextprotocol.io/docs/learn/architecture "Architecture overview"
+[3]: https://docs.langchain.com/oss/python/langchain/mcp "Model Context Protocol (MCP) - Docs by LangChain"
+[4]: https://www.iamdave.ai/blog/top-10-model-context-protocol-use-cases-complete-guide-for-2025/ "Top 10 Model Context Protocol Use Cases"
