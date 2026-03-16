@@ -2,7 +2,7 @@
 title: MCP Agents explained
 description: How MCP Agents work
 published: true
-date: 2026-03-16T05:14:14.240Z
+date: 2026-03-16T05:19:40.338Z
 tags: blog, ai, mcp
 editor: markdown
 dateCreated: 2026-03-16T05:02:41.769Z
@@ -375,7 +375,7 @@ Examples include:
 * Gemini
 * modern open models such as **Qwen-3.5**
 
-With MCP, agent frameworks can remain lightweight while gaining powerful capabilities through external tool servers.
+With MCP, agent frameworks can remain lightweight while gaining powerful capabilities through tool servers.
 
 [1]: https://cloud.google.com/discover/what-is-model-context-protocol "What is Model Context Protocol (MCP)? A guide"
 [2]: https://modelcontextprotocol.io/docs/learn/architecture "Architecture overview"
