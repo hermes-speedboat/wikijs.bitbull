@@ -2,7 +2,7 @@
 title: Bugs & Fixes
 description: Known issues and solutions for Rundeck
 published: true
-date: 2026-03-12T15:23:11.774Z
+date: 2026-03-16T14:30:42.338Z
 tags: rundeck, bugfix
 editor: markdown
 dateCreated: 2026-02-14T13:58:24.019Z
@@ -74,3 +74,12 @@ logrotate -fv /etc/logrotate.d/rundeck_service
       register: ipa_reset_password_cmd
 ```
 
+## After reboot, WebUI hangs with message: "Authentication required"
+This is an old issue, I never traced down and never red a lean explanation why it's happening
+* https://github.com/rundeck/rundeck/issues/8785
+```bash
+$ mysql rundeck
+MariaDB [rundeck]> update DATABASECHANGELOGLOCK set LOCKED = false where ID = 1;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+```
