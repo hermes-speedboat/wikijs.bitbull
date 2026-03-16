@@ -1,8 +1,8 @@
 ---
-title: Rundeck: Bugs & Fixes
+title: Bugs & Fixes
 description: Known issues and solutions for Rundeck
 published: true
-date: 2026-03-16T14:33:13.810Z
+date: 2026-03-16T14:33:45.005Z
 tags: rundeck, bugfix
 editor: markdown
 dateCreated: 2026-02-14T13:58:24.019Z
