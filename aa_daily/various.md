@@ -2,7 +2,7 @@
 title: various
 description: This and that
 published: true
-date: 2026-03-18T06:47:38.657Z
+date: 2026-03-18T07:01:33.720Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-02-13T09:07:11.509Z
@@ -82,37 +82,6 @@ TOTP secrets are typically shared in **Base32 encoding**, while some tools and A
 ```bash
 gpg -c --pinentry-mode=loopback --no-symkey-cache some_file.tar.gz
 gpg -d --pinentry-mode=loopback --no-symkey-cache -o some_file.tar.gz some_file.tar.gz.gpg
-```
-
-## Prevent Bash Script from Running Twice
-```bash
-#!/usr/bin/env bash
-# this has to be placed on top of script
-
-set -euo pipefail
-
-SCRIPT="$(basename "$0")"
-UID="$(id -u)"
-
-# select lock dir
-if [ "$UID" -eq 0 ]; then
-    DIR="/run/lock/$SCRIPT"
-    mkdir -p "$DIR" && chmod 0755 "$DIR"
-else
-    DIR="/tmp/$SCRIPT-$UID"
-    mkdir -p "$DIR" && chmod 0700 "$DIR"
-fi
-
-# acquire lock
-exec 200>"$DIR/lock"
-flock -n 200 || {
-    command -v logger >/dev/null 2>&1 \
-        && logger -t "$SCRIPT" "already running" \
-        || echo "$SCRIPT: already running" >&2
-    exit 1
-}
-
-echo "$$" 1>&200
 ```
 
 ## Redirect Script Output Within the Script
