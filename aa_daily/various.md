@@ -2,7 +2,7 @@
 title: various
 description: This and that
 published: true
-date: 2026-02-15T08:05:28.097Z
+date: 2026-03-18T04:55:02.228Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-02-13T09:07:11.509Z
@@ -67,6 +67,21 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4  -dNOPAUSE -dQUIET -dBATCH -sOutpu
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
 gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/printer -dNOPAUSE -dQUIET -dBATCH -sOutputFile=output.pdf input.pdf
+```
+
+## X11-Forwarding with sudo
+In the meanwhile it's a given styandard to do your daily work rootless.
+But sometimes you need to start an application as root.
+This is how it works, tested with Rocky Linux 9
+```bash
+[chris@ws ~]$ ssh kvm.domain.tld -X -Y -C
+[chris@kvm ~]$ sudo su -
+[root@arjuna ~]# virt-manager 
+(virt-manager:13408): Gtk-WARNING **: 06:49:10.610: cannot open display: 
+# see, it cant find valid way to forward application window
+[root@kvm ~]# export XAUTHORITY=/home/chris/.Xauthority # This does the trick
+[root@kvm ~]# virt-manager 
+# now it works
 ```
 
 ## Change Keyboard Layout on the Fly
