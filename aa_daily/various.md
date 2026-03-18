@@ -2,29 +2,81 @@
 title: various
 description: This and that
 published: true
-date: 2026-03-18T06:45:23.739Z
+date: 2026-03-18T06:47:38.657Z
 tags: cmd, helpers
 editor: markdown
 dateCreated: 2026-02-13T09:07:11.509Z
 ---
 
 ## Create/Convert TOTP Token
-- **Base32 encoded token:**
-    ```bash
-    openssl rand -base64 20 | base32 | tr -d '=' | head -c 32
-    ```
-- **Hex token:**
-    ```bash
-    openssl rand -hex 20
-    ```
-- **Convert hex token:**
-    ```bash
-    echo "1e1e1e1e1e1e8e6fee8d7f3c1a2a4d9b0f5c6a3e" | xxd -r -p | base32 | tr -d '='
-    ```
-- **Convert base32 token:**
-    ```bash
-    echo SPKYT4JLGTOLATSHJHIX2F74YS35GUIL | base32 --decode | xxd -p | tr -d '\n'
-    ```
+Here is a **RAG/LLM-friendly, semantically explicit version** of your wiki entry. It adds intent, context, and normalization cues while staying compact and technical:
+
+---
+
+## Create / Convert TOTP Token
+
+**Purpose:**
+Generate and transform secrets for Time-based One-Time Password (TOTP) systems (e.g. RFC 6238 / Google Authenticator compatible).
+TOTP secrets are typically shared in **Base32 encoding**, while some tools and APIs require **hexadecimal format**.
+
+---
+
+### Generate new secret
+
+* **Base32-encoded secret (recommended for QR / authenticator apps):**
+
+  ```bash
+  openssl rand -base64 20 | base32 | tr -d '=' | head -c 32
+  ```
+
+  * Generates ~160-bit random secret
+  * Encoded in Base32 (no padding) → compatible with most TOTP apps
+
+* **Hex-encoded secret (raw binary representation):**
+
+  ```bash
+  openssl rand -hex 20
+  ```
+
+  * Same entropy, different encoding
+  * Often used in configs, APIs, or lower-level tooling
+
+---
+
+### Convert between formats
+
+* **Hex → Base32 (for use in authenticator apps):**
+
+  ```bash
+  echo "1e1e1e1e1e1e8e6fee8d7f3c1a2a4d9b0f5c6a3e" \
+    | xxd -r -p \
+    | base32 \
+    | tr -d '='
+  ```
+
+  * Converts raw hex secret into TOTP-compatible Base32
+
+* **Base32 → Hex (for storage / debugging / APIs):**
+
+  ```bash
+  echo SPKYT4JLGTOLATSHJHIX2F74YS35GUIL \
+    | base32 --decode \
+    | xxd -p \
+    | tr -d '\n'
+  ```
+
+  * Decodes Base32 into raw bytes, then prints as hex
+
+---
+
+### context information
+
+* Base32 is the **canonical representation for TOTP provisioning**
+* Hex is a **transport/debug format**, not used directly by authenticator apps
+* Padding (`=`) is commonly removed in TOTP secrets
+* All transformations are **lossless encoding changes**, not cryptographic operations
+* Ensure sufficient entropy (≥160 bits recommended)
+
 
 ## Crypt with GPG Symmetric Passphrase
 ```bash
