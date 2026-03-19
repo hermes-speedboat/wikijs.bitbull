@@ -2,69 +2,67 @@
 title: Qdrant Vector DB overview
 description: Get started with vector DBs and RAG
 published: true
-date: 2026-03-19T07:43:15.276Z
+date: 2026-03-19T07:44:39.427Z
 tags: ai, rag, qdrant
 editor: markdown
 dateCreated: 2026-03-19T07:33:55.141Z
 ---
 
-
-
 # Vector DB with Qdrant
 
-Qdrant ist eine moderne Open-Source-Vektordatenbank und Suchmaschine, spezialisiert auf schnelle Ähnlichkeitssuche im hochdimensionalen Raum. Sie speichert „Punkte“ (*points*), bestehend aus einem **Vektor** (Embedding), einer eindeutigen **ID** und optionalen **Metadaten** (Payload).
+Qdrant is a modern open-source vector database and search engine designed for fast similarity search in high-dimensional space. It stores entities called *points*, which consist of a **vector** (embedding), a unique **ID**, and optional **metadata** (payload).
 
-Qdrant nutzt primär den graphbasierten **HNSW-Algorithmus** (Hierarchical Navigable Small World) für Approximate Nearest Neighbor (ANN) Search und unterstützt Distanzmetriken wie:
+Qdrant primarily uses the graph-based **HNSW algorithm** (Hierarchical Navigable Small World) for Approximate Nearest Neighbor (ANN) search and supports distance metrics such as:
 
-* Cosine Similarity
-* Dot Product
-* Euclidean Distance
+* Cosine similarity
+* Dot product
+* Euclidean distance
 
 👉 [https://qdrant.tech/documentation/overview/](https://qdrant.tech/documentation/overview/)
 
-Daten sind in **Collections** organisiert, die aus mehreren **Shards** bestehen.
+Data is organized into **collections**, which are distributed across multiple **shards**.
 👉 [https://qdrant.tech/documentation/operations/distributed_deployment/](https://qdrant.tech/documentation/operations/distributed_deployment/)
 
-Shards können repliziert werden für High Availability:
+Shards can be replicated to provide high availability:
 👉 [https://qdrant.tech/documentation/operations/distributed_deployment/#replication](https://qdrant.tech/documentation/operations/distributed_deployment/#replication)
 
 ---
 
-## Storage & Persistenz
+## Storage & Persistence
 
-Qdrant bietet zwei Speicherstrategien:
+Qdrant provides two storage strategies:
 
-* **In-Memory**
+* **In-memory**
 * **Memmap (on-disk)**
 
 👉 [https://qdrant.tech/documentation/concepts/storage/](https://qdrant.tech/documentation/concepts/storage/)
 
 Write-Ahead Log (WAL):
 
-* garantiert Durability
-* jede Operation wird zuerst ins WAL geschrieben
-* danach in Segmente übernommen
+* guarantees durability
+* every operation is first written sequentially to the WAL
+* then applied to segments
 
 👉 [https://qdrant.tech/documentation/manage-data/storage/](https://qdrant.tech/documentation/manage-data/storage/)
 
 ---
 
-## Point-Struktur
+## Point Structure
 
-Ein Punkt besteht aus:
+A point consists of:
 
-* `id` (u64 oder UUID)
+* `id` (u64 or UUID)
 * `vector` (dense / sparse / named)
-* `payload` (JSON)
-* interne Version
+* `payload` (JSON metadata)
+* internal version
 
 👉 [https://qdrant.tech/documentation/concepts/points/](https://qdrant.tech/documentation/concepts/points/)
 
-Payload-Typen:
+Supported payload types:
 
 * keyword (string)
 * integer / float
-* bool
+* boolean
 * geo
 * datetime
 
@@ -72,28 +70,28 @@ Payload-Typen:
 
 ---
 
-## Rolle der Metadaten (Payload)
+## Role of Metadata (Payload)
 
-Metadaten sind entscheidend für:
+Metadata is essential for:
 
 1. **Filtering**
-2. **Hybrid Search**
-3. **Business Constraints**
+2. **Hybrid search**
+3. **Business constraints**
 
-Beispiel:
+Examples:
 
-* Zeitfilter
-* Kategorien
-* Access Control
+* time-based filtering
+* categories
+* access control
 
 👉 [https://qdrant.tech/documentation/concepts/filtering/](https://qdrant.tech/documentation/concepts/filtering/)
 
-Wichtig:
+Important:
 
-Qdrant implementiert **filterable HNSW**, d.h.:
+Qdrant implements **filterable HNSW**, meaning:
 
-* Filter werden **in die Graph-Traversal integriert**
-* kein Post-Filtering → deutlich effizienter
+* filters are integrated directly into graph traversal
+* no post-filtering required → significantly more efficient
 
 👉 [https://qdrant.tech/documentation/concepts/indexing/](https://qdrant.tech/documentation/concepts/indexing/)
 
@@ -101,23 +99,23 @@ Qdrant implementiert **filterable HNSW**, d.h.:
 
 ## Write Path (Upsert)
 
-Ablauf:
+Typical flow:
 
 1. Client → `upsert`
-2. Schreiben ins WAL
-3. Speicherung im Segment
-4. (optional) HNSW Update
-5. später Segment Merge (Optimizer)
+2. Write to WAL
+3. Store in segment
+4. (optional) update HNSW index
+5. later segment merge (optimizer)
 
 👉 [https://qdrant.tech/documentation/manage-data/points/#insert-points](https://qdrant.tech/documentation/manage-data/points/#insert-points)
 
 ```mermaid
 flowchart LR
-    subgraph Schreibpfad
+    subgraph WritePath
       Client[Client API Upsert]
-      WAL[WAL Sequenzielles Log]
+      WAL[WAL Sequential Log]
       Segment[Segment RAM Memmap]
-      HNSW[HNSW Index aktualisieren]
+      HNSW[HNSW Index Update]
       Merge[Segment Merge Optimizer]
     end
 
@@ -129,21 +127,21 @@ flowchart LR
 
 ---
 
-## Update eines Punkts (wirtschaftlich)
+## Updating a Point (Efficient Strategies)
 
-### 1. Full Upsert (Standard)
+### 1. Full Upsert (default)
 
-* überschreibt komplett
-* atomar
+* overwrites entire point
+* atomic operation
 
 👉 [https://qdrant.tech/documentation/manage-data/points/#update-points](https://qdrant.tech/documentation/manage-data/points/#update-points)
 
 ---
 
-### 2. Partial Update (Payload only)
+### 2. Partial Update (payload only)
 
 * `update_payload`
-* kein Reindex nötig
+* no vector reindex required
 
 👉 [https://qdrant.tech/documentation/manage-data/points/#update-payload](https://qdrant.tech/documentation/manage-data/points/#update-payload)
 
@@ -157,7 +155,7 @@ Pattern:
 version: 3
 ```
 
-Update nur wenn:
+Update only if:
 
 ```text
 version == expected
@@ -169,34 +167,34 @@ version == expected
 
 ### 4. Tombstone + Reinsert
 
-* Delete markiert Punkt
-* Cleanup via Optimizer
+* delete marks point as removed
+* actual cleanup handled later by optimizer
 
 👉 [https://qdrant.tech/documentation/concepts/optimizer/](https://qdrant.tech/documentation/concepts/optimizer/)
 
 ---
 
-## Bulk Ingestion Optimierung
+## Bulk Ingestion Optimization
 
-Wichtige Parameter:
+Key parameters:
 
 * `indexing_threshold`
-* `m=0` (disable HNSW temporarily)
+* `m = 0` (temporarily disable HNSW)
 
 👉 [https://qdrant.tech/articles/indexing-optimization/](https://qdrant.tech/articles/indexing-optimization/)
 
 ---
 
-## LLM-basierte Suche (RAG Pipeline)
+## LLM-based Search (RAG Pipeline)
 
-### Ablauf (technisch)
+### Technical Flow
 
-1. Query → Embedding
-2. optional: Sparse Embedding (BM25)
-3. Qdrant Search (ANN)
-4. Payload Filter
-5. Reranking
-6. LLM Response
+1. Query → embedding
+2. optional: sparse embedding (BM25)
+3. Qdrant search (ANN)
+4. payload filtering
+5. reranking
+6. LLM response
 
 ```mermaid
 flowchart TD
@@ -214,8 +212,8 @@ flowchart TD
 
 ## Hybrid Search (Dense + Sparse)
 
-* Dense → Semantik
-* Sparse → Keywords
+* Dense vectors → semantic similarity
+* Sparse vectors → keyword matching
 
 👉 [https://qdrant.tech/articles/hybrid-search/](https://qdrant.tech/articles/hybrid-search/)
 
@@ -223,11 +221,11 @@ flowchart TD
 
 ## Reranking / Retrieval Quality
 
-Typische Erweiterungen:
+Common enhancements:
 
-* Cross Encoder
+* cross-encoders
 * ColBERT (late interaction)
-* Relevance Feedback
+* relevance feedback
 
 👉 [https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/](https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/)
 
@@ -235,38 +233,16 @@ Typische Erweiterungen:
 
 ---
 
-## Performance-Realität
+## Performance Reality
 
-Bottlenecks:
+Typical bottlenecks:
 
-| Komponente | Latenz      |
-| ---------- | ----------- |
-| Qdrant ANN | ~ms         |
-| Embedding  | 50–300 ms   |
-| LLM        | 100–1000 ms |
+| Component  | Latency       |
+| ---------- | ------------- |
+| Qdrant ANN | ~milliseconds |
+| Embedding  | 50–300 ms     |
+| LLM        | 100–1000 ms   |
 
 👉 [https://qdrant.tech/documentation/operations/capacity-planning/](https://qdrant.tech/documentation/operations/capacity-planning/)
 
----
 
-# 🔧 Fazit
-
-Dein ursprünglicher Text war technisch korrekt – das Problem waren nur:
-
-* kaputte Referenzen (`【...】`)
-* nicht-portable Citation-Formatierung
-
-👉 Jetzt:
-
-* Wiki.js kompatibel
-* klickbare Quellen
-* stabil für Doku/CI
-
----
-
-Wenn du willst, kann ich dir noch:
-
-* eine **"Production Architecture" (Qdrant + LLM + Cache + Queue)** zeichnen
-* oder eine **Kubernetes Deployment-Referenz für Qdrant Cluster**
-
-auf deinem Niveau zusammenstellen.
