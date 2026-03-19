@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-03-18T08:45:54.617Z
+date: 2026-03-19T07:04:04.778Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -25,7 +25,7 @@ curl -L sysprep.bitbull.ch | bash
 Welcome to my Open Source Wiki, it's a place for knowledge, hacking and sharing useful information.
 Content is focused on business and lean usage of Linux and Open Source applications.
 
-The archive of old Mediawiki Pages can be found here: [https://github.com/joe-speedboat/archive.mediawiki](https://github.com/joe-speedboat/archive.mediawiki)
+The archive of old Mediawiki pages can be found here: [https://github.com/joe-speedboat/archive.mediawiki](https://github.com/joe-speedboat/archive.mediawiki)
 
 # My Ressources
 * [Script Archive](https://github.com/joe-speedboat/scripts)
