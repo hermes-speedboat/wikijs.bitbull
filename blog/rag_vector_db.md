@@ -2,7 +2,7 @@
 title: Qdrant Vector DB overview
 description: Get started with vector DBs and RAG
 published: true
-date: 2026-03-19T07:38:27.997Z
+date: 2026-03-19T07:39:09.081Z
 tags: ai, rag, qdrant
 editor: markdown
 dateCreated: 2026-03-19T07:33:55.141Z
@@ -31,11 +31,12 @@ flowchart LR
       WAL[WAL (Sequenzielles Log)]
       Segment[Segment (RAM/Memmap)]
       HNSW[HNSW-Index aktualisieren]
+      Merge[Segment-Merge / Optimizer]
     end
     Client --> WAL
     WAL --> Segment
     Segment --> HNSW
-    HNSW --> |"optional"| Merge[Segment-Merge / Optimizer]
+    HNSW -. optional .-> Merge
 ```
 *Abbildung: Ablaufschema des Einfügens eines Punktes in Qdrant (Vereinfachung)*
 
