@@ -2,247 +2,446 @@
 title: Qdrant Vector DB overview
 description: Get started with vector DBs and RAG
 published: true
-date: 2026-03-19T07:44:39.427Z
+date: 2026-03-19T08:06:08.090Z
 tags: ai, rag, qdrant
 editor: markdown
 dateCreated: 2026-03-19T07:33:55.141Z
 ---
 
-# Vector DB with Qdrant
-
-Qdrant is a modern open-source vector database and search engine designed for fast similarity search in high-dimensional space. It stores entities called *points*, which consist of a **vector** (embedding), a unique **ID**, and optional **metadata** (payload).
-
-Qdrant primarily uses the graph-based **HNSW algorithm** (Hierarchical Navigable Small World) for Approximate Nearest Neighbor (ANN) search and supports distance metrics such as:
-
-* Cosine similarity
-* Dot product
-* Euclidean distance
-
-👉 [https://qdrant.tech/documentation/overview/](https://qdrant.tech/documentation/overview/)
-
-Data is organized into **collections**, which are distributed across multiple **shards**.
-👉 [https://qdrant.tech/documentation/operations/distributed_deployment/](https://qdrant.tech/documentation/operations/distributed_deployment/)
-
-Shards can be replicated to provide high availability:
-👉 [https://qdrant.tech/documentation/operations/distributed_deployment/#replication](https://qdrant.tech/documentation/operations/distributed_deployment/#replication)
+# Vector DB with Qdrant & RAG (Practical Guide)
 
 ---
 
-## Storage & Persistence
+# What is RAG?
 
-Qdrant provides two storage strategies:
+**Retrieval-Augmented Generation (RAG)** is a pattern that combines:
 
-* **In-memory**
-* **Memmap (on-disk)**
+* a **vector database (retrieval)**
+* a **large language model (generation)**
 
-👉 [https://qdrant.tech/documentation/concepts/storage/](https://qdrant.tech/documentation/concepts/storage/)
+to produce **accurate, context-aware answers**.
 
-Write-Ahead Log (WAL):
-
-* guarantees durability
-* every operation is first written sequentially to the WAL
-* then applied to segments
-
-👉 [https://qdrant.tech/documentation/manage-data/storage/](https://qdrant.tech/documentation/manage-data/storage/)
+> RAG integrates external data retrieval into LLM generation to improve accuracy and relevance. ([Qdrant][1])
 
 ---
 
-## Point Structure
+## Why RAG exists
 
-A point consists of:
+LLMs alone:
 
-* `id` (u64 or UUID)
-* `vector` (dense / sparse / named)
-* `payload` (JSON metadata)
-* internal version
+* ❌ hallucinate
+* ❌ don’t know your internal data
+* ❌ are static (training cutoff)
 
-👉 [https://qdrant.tech/documentation/concepts/points/](https://qdrant.tech/documentation/concepts/points/)
-
-Supported payload types:
-
-* keyword (string)
-* integer / float
-* boolean
-* geo
-* datetime
-
-👉 [https://qdrant.tech/documentation/concepts/payload/](https://qdrant.tech/documentation/concepts/payload/)
-
----
-
-## Role of Metadata (Payload)
-
-Metadata is essential for:
-
-1. **Filtering**
-2. **Hybrid search**
-3. **Business constraints**
-
-Examples:
-
-* time-based filtering
-* categories
-* access control
-
-👉 [https://qdrant.tech/documentation/concepts/filtering/](https://qdrant.tech/documentation/concepts/filtering/)
-
-Important:
-
-Qdrant implements **filterable HNSW**, meaning:
-
-* filters are integrated directly into graph traversal
-* no post-filtering required → significantly more efficient
-
-👉 [https://qdrant.tech/documentation/concepts/indexing/](https://qdrant.tech/documentation/concepts/indexing/)
-
----
-
-## Write Path (Upsert)
-
-Typical flow:
-
-1. Client → `upsert`
-2. Write to WAL
-3. Store in segment
-4. (optional) update HNSW index
-5. later segment merge (optimizer)
-
-👉 [https://qdrant.tech/documentation/manage-data/points/#insert-points](https://qdrant.tech/documentation/manage-data/points/#insert-points)
-
-```mermaid
-flowchart LR
-    subgraph WritePath
-      Client[Client API Upsert]
-      WAL[WAL Sequential Log]
-      Segment[Segment RAM Memmap]
-      HNSW[HNSW Index Update]
-      Merge[Segment Merge Optimizer]
-    end
-
-    Client --> WAL
-    WAL --> Segment
-    Segment --> HNSW
-    HNSW --> Merge
-```
-
----
-
-## Updating a Point (Efficient Strategies)
-
-### 1. Full Upsert (default)
-
-* overwrites entire point
-* atomic operation
-
-👉 [https://qdrant.tech/documentation/manage-data/points/#update-points](https://qdrant.tech/documentation/manage-data/points/#update-points)
-
----
-
-### 2. Partial Update (payload only)
-
-* `update_payload`
-* no vector reindex required
-
-👉 [https://qdrant.tech/documentation/manage-data/points/#update-payload](https://qdrant.tech/documentation/manage-data/points/#update-payload)
-
----
-
-### 3. Optimistic Concurrency
-
-Pattern:
-
-```json
-version: 3
-```
-
-Update only if:
+RAG solves this:
 
 ```text
-version == expected
-```
-
-👉 [https://qdrant.tech/documentation/manage-data/points/#conditional-updates](https://qdrant.tech/documentation/manage-data/points/#conditional-updates)
-
----
-
-### 4. Tombstone + Reinsert
-
-* delete marks point as removed
-* actual cleanup handled later by optimizer
-
-👉 [https://qdrant.tech/documentation/concepts/optimizer/](https://qdrant.tech/documentation/concepts/optimizer/)
-
----
-
-## Bulk Ingestion Optimization
-
-Key parameters:
-
-* `indexing_threshold`
-* `m = 0` (temporarily disable HNSW)
-
-👉 [https://qdrant.tech/articles/indexing-optimization/](https://qdrant.tech/articles/indexing-optimization/)
-
----
-
-## LLM-based Search (RAG Pipeline)
-
-### Technical Flow
-
-1. Query → embedding
-2. optional: sparse embedding (BM25)
-3. Qdrant search (ANN)
-4. payload filtering
-5. reranking
-6. LLM response
-
-```mermaid
-flowchart TD
-    QueryText["User Query Text"] --> DenseEmb["Dense Embedding LLM"]
-    QueryText --> SparseEmb["Sparse Embedding BM25 Text"]
-    DenseEmb --> QdrantSearch["Qdrant Similarity Search"]
-    SparseEmb --> QdrantSearch
-    QdrantSearch --> PayloadFilter{"Filter Payload"}
-    PayloadFilter --> CandidateDocs["Candidate Documents IDs"]
-    CandidateDocs --> FinalRanked["Final Ranking"]
-    FinalRanked --> Response["User Response LLM"]
+LLM + your data = grounded answers
 ```
 
 ---
 
-## Hybrid Search (Dense + Sparse)
+## Core Idea
 
-* Dense vectors → semantic similarity
-* Sparse vectors → keyword matching
-
-👉 [https://qdrant.tech/articles/hybrid-search/](https://qdrant.tech/articles/hybrid-search/)
-
----
-
-## Reranking / Retrieval Quality
-
-Common enhancements:
-
-* cross-encoders
-* ColBERT (late interaction)
-* relevance feedback
-
-👉 [https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/](https://qdrant.tech/documentation/tutorials-search-engineering/reranking-hybrid-search/)
-
-👉 [https://qdrant.tech/documentation/tutorials-search-engineering/using-relevance-feedback/](https://qdrant.tech/documentation/tutorials-search-engineering/using-relevance-feedback/)
+```text
+User Query
+   ↓
+Embedding
+   ↓
+Vector DB (Qdrant)
+   ↓
+Relevant Documents
+   ↓
+LLM
+   ↓
+Answer
+```
 
 ---
 
-## Performance Reality
+# RAG Components (Minimal Mental Model)
 
-Typical bottlenecks:
+A RAG system always consists of:
 
-| Component  | Latency       |
-| ---------- | ------------- |
-| Qdrant ANN | ~milliseconds |
-| Embedding  | 50–300 ms     |
-| LLM        | 100–1000 ms   |
+## 1. Data Pipeline (Indexing)
 
-👉 [https://qdrant.tech/documentation/operations/capacity-planning/](https://qdrant.tech/documentation/operations/capacity-planning/)
+```text
+documents → chunking → embeddings → stored in Qdrant
+```
 
+* split documents into chunks
+* convert chunks → vectors
+* store in vector DB
+
+👉 enables similarity search ([Qdrant][1])
+
+---
+
+## 2. Retriever (Qdrant)
+
+* receives query embedding
+* finds **nearest neighbors**
+* returns top-k relevant chunks
+
+---
+
+## 3. Generator (LLM)
+
+* takes:
+
+  * user query
+  * retrieved documents
+* generates final answer
+
+👉 retrieval feeds generation ([Qdrant][1])
+
+---
+
+# Your Real Use Case
+
+## ❓ Question
+
+```text
+"how can I setup ascender ldap auth?"
+```
+
+---
+
+## 🧠 What happens internally
+
+### Step 1 — Query → Embedding
+
+```text
+"how to configure ldap in awx ascender"
+→ vector
+```
+
+---
+
+### Step 2 — Qdrant Search
+
+Qdrant finds relevant chunks like:
+
+```text
+LDAP AUTH HACKS
+LDAP Group Search
+LDAP User Attribute Map
+```
+
+---
+
+### Step 3 — LLM
+
+LLM receives:
+
+```text
+Question + retrieved content
+```
+
+→ generates structured answer
+
+---
+
+## ✅ Result
+
+Instead of hallucination:
+
+```text
+"I think LDAP works like..."
+```
+
+You get:
+
+```text
+"Use LDAP Server URI ldap://192.168.11.202:389..."
+```
+
+→ grounded in your actual wiki
+
+---
+
+# Your Data Model (Real Example)
+
+## Example Point (from your system)
+
+```json
+{
+  "id": "b11fbb1d-5a46-45c9-83c7-d47ea973cf08",
+  "payload": {
+    "content": "...LDAP AUTH HACKS...",
+    "metadata": {
+      "source": "https://wiki.bitbull.ch/en/ansible/awx_ascender/ldap_auth",
+      "title": "Ascender LDAP Auth",
+      "tag": ["ansible", "freeipa", "awx", "ldap"],
+      "date": "2026-02-15T08:14:27.031Z"
+    }
+  }
+}
+```
+
+---
+
+## Key Design Pattern
+
+```text
+content  → semantic search (vector)
+metadata → filtering (exact match)
+```
+
+---
+
+# Real Queries (Qdrant)
+
+---
+
+## 1. Payload Filtering (what you already use)
+
+```http
+POST /collections/wiki/points/scroll
+{
+  "filter": {
+    "should": [
+      {
+        "key": "metadata.source",
+        "match": {
+          "value": "https://wiki.bitbull.ch/en/ansible/awx_ascender/ldap_auth"
+        }
+      }
+    ]
+  }
+}
+```
+
+### What this is
+
+```text
+NOT vector search
+→ just filtering
+```
+
+Equivalent:
+
+```sql
+SELECT * WHERE metadata.source = ...
+```
+
+---
+
+## 2. Semantic Search (actual RAG)
+
+```http
+POST /collections/wiki/points/query
+{
+  "query": [0.12, -0.3, ...],
+  "limit": 5,
+  "with_payload": true
+}
+```
+
+### What this does
+
+* finds similar documents
+* returns ranked results
+
+```json
+{
+  "result": [
+    {
+      "id": "...",
+      "score": 0.82,
+      "payload": {...}
+    }
+  ]
+}
+```
+
+---
+
+## 3. Hybrid Query (real production pattern)
+
+```http
+POST /collections/wiki/points/query
+{
+  "query": [0.12, -0.3, ...],
+  "filter": {
+    "must": [
+      {
+        "key": "metadata.tag",
+        "match": { "value": "ldap" }
+      }
+    ]
+  },
+  "limit": 5
+}
+```
+
+---
+
+## Meaning
+
+```text
+semantic search + exact filter
+```
+
+→ best of both worlds
+
+---
+
+# Internal Mechanics (What actually happens)
+
+## Inside Qdrant
+
+1. Query vector enters HNSW graph
+2. graph traversal finds nearest nodes
+3. optional payload filter applied
+4. top-k results returned
+
+---
+
+## Inside RAG
+
+1. retrieve top-k documents
+2. optionally rerank
+3. inject into prompt
+4. LLM generates answer
+
+---
+
+# Example End-to-End Flow (Your LDAP Case)
+
+```text
+User:
+"how to configure ldap in awx?"
+
+↓
+Embedding
+
+↓
+Qdrant returns:
+- LDAP config snippet
+- AWX settings
+- group mapping
+
+↓
+LLM prompt:
+
+"Answer using this context:
+[LDAP snippet]
+[AWX config]"
+
+↓
+Answer:
+step-by-step LDAP config
+```
+
+---
+
+# Practical Use Cases (Your System)
+
+## 1. Wiki Search
+
+```text
+"ldap config awx"
+```
+
+→ finds correct page without keyword match
+
+---
+
+## 2. Debug / Inspection
+
+```text
+scroll API
+```
+
+→ inspect chunks from a source
+
+---
+
+## 3. Tag-based Isolation
+
+```json
+"metadata.tag": "ansible"
+```
+
+→ restrict domain
+
+---
+
+## 4. Time Filtering
+
+```json
+"metadata.date > now-30d"
+```
+
+→ only recent configs
+
+---
+
+## 5. Multi-tenant Setup
+
+```json
+"metadata.user_id": "123"
+```
+
+→ isolate users
+
+---
+
+# Key Takeaways
+
+## 1. Your data is already correct
+
+You already have:
+
+* chunked content
+* metadata
+* structured payload
+
+👉 ready for RAG
+
+---
+
+## 2. Missing piece
+
+You currently use:
+
+```text
+scroll API → filtering only
+```
+
+You need:
+
+```text
+query API → semantic retrieval
+```
+
+---
+
+## 3. Core rule
+
+```text
+vector = meaning
+payload = control
+```
+
+---
+
+## 4. Real bottleneck
+
+Not Qdrant:
+
+* embedding quality
+* chunking strategy
+* prompt design
+
+---
+
+# Final Mental Model
+
+```text
+Qdrant = brain memory
+LLM = reasoning engine
+RAG = connection between both
+```
 
