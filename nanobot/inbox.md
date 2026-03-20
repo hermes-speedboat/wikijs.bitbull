@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-20T09:12:18.556Z
+date: 2026-03-20T09:13:20.915Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -218,9 +218,7 @@ Pricing:
 
 Quelle: NVIDIA DGX Spark User Guide (https://docs.nvidia.com/dgx/dgx-spark/hardware.html)
 
-### 2026-03-20 10:12
-
-````
+### Wasser Kefir - Zucker Merkblatt
 Wasserkefir - Zucker-Menge pro Liter
 
 Standard-Verhältnis:
@@ -242,5 +240,3 @@ Wichtig:
 - Nach der Fermentation bleibt meist <1% Restzucker übrig
 - Bei kürzerer Fermentationszeit bleibt mehr Zucker im Endprodukt
 
-Quelle: Verschiedene Wasserkefir-Anleitungen (50-80g/Liter Standard)
-````
