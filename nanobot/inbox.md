@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-20T09:10:21.196Z
+date: 2026-03-20T09:11:17.700Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -171,9 +171,7 @@ PY
 }
 ```
 
-### 2026-03-20 10:10
-
-````
+### DGX Spark Specs
 NVIDIA DGX Spark - Hardware Specifications
 
 Core Components:
@@ -218,7 +216,4 @@ Pricing:
 - Founders Edition: ~$4,699 (ca. 4,500 CHF)
 - Pre-installed: NVIDIA AI Software Stack
 
-Zusammenfassung: DGX Spark ist ein kompakter Desktop-AI-Supercomputer, der lokal LLMs bis zu 200B Parameter laufen kann. Perfekt für Entwicklung, Fine-Tuning und Inferenz ohne Cloud-Zugang.
-
 Quelle: NVIDIA DGX Spark User Guide (https://docs.nvidia.com/dgx/dgx-spark/hardware.html)
-````
