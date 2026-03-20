@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-20T10:09:31.863Z
+date: 2026-03-20T10:18:52.808Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -240,49 +240,35 @@ Wichtig:
 - Nach der Fermentation bleibt meist <1% Restzucker übrig
 - Bei kürzerer Fermentationszeit bleibt mehr Zucker im Endprodukt
 
-### 2026-03-20 11:09
-
-````
+### Spark Model Overview
 Ollama LLMs - Capabilities Overview (2026-03-20)
 
-Model,Size(GB),Reasoning,Vision,Context(Tokens),Tools,MCP Agent,Purpose
-NVIDIA Nemotron-3 Super,86,Yes,No,1000000,Yes,Yes,High-volume agentic workloads IT automation long-context reasoning
-NVIDIA Nemotron-3 Nano,24,Yes,No,1000000,Yes,Yes,Efficient reasoning with hybrid Transformer-Mamba architecture
-Qwen3.5 122B,81,Yes,Yes,256000,Yes,Yes,General-purpose high-performance
-Qwen3.5 35B,23,Yes,Yes,256000,Yes,Yes,Balanced performance/efficiency
-Qwen3.5 35B A3B,23,Yes,Yes,256000,Yes,Yes,Balanced performance/efficiency (MoE)
-Qwen3.5 27B,17,Yes,Yes,256000,Yes,Yes,Mid-size general purpose
-Qwen3.5 9B,6.6,Yes,Yes,256000,Yes,Yes,Lightweight general purpose
-Qwen3.5 4B,3.4,Yes,Yes,256000,Yes,Yes,Edge deployment fast inference
-Qwen3 Coder Next Latest,51,Yes,No,256000,Yes,Yes,Advanced coding IDE integration complex tool usage
-Qwen3 Coder Next Q8_0,84,Yes,No,256000,Yes,Yes,Advanced coding (higher precision quantization)
-Qwen3 30B A3B Instruct,18,Yes,No,256000,Yes,Yes,Code & general tasks with thinking
-Qwen3 Embedding 8B,4.7,No,No,8000,No,No,Text embeddings for RAG semantic search
-Qwen3 Embedding 4B,2.5,No,No,8000,No,No,Text embeddings for RAG semantic search
-Ministral-3 14B,9.1,Yes,Yes,256000,Yes,Yes,Edge deployment multimodal tasks
-Ministral-3 Latest 8B,6.0,Yes,Yes,256000,Yes,Yes,Lightweight multimodal
-Mistral Nemo Latest,7.1,Yes,No,128000,Yes,Yes,Code & reasoning NVIDIA collaboration
-LFM2 Latest 24B A2B,14,Yes,Yes,32000,Yes,Yes,Fast on-device inference multimodal
-LFM2.5 Thinking Latest,0.73,Yes,No,32000,Yes,Yes,Ultra-fast reasoning edge/NPU
-LFM2.5 VL 1.6B BF16,3.2,Yes,Yes,32000,Yes,Yes,Multimodal on-device AI
-GPT-OSS 120B,65,Yes,No,128000,Yes,Yes,High-reasoning production workloads (MoE)
-GPT-OSS 20B,13,Yes,No,128000,Yes,Yes,Local/specialized fine-tuning friendly
-GLM-4.7 Flash Latest,19,Yes,No,200000,Yes,Yes,Coding agentic workflows chat (MoE)
-TranslateGemma 27B,17,No,No,2000,No,No,High-fidelity translation 100+ languages
-Nomic Embed Text Latest,0.27,No,No,8000,No,No,Lightweight text embeddings
-FireRed-OCR Q4_K_M,1.6,No,Yes,4000,No,No,Document parsing pixel-precise OCR tables/LaTeX
-LFM2 8B A1B Q4_K_M,5.0,Yes,Yes,32000,Yes,Yes,Fast on-device inference multimodal
-Qwen3.5 4B Bot Latest,3.4,Yes,Yes,256000,Yes,Yes,Chat-optimized lightweight model
-
-Quick Recommendations:
-- Reasoning (heavy): gpt-oss:120b, nemotron-3-super
-- Coding Agent: qwen3-coder-next:latest
-- Multimodal: qwen3.5:35b, lfm2.5-vl-1.6b
-- Long Context: nemotron-3-super (1M), qwen3.5 serie (256K)
-- Fast/Edge: lfm2.5-thinking, qwen3.5:4b
-- Translation: translategemma:27b
-- OCR: FireRed-OCR
-- Embeddings: qwen3-embedding:8b, nomic-embed-text
-
-Sources: Hugging Face, NVIDIA Developer Blog, Ollama library, LM Studio
-````
+| Model                         | Size (GB) | Reasoning | Vision | Context (Tokens) | Tools | MCP Agent | Purpose                                                                 |
+|------------------------------|----------:|-----------|--------|------------------:|-------|-----------|-------------------------------------------------------------------------|
+| NVIDIA Nemotron-3 Super      | 86        | Yes       | No     | 1000000          | Yes   | Yes       | High-volume agentic workloads IT automation long-context reasoning      |
+| NVIDIA Nemotron-3 Nano       | 24        | Yes       | No     | 1000000          | Yes   | Yes       | Efficient reasoning with hybrid Transformer-Mamba architecture          |
+| Qwen3.5 122B                 | 81        | Yes       | Yes    | 256000           | Yes   | Yes       | General-purpose high-performance                                        |
+| Qwen3.5 35B                  | 23        | Yes       | Yes    | 256000           | Yes   | Yes       | Balanced performance/efficiency                                         |
+| Qwen3.5 35B A3B              | 23        | Yes       | Yes    | 256000           | Yes   | Yes       | Balanced performance/efficiency (MoE)                                   |
+| Qwen3.5 27B                  | 17        | Yes       | Yes    | 256000           | Yes   | Yes       | Mid-size general purpose                                                |
+| Qwen3.5 9B                   | 6.6       | Yes       | Yes    | 256000           | Yes   | Yes       | Lightweight general purpose                                             |
+| Qwen3.5 4B                   | 3.4       | Yes       | Yes    | 256000           | Yes   | Yes       | Edge deployment fast inference                                          |
+| Qwen3 Coder Next Latest      | 51        | Yes       | No     | 256000           | Yes   | Yes       | Advanced coding IDE integration complex tool usage                      |
+| Qwen3 Coder Next Q8_0        | 84        | Yes       | No     | 256000           | Yes   | Yes       | Advanced coding (higher precision quantization)                         |
+| Qwen3 30B A3B Instruct       | 18        | Yes       | No     | 256000           | Yes   | Yes       | Code & general tasks with thinking                                      |
+| Qwen3 Embedding 8B           | 4.7       | No        | No     | 8000             | No    | No        | Text embeddings for RAG semantic search                                 |
+| Qwen3 Embedding 4B           | 2.5       | No        | No     | 8000             | No    | No        | Text embeddings for RAG semantic search                                 |
+| Ministral-3 14B              | 9.1       | Yes       | Yes    | 256000           | Yes   | Yes       | Edge deployment multimodal tasks                                        |
+| Ministral-3 Latest 8B        | 6.0       | Yes       | Yes    | 256000           | Yes   | Yes       | Lightweight multimodal                                                  |
+| Mistral Nemo Latest          | 7.1       | Yes       | No     | 128000           | Yes   | Yes       | Code & reasoning NVIDIA collaboration                                   |
+| LFM2 Latest 24B A2B          | 14        | Yes       | Yes    | 32000            | Yes   | Yes       | Fast on-device inference multimodal                                     |
+| LFM2.5 Thinking Latest       | 0.73      | Yes       | No     | 32000            | Yes   | Yes       | Ultra-fast reasoning edge/NPU                                           |
+| LFM2.5 VL 1.6B BF16          | 3.2       | Yes       | Yes    | 32000            | Yes   | Yes       | Multimodal on-device AI                                                 |
+| GPT-OSS 120B                 | 65        | Yes       | No     | 128000           | Yes   | Yes       | High-reasoning production workloads (MoE)                               |
+| GPT-OSS 20B                  | 13        | Yes       | No     | 128000           | Yes   | Yes       | Local/specialized fine-tuning friendly                                  |
+| GLM-4.7 Flash Latest         | 19        | Yes       | No     | 200000           | Yes   | Yes       | Coding agentic workflows chat (MoE)                                     |
+| TranslateGemma 27B           | 17        | No        | No     | 2000             | No    | No        | High-fidelity translation 100+ languages                                |
+| Nomic Embed Text Latest      | 0.27      | No        | No     | 8000             | No    | No        | Lightweight text embeddings                                             |
+| FireRed-OCR Q4_K_M           | 1.6       | No        | Yes    | 4000             | No    | No        | Document parsing pixel-precise OCR tables/LaTeX                         |
+| LFM2 8B A1B Q4_K_M           | 5.0       | Yes       | Yes    | 32000            | Yes   | Yes       | Fast on-device inference multimodal                                     |
+| Qwen3.5 4B Bot Latest        | 3.4       | Yes       | Yes    | 256000           | Yes   | Yes       | Chat-optimized lightweight model                                        |
