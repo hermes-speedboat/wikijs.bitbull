@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-14T17:20:45.396Z
+date: 2026-03-20T09:10:21.196Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -170,3 +170,55 @@ PY
   }
 }
 ```
+
+### 2026-03-20 10:10
+
+````
+NVIDIA DGX Spark - Hardware Specifications
+
+Core Components:
+- SoC: NVIDIA GB10 Grace Blackwell Superchip
+- CPU: 20-Core ARM (10x Cortex-X925 + 10x Cortex-A725)
+- GPU: NVIDIA Blackwell Architecture
+- CUDA Cores: 6,144
+- Tensor Cores: 5. Generation
+- RT Cores: 4. Generation
+- Memory: 128 GB LPDDR5x (unified)
+- Memory Bandwidth: 273 GB/s (256-bit @ 4266 MHz)
+- Storage: 1 TB oder 4 TB NVMe M.2 (Self-Encrypting)
+
+Performance:
+- AI Compute: Bis zu 1,000 TOPS (Inferenz)
+- FP4 Performance: Bis zu 1 PFLOP (mit Sparsity)
+- Copy Engines: 2 (simultane Datenübertragungen)
+- Max Model Size: Bis zu 200 Milliarden Parameter (Single) / 405B (Dual)
+
+Connectivity & I/O:
+- Ethernet: 1x RJ-45 (10 GbE)
+- High-Speed Network: 2x QSFP (ConnectX-7 Smart NIC)
+- Wireless: Wi-Fi 7, Bluetooth 5.4
+- USB: 4x USB Type-C (einer mit Power Delivery)
+- Video: 1x HDMI 2.1a (multichannel audio)
+- Video Processing: 1x NVENC, 1x NVDEC
+
+Physical:
+- Form Factor: Small Form Factor (SFF)
+- Dimensions: 150 mm (L) x 150 mm (W) x 50.5 mm (H)
+- Weight: 1.2 kg (2.6 lbs)
+- Power Supply: 240W extern (inklusive)
+- TDP (GB10): 140W
+- Available for other: 100W (ConnectX-7, Wi-Fi, SSD, etc.)
+
+Environmental:
+- Operating Temp: 5°C bis 30°C (41°F bis 86°F)
+- Humidity: 10% bis 90% (non-condensing)
+- Altitude: Bis zu 3,000 Meter (9,843 feet)
+
+Pricing:
+- Founders Edition: ~$4,699 (ca. 4,500 CHF)
+- Pre-installed: NVIDIA AI Software Stack
+
+Zusammenfassung: DGX Spark ist ein kompakter Desktop-AI-Supercomputer, der lokal LLMs bis zu 200B Parameter laufen kann. Perfekt für Entwicklung, Fine-Tuning und Inferenz ohne Cloud-Zugang.
+
+Quelle: NVIDIA DGX Spark User Guide (https://docs.nvidia.com/dgx/dgx-spark/hardware.html)
+````
