@@ -2,14 +2,14 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-22T09:53:33.374Z
+date: 2026-03-22T09:54:12.579Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
 ---
 
 # Summary
-The mentioned projects:
+The mentioned projects (March, 1. 2026):
 
 | Project      | Language          | Deployment             | RAM        | Startup | Focus                     | Interfaces                   | Admin        | Tools / Features                         | MCP     | Security   | GitHub  |
 | ------------ | ----------------- | ---------------------- | ---------- | ------- | ------------------------- | ---------------------------- | ------------ | ---------------------------------------- | ------- | ---------- | ------- |
