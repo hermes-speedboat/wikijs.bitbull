@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-12T04:52:53.370Z
+date: 2026-03-22T09:53:33.374Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -13,13 +13,13 @@ The mentioned projects:
 
 | Project      | Language          | Deployment             | RAM        | Startup | Focus                     | Interfaces                   | Admin        | Tools / Features                         | MCP     | Security   | GitHub  |
 | ------------ | ----------------- | ---------------------- | ---------- | ------- | ------------------------- | ---------------------------- | ------------ | ---------------------------------------- | ------- | ---------- | ------- |
-| **ZeroClaw** | Rust              | Static binary / Docker | <5 MB      | <0.01 s | Ultra-light runtime       | CLI + chat apps              | CLI + TOML   | Shell, browser, git, HTTP, vector memory | Yes     | Strong     | ⭐ ~24k  |
-| **PicoClaw** | Go                | Single binary          | <10 MB     | <1 s    | Edge / SBC                | CLI + chat apps              | YAML / JSON  | Cron, file ops, search, SQLite memory    | Planned | Basic      | ⭐ ~23k  |
-| **nanobot**  | Python            | pip / Docker           | ~10–100 MB | <30 s   | Research prototype        | Chat apps + email            | JSON + CLI   | Web, mail, shell, scheduler              | Yes     | Medium     | ⭐ ~30k  |
-| **TinyClaw** | TypeScript        | Node / Docker          | ~200 MB    | <5 s    | Multi-agent orchestration | Discord, WhatsApp, Telegram  | JSON + CLI   | Agent routing, parallel agents           | No      | Low        | ⭐ ~3k   |
-| **NanoClaw** | TypeScript        | Docker / Node          | 100–500 MB | ~30 s   | Container assistant       | Many chat apps               | JSON + CLI   | Web, Gmail, scheduler                    | Yes     | Medium     | ⭐ ~20k  |
-| **OpenClaw** | TypeScript / Node | Node / Docker          | >1 GB      | ~500 s  | Full assistant            | CLI + many chat apps         | CLI + config | Browser automation, plugins              | Yes     | Low-Medium | ⭐ ~40k+ |
-| **IronClaw** | Rust              | Binary + Docker        | >1 GB      | Cloud   | Security-first            | CLI, Web UI, Slack, Telegram | Web UI + CLI | WASM sandbox tools                       | Yes     | Very high  | ⭐ ~6k   |
+| [**ZeroClaw**](https://github.com/zeroclaw-labs/zeroclaw) | Rust              | Static binary / Docker | <5 MB      | <0.01 s | Ultra-light runtime       | CLI + chat apps              | CLI + TOML   | Shell, browser, git, HTTP, vector memory | Yes     | Strong     | ⭐ ~24k  |
+| [**PicoClaw**](https://github.com/sipeed/picoclaw) | Go                | Single binary          | <10 MB     | <1 s    | Edge / SBC                | CLI + chat apps              | YAML / JSON  | Cron, file ops, search, SQLite memory    | Planned | Basic      | ⭐ ~23k  |
+| [**Nanobot**](https://github.com/HKUDS/nanobot)  | Python            | pip / Docker           | ~10–100 MB | <30 s   | Research prototype        | Chat apps + email            | JSON + CLI   | Web, mail, shell, scheduler              | Yes     | Medium     | ⭐ ~30k  |
+| [**TinyClaw**](https://github.com/TinyAGI/tinyagi) | TypeScript        | Node / Docker          | ~200 MB    | <5 s    | Multi-agent orchestration | Discord, WhatsApp, Telegram  | JSON + CLI   | Agent routing, parallel agents           | No      | Low        | ⭐ ~3k   |
+| [**NanoClaw**](https://github.com/qwibitai/nanoclaw) | TypeScript        | Docker / Node          | 100–500 MB | ~30 s   | Container assistant       | Many chat apps               | JSON + CLI   | Web, Gmail, scheduler                    | Yes     | Medium     | ⭐ ~20k  |
+| [**OpenClaw**](https://github.com/openclaw/openclaw) | TypeScript / Node | Node / Docker          | >1 GB      | ~500 s  | Full assistant            | CLI + many chat apps         | CLI + config | Browser automation, plugins              | Yes     | Low-Medium | ⭐ ~40k+ |
+| [**IronClaw**](https://github.com/nearai/ironclaw) | Rust              | Binary + Docker        | >1 GB      | Cloud   | Security-first            | CLI, Web UI, Slack, Telegram | Web UI + CLI | WASM sandbox tools                       | Yes     | Very high  | ⭐ ~6k   |
 
 
 **Short Conclusion**
