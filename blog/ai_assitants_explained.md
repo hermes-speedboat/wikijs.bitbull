@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-03-22T10:53:37.083Z
+date: 2026-03-22T10:57:55.331Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -26,7 +26,9 @@ The mentioned projects (March, 22. 2026):
 | [**IronClaw**](https://github.com/nearai/ironclaw)       | Rust              | Binary + Docker        | >1 GB         | Cloud     | Security-first            | CLI, Web UI, Slack, Telegram     | Web UI + CLI   | WASM sandbox tools                       | Yes     | Very High      | ⭐ ~11k    |
 
 ## Commonalities: Architecture and Workflow
-All these frameworks share the same layered architecture. Messages enter via **input channels** (chat platforms, CLI, webhooks), then an **Agent** process gathers context (including the long-term **Memory/Database**), calls an LLM for planning, and optionally invokes **Tools/APIs**. The response is sent back through the **output channels**. They typically support background schedules, memory (file- or SQL-based), and pluggable tools (web search, code execution, etc.). The following diagram summarizes the pattern:
+All these frameworks share the same layered architecture. Messages enter via **input channels** (chat platforms, CLI, webhooks), then an **Agent** process gathers context (including the long-term **Memory/Database**), calls an LLM for planning, and optionally invokes **Tools/APIs**. The response is sent back through the **output channels**. 
+They typically support background schedules, memory (file- or SQL-based), and pluggable tools (web search, code execution, etc.). 
+The following diagram summarizes the pattern:
 
 ```mermaid
 graph LR
@@ -89,7 +91,7 @@ These projects all allow fully **self-hosted** operation (e.g. on a Raspberry Pi
 - **Status:** Smaller codebase than OpenClaw, ~25k stars on GitHub.  
 
 ## n8n-Claw
-**Sources:** Official GitHub (freddy-schuetz/n8n-claw)【63†L299-L303】.  
+**Sources:** Official GitHub (freddy-schuetz/n8n-claw).  
 - **Description:** A self-hosted AI assistant built entirely on the n8n automation platform. It combines n8n workflows, a PostgreSQL database, and Anthropic Claude to create an agent similar to OpenClaw, all configurable through no-code flows and a web UI【63†L299-L303】.  
 - **Hardware:** Runs on a Linux VM or server with Docker. n8n-claw comes as a setup script that installs n8n, Postgres, and related services.  
 - **Components:**  
@@ -124,9 +126,9 @@ These projects all allow fully **self-hosted** operation (e.g. on a Raspberry Pi
   - **Channels:** Supports CLI and Telegram out-of-the-box (others via proxy).  
   - **Memory:** JSONL/SQLite stores; can use SQLite for index-search.  
   - **Security:** Basic; intended for hobbyist/edge use, not hardened.  
-- **Performance:** Boot in <1 second, <10MB RAM usage (project goals mention 10–20MB). 99% smaller memory footprint than OpenClaw【37†L378-L386】.  
+- **Performance:** Boot in <1 second, <10MB RAM usage (project goals mention 10–20MB). 99% smaller memory footprint than OpenClaw.  
 - **Features:** Minimal core (cron jobs, file ops, HTTP, vector memory). Recent updates added MCP tool support, more channels (Matrix, IRC, Discord), and a system tray UI for desktop.  
-- **Status:** Rapidly growing (~26k stars). Focus is extreme efficiency for IoT/edge scenarios【37†L378-L386】.
+- **Status:** Rapidly growing (~26k stars). Focus is extreme efficiency for IoT/edge scenarios.
 
 ## Nanobot (HKU)
 **Sources:** Nanobot GitHub.  
@@ -142,29 +144,29 @@ These projects all allow fully **self-hosted** operation (e.g. on a Raspberry Pi
 - **Status:** ~35k stars. Focused on readability and ease of modification.
 
 ## MMClaw
-**Sources:** MMClaw GitHub【25†L282-L288】【67†L378-L386】.  
+**Sources:** MMClaw GitHub.  
 - **Description:** A “pipclaw” renamed to MMClaw, this is a pure-Python agent kernel. It strips away all non-Python dependencies (no Node.js or Docker needed) to make the codebase entirely transparent. It serves as both a ready-to-use assistant and an educational reference for building agents.  
 - **Hardware:** Runs on Windows/macOS/Linux with Python 3.8+. Very light requirements.  
 - **Components:**  
   - **Python Core:** Everything is in one Python process.  
-  - **Channels:** CLI/Terminal interface plus chat connectors (Telegram, WhatsApp via a Node bridge, and Chinese platforms like Feishu, QQ)【67†L378-L386】.  
+  - **Channels:** CLI/Terminal interface plus chat connectors (Telegram, WhatsApp via a Node bridge, and Chinese platforms like Feishu, QQ).  
   - **Memory:** Configurable (e.g. JSON file) per workspace; persistent via local files.  
   - **Security:** Basic (relying on OS user permissions); not sandboxed.  
 - **Features:** Built-in skills include web search, browser automation (Playwright), image/PDF analysis, and a simple knowledge graph for skills.  
 - **Setup:** Easy installation with `pip install mmclaw`; run with `mmclaw run`.  
-- **Status:** ~124 stars. Emphasizes clarity (core code ~1000 LOC)【25†L282-L288】 and ease of understanding.
+- **Status:** ~124 stars. Emphasizes clarity (core code ~1000 LOC) and ease of understanding.
 
 ## LightAgent
-**Sources:** LightAgent GitHub【65†L328-L332】【65†L344-L347】.  
-- **Description:** A lightweight Python framework for building agentic applications. It provides built-in long-term memory (`mem0`), tool integration, and an internal “Tree of Thought” reasoning module. It supports multi-agent collaboration (called LightSwarm) and self-learning abilities for agents【65†L328-L332】.  
+**Sources:** LightAgent GitHub.  
+- **Description:** A lightweight Python framework for building agentic applications. It provides built-in long-term memory (`mem0`), tool integration, and an internal “Tree of Thought” reasoning module. It supports multi-agent collaboration (called LightSwarm) and self-learning abilities for agents.  
 - **Hardware:** Any Python-capable system. No C extensions or external frameworks are required (just Python 3.10+).  
 - **Components:**  
-  - **Python Core:** Minimalist design (only ~1000 lines of code)【65†L344-L347】.  
+  - **Python Core:** Minimalist design (only ~1000 lines of code).  
   - **Channels:** Interact via command-line or integrate with chat apps (it can stream responses in OpenAI format to chat UIs).  
   - **Memory:** Supports per-user session memory with a modular memory backend (`mem0`).  
   - **Security:** Basic (agents run in-process). Emphasis is on development ease rather than hardened security.  
 - **Features:** Tool support (MCP protocol), multi-model (OpenAI, Baichuan, DeepSeek, etc.), and automatic tool generation from API docs. Agents can refine themselves over time.  
-- **Status:** ~737 stars. Marketed as “production-level open-source agent development framework”【65†L328-L332】.
+- **Status:** ~737 stars. Marketed as “production-level open-source agent development framework”.
 
 ## IronClaw
 **Sources:** IronClaw GitHub (nearai/ironclaw).  
