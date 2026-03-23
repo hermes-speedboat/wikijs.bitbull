@@ -2,7 +2,7 @@
 title: Install Nanobot
 description: Install Nanobot on Rocky10 with some features
 published: true
-date: 2026-03-13T20:56:33.768Z
+date: 2026-03-23T05:39:15.549Z
 tags: nanobot, ai
 editor: markdown
 dateCreated: 2026-03-13T06:20:01.705Z
@@ -326,6 +326,20 @@ systemctl --user restart nanobot-gateway
 * reload nanobot config
 ```bash
 systemctl --user restart nanobot-gateway
+```
+
+## Hardeing notes
+Here you can restrict nanobot to only assess files withing its workspace
+PathAppend is an applend to PATH, so you can put your tools under workspace
+* `vi .nanobot/config.json`
+```
+  "tools": {
+    "exec": {
+      "timeout": 60,
+      "pathAppend": "/home/nanobot/.nanobot/workspace/bin"
+    },
+    "restrictToWorkspace": true,
+[...]
 ```
 
 ## Some Ideas of what you can do
