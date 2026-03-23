@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-23T05:06:24.000Z
+date: 2026-03-23T05:08:03.413Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -329,30 +329,4 @@ Grund:
 • Meine Dateizugriffe sind auf ~/.nanobot/workspace beschränkt
 • Die config.json liegt in ~/.nanobot/config.json (außerhalb des Workspaces)
 • Das ist eine Sicherheitsfunktion (restrictToWorkspace: true)
-````
-
-### 2026-03-21 14:54
-
-````
-Ein junger Mann flanirt voll innerer Unruhe
-durch die nachtllichen StraBen St. Petersburgs
-und begegnet einer schonen jungen Frau:
-Nastjenka. Beide sind einsam, sie treffen sich
-wieder, vier Nichte lang, um zu reden - er
-uber sein selbstgewahltes Leben als sonder-
-lingshafter Traumer, sie uber eine unerfullte
-Liebe. Die beiden kommen sich naher.
-````
-
-### 2026-03-23 06:06
-
-````
-| Function         | Status | Command                    |
-|------------------|:------:|----------------------------|
-| Detect YubiKey   |   ✔️    | ykman info              |
-| Change PIN       |   ✔️    | ykman otp pin           |
-| SSH Keys         |   ✔️    | ykman piv generate-key  |
-| GPG Keys         |   ✔️    | gpg --card-edit         |
-| 2FA Login        |   ✔️    | pam_yubico              |
-| NFC Test         |   ✔️    | Smartphone app            |
 ````
