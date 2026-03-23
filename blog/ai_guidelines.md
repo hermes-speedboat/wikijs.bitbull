@@ -2,7 +2,7 @@
 title: AI Guidlines for IT Admins
 description: How get aware of risks when using AI
 published: true
-date: 2026-03-10T14:08:45.776Z
+date: 2026-03-23T14:21:55.536Z
 tags: helpers, blog, ai
 editor: markdown
 dateCreated: 2026-03-10T14:08:45.776Z
@@ -62,6 +62,7 @@ dateCreated: 2026-03-10T14:08:45.776Z
 ## Auditing
 
 - **Regular searches** using AI for potential leaks or exposure of internal information.
+  - Canary Tokens may help?
 - **Auditing** of employees’ ChatGPT accounts by mutual agreement:
   - Awareness and training on the use of AI tools.
   - Promotion of an open error culture.
