@@ -2,7 +2,7 @@
 title: Setup Hardeing
 description: Hardened Setup of Nanobot on Rocky 10
 published: true
-date: 2026-03-23T06:23:50.929Z
+date: 2026-03-23T06:24:23.188Z
 tags: nanobot, rocky10
 editor: markdown
 dateCreated: 2026-03-23T06:23:01.505Z
