@@ -2,7 +2,7 @@
 title: Setup Hardeing
 description: Hardened Setup of Nanobot on Rocky 10
 published: true
-date: 2026-03-23T06:23:01.505Z
+date: 2026-03-23T06:23:50.929Z
 tags: nanobot, rocky10
 editor: markdown
 dateCreated: 2026-03-23T06:23:01.505Z
@@ -81,7 +81,7 @@ cat > /opt/nanobot/etc/config.json << 'EOF'
 {
   "restrictToWorkspace": true,
   "tools.exec.enable": true,
-  "allowFrom": ["221972548"]
+  "allowFrom": ["xxx"]
 }
 EOF
 
