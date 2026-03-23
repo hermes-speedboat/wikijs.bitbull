@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-23T05:08:03.413Z
+date: 2026-03-23T06:16:56.417Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -329,4 +329,265 @@ Grund:
 • Meine Dateizugriffe sind auf ~/.nanobot/workspace beschränkt
 • Die config.json liegt in ~/.nanobot/config.json (außerhalb des Workspaces)
 • Das ist eine Sicherheitsfunktion (restrictToWorkspace: true)
+````
+
+### 2026-03-23 07:16
+
+````
+# 🐈 Nanobot Setup Guide - Rocky Linux 10 Minimal
+
+## 📋 Überblick
+
+Dieses Setup ist für **Rocky Linux 10 Minimal** optimiert und erfüllt alle Sicherheitsanforderungen.
+
+## 📁 Ordnerstruktur
+
+```bash
+/opt/nanobot/
+├── etc/              # Konfiguration (nur lesbar)
+├── workspace/        # Arbeitsverzeichnis (writable)
+├── spool/           # Cron, Logs, Media, History
+│   ├── cron/
+│   ├── logs/
+│   ├── media/
+│   └── history/
+└── bin/             # Binäre Dateien
+```
+
+## 🔧 Installation
+
+### 1. User erstellen
+
+```bash
+# User 'nanobot' erstellen (ohne Shell für Sicherheit)
+useradd -r -s /sbin/nologin -m nanobot
+
+# Gruppen erstellen
+groupadd nanobot
+usermod -aG nanobot root
+
+# Verzeichnisstruktur erstellen
+mkdir -p /opt/nanobot/{etc,workspace,spool/{cron,logs,media,history},bin}
+```
+
+### 2. Rechte setzen
+
+```bash
+# Hauptverzeichnis (nur root:nanobot)
+chown -R root:nanobot /opt/nanobot
+chmod -R 750 /opt/nanobot
+
+# Workspace (writable)
+chmod -R u+rwX,g+rxX /opt/nanobot/workspace
+
+# Spool (writable)
+chmod -R u+rwX,g+rxX /opt/nanobot/spool
+
+# Config (nur lesbar)
+chmod -R 440 /opt/nanobot/etc
+```
+
+### 3. Python & Dependencies
+
+```bash
+# UV installieren (empfohlen)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# uv zu PATH hinzufügen
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
+# nanobot installieren
+uv sync --frozen
+
+# Config erstellen
+cat > /opt/nanobot/etc/config.json << 'EOF'
+{
+  "restrictToWorkspace": true,
+  "tools.exec.enable": true,
+  "allowFrom": ["221972548"]
+}
+EOF
+
+# Config Rechte
+chmod 600 /opt/nanobot/etc/config.json
+```
+
+### 4. Systemd Service
+
+```bash
+cat > /etc/systemd/system/nanobot.service << 'EOF'
+[Unit]
+Description=Nanobot AI Agent
+After=network.target
+
+[Service]
+Type=simple
+User=nanobot
+Group=nanobot
+WorkingDirectory=/opt/nanobot/workspace
+Environment="PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin"
+Environment="PYTHONPATH=/opt/nanobot"
+ExecStart=/opt/nanobot/.venv/bin/nanobot
+Restart=on-failure
+RestartSec=10
+StandardOutput=append:/opt/nanobot/spool/logs/nanobot.log
+StandardError=append:/opt/nanobot/spool/logs/nanobot-error.log
+
+# Sicherheitsanforderungen
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+NoNewPrivileges=true
+ReadOnlyPaths=/opt/nanobot/etc
+ReadWritePaths=/opt/nanobot/workspace /opt/nanobot/spool
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Service aktivieren
+systemctl daemon-reload
+systemctl enable nanobot
+systemctl start nanobot
+```
+
+### 5. Logging konfigurieren
+
+```bash
+# Logrotate für nanobot
+cat > /etc/logrotate.d/nanobot << 'EOF'
+/opt/nanobot/spool/logs/*.log {
+    daily
+    missingok
+    rotate 7
+    compress
+    delaycompress
+    notifempty
+    create 640 root nanobot
+    postrotate
+        systemctl reload nanobot
+    endscript
+}
+EOF
+```
+
+## 🔐 Sicherheitschecks
+
+```bash
+# Verifiziere die Installation
+echo "=== User ==="
+id nanobot
+
+echo "=== Verzeichnisrechte ==="
+ls -la /opt/nanobot/
+
+echo "=== Config Rechte ==="
+ls -la /opt/nanobot/etc/config.json
+
+echo "=== Service Status ==="
+systemctl status nanobot
+
+echo "=== Logs ==="
+tail -f /opt/nanobot/spool/logs/nanobot.log
+```
+
+## 📊 Logging
+
+Jeder Tool-Aufruf wird logging:
+
+```bash
+# Log-Level anpassen
+echo 'LOG_LEVEL="INFO"' >> /opt/nanobot/etc/config.json
+
+# Logs prüfen
+tail -f /opt/nanobot/spool/logs/nanobot.log
+```
+
+## 🛠️ Wartung
+
+### Service stoppen/starten
+
+```bash
+systemctl stop nanobot
+systemctl start nanobot
+systemctl restart nanobot
+```
+
+### Logs ansehen
+
+```bash
+journalctl -u nanobot -f
+tail -f /opt/nanobot/spool/logs/nanobot.log
+```
+
+### Updates
+
+```bash
+# Nanobot aktualisieren
+cd /opt/nanobot/workspace
+uv sync --upgrade
+
+# Service neu starten
+systemctl restart nanobot
+```
+
+## 🚀 Starten
+
+```bash
+# Erstes Mal
+systemctl start nanobot
+
+# Status prüfen
+systemctl status nanobot
+
+# Logs ansehen
+journalctl -u nanobot -n 50
+```
+
+## 📝 Best Practices
+
+1. **Regelmäßige Updates**: `uv sync --upgrade`
+2. **Logs prüfen**: Täglich `journalctl -u nanobot`
+3. **Rechte prüfen**: Monatlich `ls -la /opt/nanobot/`
+4. **Backup**: `/opt/nanobot/etc/` regelmäßig backupen
+
+## 🔍 Troubleshooting
+
+### Service startet nicht?
+
+```bash
+# Logs prüfen
+journalctl -u nanobot -xe
+
+# Service-File prüfen
+systemctl cat nanobot
+
+# Rechte prüfen
+id nanobot
+ls -la /opt/nanobot/etc/config.json
+```
+
+### Config invalid?
+
+```bash
+# Syntax prüfen
+cat /opt/nanobot/etc/config.json | python -m json.tool
+
+# Reload
+systemctl daemon-reload
+systemctl restart nanobot
+```
+
+## 📞 Support
+
+Fragen oder Probleme? Prüfe zuerst die Logs:
+- `/opt/nanobot/spool/logs/nanobot.log`
+- `/opt/nanobot/spool/logs/nanobot-error.log`
+
+---
+
+**Erstellt:** 2026-03-23
+**Für:** Rocky Linux 10 Minimal
+**Status:** ✅ Production Ready
 ````
