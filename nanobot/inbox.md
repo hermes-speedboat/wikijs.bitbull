@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-23T06:19:59.102Z
+date: 2026-03-26T19:21:21.961Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -254,3 +254,31 @@ Grund:
 • Das ist eine Sicherheitsfunktion (restrictToWorkspace: true)
 ````
 
+### 2026-03-26 20:21
+
+````
+Fahrenheit
+F
+
+Wirtschaft für alle GmbH
+iPad5/344848-FF
+Quittung R716799.129335
+A716799.130106
+26.03.26, 20:00
+
+Fahrenheit, Tisch 112
+
+3 Windstill NEIPA alkoholfrei  7.00  21.00
+2 Quöllfrisch hell 5dl          7.50  15.00
+
+Summe CHF 36.00
+
+Cash CHF 36.00
+
+MwSt. 8.1% auf 33.30: CHF 2.70 (36.00)
+
+MwSt.-Nummer:CHE-112.469.166 inkludiert
+Besten Dank für deinen Besuch!
+8400 Winterthur
+Lightspeed (K) 26.10.1.42889
+````
