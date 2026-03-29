@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-26T19:21:21.961Z
+date: 2026-03-29T13:26:00.396Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -281,4 +281,12 @@ MwSt.-Nummer:CHE-112.469.166 inkludiert
 Besten Dank für deinen Besuch!
 8400 Winterthur
 Lightspeed (K) 26.10.1.42889
+````
+
+### 2026-03-29 15:26
+
+````
+REGA 2026-Gönnerausweis-Karte
+Christian Rüttimann
+Helper ID Karte
 ````
