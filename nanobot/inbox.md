@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-29T13:27:13.872Z
+date: 2026-03-30T03:48:24.338Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -238,7 +238,6 @@ Ollama LLMs - Capabilities Overview (2026-03-20)
 | Nomic Embed Text Latest      | 0.27      | No        | No     | 8000             | No    | No        | Lightweight text embeddings                                             |
 | FireRed-OCR Q4_K_M           | 1.6       | No        | Yes    | 4000             | No    | No        | Document parsing pixel-precise OCR tables/LaTeX                         |
 | LFM2 8B A1B Q4_K_M           | 5.0       | Yes       | Yes    | 32000            | Yes   | Yes       | Fast on-device inference multimodal                                     |
-| Qwen3.5 4B Bot Latest        | 3.4       | Yes       | Yes    | 256000           | Yes   | Yes       | Chat-optimized lightweight model                                        |
 
 ### 2026-03-20 11:19
 
