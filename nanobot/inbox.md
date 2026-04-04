@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-04-04T15:34:20.172Z
+date: 2026-04-04T15:35:01.047Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -56,7 +56,7 @@ Am Ende zählt man:
 Wer mehr Punkte hat, gewinnt.
 
 
-### Quantum NFS Firewall Rules / Debugging
+## Quantum NFS Firewall Rules / Debugging
 
 ````
 DMSG:
@@ -84,7 +84,7 @@ root@mail01.~# grep ^10 /etc/fstab
 10.0.7.8:/Q/shares/Mail_Backup_dumps /opt/zimbra/backup nfs _netdev,nofail,vers=3,proto=tcp,mountproto=tcp,noatime,hard,timeo=600,retrans=2,rsize=1048576,wsize=1048576 0 0
 ````
 
-### Crypto Vermögens Steuer Schweiz
+## Crypto Vermögens Steuer Schweiz
 
 🔗 Link zum Berechnen von Cryptos in der Schweizer Steuer Erklärung🇨🇭:
 https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
@@ -96,7 +96,7 @@ https://www.ictax.admin.ch/extern/de.html#/ratelist/2025
 • ✅ In Steuererklärung unter Vermögen deklarieren (am besten Berechnungs Grundlage beilegen)
 
 
-### empty Qdrant Collection 
+## empty Qdrant Collection 
 
 ````
 POST /collections/wiki/points/delete
@@ -107,7 +107,7 @@ POST /collections/wiki/points/delete
 }
 ````
 
-### Qdrant search
+## Qdrant search
 
 ````
 python3 - <<'PY' | curl -X POST "http://rag.domain.tld/collections/wiki/points/search" \
@@ -138,7 +138,7 @@ PY
 }
 ```
 
-### DGX Spark Specs
+## DGX Spark Specs
 NVIDIA DGX Spark - Hardware Specifications
 
 Core Components:
@@ -185,7 +185,7 @@ Pricing:
 
 Quelle: NVIDIA DGX Spark User Guide (https://docs.nvidia.com/dgx/dgx-spark/hardware.html)
 
-### Wasser Kefir - Zucker Merkblatt
+## Wasser Kefir - Zucker Merkblatt
 Wasserkefir - Zucker-Menge pro Liter
 
 Standard-Verhältnis:
@@ -207,7 +207,7 @@ Wichtig:
 - Nach der Fermentation bleibt meist <1% Restzucker übrig
 - Bei kürzerer Fermentationszeit bleibt mehr Zucker im Endprodukt
 
-### Spark Model Overview
+## Spark Model Overview
 Ollama LLMs - Capabilities Overview (2026-03-20)
 
 | Model                         | Size (GB) | Reasoning | Vision | Context (Tokens) | Tools | MCP Agent | Purpose                                                                 |
@@ -242,7 +242,7 @@ Ollama LLMs - Capabilities Overview (2026-03-20)
 ### 2026-03-20 11:19
 
 
-### Tool Test
+## Tool Test
 
 ````
 Nein, ich kann die config.json nicht lesen. 
@@ -312,7 +312,7 @@ Fazit:
 Für eine Ansible-Rolle, die Sie kommerziell und kostenfrei verteilen möchten, ist Apache 2.0 die bessere Wahl. Es gibt keine rechtlichen Risiken, und Sie behalten die Kontrolle über Ihr Projekt.
 ````
 
-### 2026-04-04 17:29
+## 2026-04-04 17:29
 
 📊 Gemma 4 LLMs - Technische Übersicht
 
