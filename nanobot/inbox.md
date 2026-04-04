@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-04-04T15:29:35.530Z
+date: 2026-04-04T15:33:57.778Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -314,7 +314,6 @@ Für eine Ansible-Rolle, die Sie kommerziell und kostenfrei verteilen möchten, 
 
 ### 2026-04-04 17:29
 
-````
 📊 Gemma 4 LLMs - Technische Übersicht
 
 Modell-Überblick
@@ -402,4 +401,3 @@ Die kleinen Modelle (E2B, E4B) verwenden Per-Layer Embeddings zur Parameter-Opti
 • Training Data: Bis Januar 2025
 
 Quelle: Google AI for Developers - Gemma 4 Model Card (2026)
-````
