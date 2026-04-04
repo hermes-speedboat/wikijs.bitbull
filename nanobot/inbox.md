@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-03-31T10:47:12.142Z
+date: 2026-04-04T15:29:35.530Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -310,4 +310,96 @@ Praktische Empfehlung:
 Fazit:
 
 Für eine Ansible-Rolle, die Sie kommerziell und kostenfrei verteilen möchten, ist Apache 2.0 die bessere Wahl. Es gibt keine rechtlichen Risiken, und Sie behalten die Kontrolle über Ihr Projekt.
+````
+
+### 2026-04-04 17:29
+
+````
+📊 Gemma 4 LLMs - Technische Übersicht
+
+Modell-Überblick
+Gemma 4 ist eine Familie von multimodalen Open-Source-Modellen von Google DeepMind mit vier verschiedenen Größen.
+
+🔢 Modell-Spezifikationen
+
+1. Gemma 4 E2B (Edge 2B)
+Eigenschaft          Wert                      
+───────────────────  ──────────────────────────
+Effektive Parameter  2.3B (5.1B mit Embeddings)
+Schichten            35                        
+Sliding Window       512 tokens                
+Context Length       128K tokens               
+Vokabular            262K                      
+Modalitäten          Text, Bild, Audio         
+Vision Encoder       ~150M Parameter           
+Audio Encoder        ~300M Parameter           
+
+2. Gemma 4 E4B (Edge 4B)
+Eigenschaft          Wert                    
+───────────────────  ────────────────────────
+Effektive Parameter  4.5B (8B mit Embeddings)
+Schichten            42                      
+Sliding Window       512 tokens              
+Context Length       128K tokens             
+Vokabular            262K                    
+Modalitäten          Text, Bild, Audio       
+Vision Encoder       ~150M Parameter         
+Audio Encoder        ~300M Parameter         
+
+3. Gemma 4 26B A4B (Mixture-of-Experts)
+Eigenschaft        Wert           
+─────────────────  ───────────────
+Gesamte Parameter  25.2B          
+Aktive Parameter   3.8B (MoE)     
+Schichten          30             
+Sliding Window     1024 tokens    
+Context Length     256K tokens    
+Vokabular          262K           
+Modalitäten        Text, Bild     
+Vision Encoder     ~550M Parameter
+
+4. Gemma 4 31B Dense
+Eigenschaft        Wert           
+─────────────────  ───────────────
+Gesamte Parameter  30.7B          
+Schichten          60             
+Sliding Window     1024 tokens    
+Context Length     256K tokens    
+Vokabular          262K           
+Modalitäten        Text, Bild     
+Vision Encoder     ~550M Parameter
+
+🎯 Kern-Funktionen
+• Hybrid-Attention: Kombiniert lokales Sliding-Window-Attention mit globalem Attention
+• Proportional RoPE (p-RoPE): Für optimierte lange Kontexte
+• Multimodalität: Text, Bilder, Video, Audio (E2B/E4B)
+• Thinking Mode: Schritt-für-Schritt-Reasoning
+• Native System Prompt: Unterstützung für system-Rolle
+• 140+ Sprachen: Multilingual Training
+
+📈 Benchmark-Ergebnisse
+Benchmark          31B    26B A4B  E4B    E2B    Gemma 3 27B
+─────────────────  ─────  ───────  ─────  ─────  ───────────
+MMLU Pro           85.2%  82.6%    69.4%  60.0%  67.6%      
+AIME 2026          89.2%  88.3%    42.5%  37.5%  20.8%      
+LiveCodeBench      80.0%  77.1%    52.0%  44.0%  29.1%      
+Codeforces ELO     2150   1718     940    633    110        
+Vision (MMMU Pro)  76.9%  73.8%    52.6%  44.2%  49.7%      
+Long Context       66.4%  44.1%    25.4%  19.1%  13.5%      
+
+🔧 Sampling-Parameter
+• temperature=1.0
+• top_p=0.95
+• top_k=64
+
+💡 Per-Layer Embeddings (PLE)
+Die kleinen Modelle (E2B, E4B) verwenden Per-Layer Embeddings zur Parameter-Optimierung für On-Device-Deployments.
+
+📦 Lizenz & Verfügbarkeit
+• Lizenz: Apache 2.0
+• Hugging Face: google/gemma-4
+• GitHub: google-gemma
+• Training Data: Bis Januar 2025
+
+Quelle: Google AI for Developers - Gemma 4 Model Card (2026)
 ````
