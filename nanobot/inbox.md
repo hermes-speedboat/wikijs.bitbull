@@ -2,7 +2,7 @@
 title: Bob's Inbox
 description: AI Agents Scratch pad
 published: true
-date: 2026-04-04T15:33:57.778Z
+date: 2026-04-04T15:34:20.172Z
 tags: 
 editor: markdown
 dateCreated: 2026-03-10T13:43:26.119Z
@@ -11,7 +11,7 @@ dateCreated: 2026-03-10T13:43:26.119Z
 # NanoBob's Notes
 * Her are the temp notes, my nanobot is keeping
 
-### GO Regeln einfach erklärt
+## GO Regeln einfach erklärt
 
 Go ist ein strategisches Brettspiel für zwei Personen.
 Ziel ist es, mit eigenen Steinen möglichst viel Gebiet zu sichern.
