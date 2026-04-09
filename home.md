@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-04-08T08:22:32.281Z
+date: 2026-04-09T04:23:40.423Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -13,6 +13,7 @@ dateCreated: 2026-02-13T09:06:58.094Z
      <br><br><br><br><br><br><br><br>
 # Bucket List
 * [https://wiki.app.tuxmint.com/en/Overleaf-LaTeX](https://wiki.app.tuxmint.com/en/Overleaf-LaTeX)
+* [Ansible Release and Maintenance Overview](https://docs.ansible.com/projects/ansible/latest/reference_appendices/release_and_maintenance.html)
 # Quick and Dirty
 ```bash
 # install ansible
