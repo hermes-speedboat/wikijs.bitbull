@@ -2,7 +2,7 @@
 title: network
 description: network related
 published: true
-date: 2026-02-25T05:52:43.850Z
+date: 2026-04-09T06:09:56.862Z
 tags: cmd, helpers, networking
 editor: markdown
 dateCreated: 2026-02-13T09:07:06.470Z
@@ -59,6 +59,25 @@ ssh-keygen -c -C 'migration:rundeck@host' -f ssh/id_rsa_migration
 # Enter passphrase:
 # Old comment: rundeck@host
 # Comment 'migration:rundeck@host' applied
+```
+
+## Change and verify SSH Private Key Passphrase
+Its best practice to change passphrase of keys on a regular base.
+This is how you can change and verify the passphrase.
+```bash
+[chris@xxx ~]$ ssh-keygen -p -f ~/.ssh/id_ed25519
+Enter old passphrase: 
+Key has comment 'chris@control.sun.bitbull.ch'
+Enter new passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved with the new passphrase.
+
+[chris@xxx ~]$ ssh-add -D
+All identities removed.
+
+[chris@xxx ~]$ ssh-add ~/.ssh/id_ed25519
+Enter passphrase for /home/chris/.ssh/id_ed25519: 
+Identity added: /home/chris/.ssh/id_ed25519 (chris@xxx.domain.tld)
 ```
 
 ## Keychain / Ansible SSH Private Keys
