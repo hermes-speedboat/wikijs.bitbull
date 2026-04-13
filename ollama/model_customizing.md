@@ -2,14 +2,10 @@
 title: Customize Models
 description: 
 published: true
-date: 2026-04-13T15:41:51.175Z
+date: 2026-04-13T15:42:11.301Z
 tags: ai, ollama
 editor: markdown
 dateCreated: 2026-04-13T15:41:51.175Z
----
-
-Here is a **second Wiki.js article** focused on *customizing models with Ollama*, structured cleanly and aligned with real Modelfile behavior and your example.
-
 ---
 
 # Ollama: Customizing Models with Modelfile
