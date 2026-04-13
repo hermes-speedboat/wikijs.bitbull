@@ -2,7 +2,7 @@
 title: Bugs & Fixes
 description: 
 published: true
-date: 2026-04-13T15:25:38.623Z
+date: 2026-04-13T15:29:51.890Z
 tags: bugfix, ai, ollama
 editor: markdown
 dateCreated: 2026-04-13T15:24:56.172Z
@@ -234,7 +234,7 @@ success
 
 ---
 
-## TL;DR
+## Quick Fix
 
 ```bash
 ollama show --modelfile <model> > Modelfile
