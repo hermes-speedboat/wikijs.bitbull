@@ -2,13 +2,13 @@
 title: Bugs & Fixes
 description: 
 published: true
-date: 2026-04-13T15:24:56.172Z
+date: 2026-04-13T15:25:38.623Z
 tags: bugfix, ai, ollama
 editor: markdown
 dateCreated: 2026-04-13T15:24:56.172Z
 ---
 
-# Ollama: Fix `` `unable to load model` (GGUF / Qwen3.5)
+# Ollama: Fix `500 Internal Server Error` & `unable to load model` (GGUF / Qwen3.5)
 
 ## Overview
 
