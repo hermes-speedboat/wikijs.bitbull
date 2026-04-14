@@ -1,8 +1,8 @@
 ---
 title: Bugs & Fixes
 description: 
-published: true
-date: 2026-04-13T15:29:51.890Z
+published: false
+date: 2026-04-14T04:28:42.424Z
 tags: bugfix, ai, ollama
 editor: markdown
 dateCreated: 2026-04-13T15:24:56.172Z
