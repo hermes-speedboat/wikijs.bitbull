@@ -2,7 +2,7 @@
 title: Sitemap
 description: All Pages of Bitbull Wiki
 published: true
-date: 2026-04-15T07:42:37.227Z
+date: 2026-04-15T07:44:57.783Z
 tags: 
 editor: code
 dateCreated: 2026-04-15T07:42:37.227Z
@@ -15,103 +15,3 @@ dateCreated: 2026-04-15T07:42:37.227Z
   <div id="summary" style="margin: 1rem 0; font-weight: 600;"></div>
   <ul id="sitemap-list" style="padding-left: 1.25rem;"></ul>
 </div>
-
-<script>
-(async function () {
-  const statusEl = document.getElementById('status');
-  const summaryEl = document.getElementById('summary');
-  const listEl = document.getElementById('sitemap-list');
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, function (m) {
-      return ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      })[m];
-    });
-  }
-
-  try {
-    const res = await fetch('/sitemap.xml', {
-      headers: { 'Accept': 'application/xml, text/xml, */*' }
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status} ${res.statusText}`);
-    }
-
-    const xmlText = await res.text();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(xmlText, 'application/xml');
-
-    const parserError = xml.querySelector('parsererror');
-    if (parserError) {
-      throw new Error('Invalid XML returned by sitemap.xml');
-    }
-
-    const urlNodes = [...xml.querySelectorAll('url')];
-    const sitemapNodes = [...xml.querySelectorAll('sitemap')];
-
-    statusEl.style.display = 'none';
-    listEl.innerHTML = '';
-
-    if (urlNodes.length > 0) {
-      summaryEl.textContent = `Found ${urlNodes.length} URL entr${urlNodes.length === 1 ? 'y' : 'ies'}.`;
-
-      urlNodes.forEach((node) => {
-        const loc = node.querySelector('loc')?.textContent?.trim() || '';
-        const lastmod = node.querySelector('lastmod')?.textContent?.trim() || '';
-        const changefreq = node.querySelector('changefreq')?.textContent?.trim() || '';
-        const priority = node.querySelector('priority')?.textContent?.trim() || '';
-
-        const li = document.createElement('li');
-        li.style.marginBottom = '0.75rem';
-
-        li.innerHTML = `
-          <div>
-            <a href="${escapeHtml(loc)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc)}</a>
-          </div>
-          <div style="font-size: 0.9em; color: #666;">
-            ${lastmod ? `lastmod: ${escapeHtml(lastmod)} ` : ''}
-            ${changefreq ? `| changefreq: ${escapeHtml(changefreq)} ` : ''}
-            ${priority ? `| priority: ${escapeHtml(priority)}` : ''}
-          </div>
-        `;
-
-        listEl.appendChild(li);
-      });
-    } else if (sitemapNodes.length > 0) {
-      summaryEl.textContent = `Found ${sitemapNodes.length} sitemap entr${sitemapNodes.length === 1 ? 'y' : 'ies'}.`;
-
-      sitemapNodes.forEach((node) => {
-        const loc = node.querySelector('loc')?.textContent?.trim() || '';
-        const lastmod = node.querySelector('lastmod')?.textContent?.trim() || '';
-
-        const li = document.createElement('li');
-        li.style.marginBottom = '0.75rem';
-
-        li.innerHTML = `
-          <div>
-            <a href="${escapeHtml(loc)}" target="_blank" rel="noopener noreferrer">${escapeHtml(loc)}</a>
-          </div>
-          <div style="font-size: 0.9em; color: #666;">
-            ${lastmod ? `lastmod: ${escapeHtml(lastmod)}` : ''}
-          </div>
-        `;
-
-        listEl.appendChild(li);
-      });
-    } else {
-      summaryEl.textContent = 'No <url> or <sitemap> entries found.';
-    }
-  } catch (err) {
-    statusEl.textContent = 'Failed to load sitemap.';
-    summaryEl.textContent = err.message;
-    listEl.innerHTML = '';
-    console.error(err);
-  }
-})();
-</script>
