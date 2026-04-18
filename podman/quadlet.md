@@ -2,7 +2,7 @@
 title: Quadlet getting started
 description: Compare with Docker compose and examples
 published: true
-date: 2026-04-18T05:41:00.509Z
+date: 2026-04-18T05:41:33.470Z
 tags: podman, container, docker
 editor: markdown
 dateCreated: 2026-04-18T05:41:00.509Z
@@ -481,10 +481,3 @@ Best suited for:
 * edge nodes
 * production services without Kubernetes
 
----
-
-If you want, I can extend this with:
-
-* Redis cluster + workers
-* Traefik/Caddy reverse proxy via Quadlet
-* Full repo layout + Ansible role
