@@ -2,7 +2,7 @@
 title: helpers
 description: Helpers and Knowledge for FreeIPA / IDM
 published: true
-date: 2026-04-20T15:47:58.945Z
+date: 2026-04-20T15:51:12.988Z
 tags: freeipa
 editor: markdown
 dateCreated: 2026-02-18T11:03:52.490Z
@@ -11,7 +11,7 @@ dateCreated: 2026-02-18T11:03:52.490Z
 # Doumentation
 
 ## Scripts
-[FreeIPA linux.scripts repo](https://github.com/search?q=repo%3Ajoe-speedboat%2Flinux.scripts+freeipa&type=code)
+[linux.scripts repo -> FreeIPA related](https://github.com/search?q=repo%3Ajoe-speedboat%2Flinux.scripts+freeipa&type=code){:target="_blank"}
 
 ## sudo
 ### sudo rule order evaluation
