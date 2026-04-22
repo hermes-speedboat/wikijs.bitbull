@@ -2,7 +2,7 @@
 title: miniconda
 description: miniconda reference card
 published: true
-date: 2026-04-22T05:04:05.533Z
+date: 2026-04-22T08:49:57.779Z
 tags: ai, python, venv, conda
 editor: markdown
 dateCreated: 2026-04-22T05:04:05.533Z
@@ -70,7 +70,7 @@ dateCreated: 2026-04-22T05:04:05.533Z
 
 ---
 
-# Wiki.js RefCard: Miniconda (Ubuntu / RHEL)
+# RefCard: Miniconda (Ubuntu / RHEL)
 
 ## Intro
 
