@@ -2,7 +2,7 @@
 title: Welcome
 description: Welcome
 published: true
-date: 2026-04-22T04:27:20.015Z
+date: 2026-04-22T09:16:47.379Z
 tags: 
 editor: markdown
 dateCreated: 2026-02-13T09:06:58.094Z
@@ -15,6 +15,8 @@ dateCreated: 2026-02-13T09:06:58.094Z
 * [https://wiki.app.tuxmint.com/en/Overleaf-LaTeX](https://wiki.app.tuxmint.com/en/Overleaf-LaTeX)
 * [OpenTelemetry - Getting Started](https://opentelemetry.io/docs/getting-started/ops/)
 * [Miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install/linux-install)
+* [Event Foto Sharing](https://github.com/Memtly)
+
 
 # Quick and Dirty
 ```bash
