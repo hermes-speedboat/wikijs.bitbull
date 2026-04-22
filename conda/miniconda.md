@@ -2,7 +2,7 @@
 title: miniconda
 description: miniconda reference card
 published: true
-date: 2026-04-22T08:49:57.779Z
+date: 2026-04-22T08:51:53.340Z
 tags: ai, python, venv, conda
 editor: markdown
 dateCreated: 2026-04-22T05:04:05.533Z
@@ -133,7 +133,7 @@ conda config --set channel_priority strict
 
 ---
 
-## 🧹 Uninstall
+## Uninstall
 
 ```bash
 rm -rf ~/miniconda3
