@@ -2,7 +2,7 @@
 title: inventory migration howto
 description: how to migrate/compare ansible inventories
 published: true
-date: 2026-04-23T08:52:55.635Z
+date: 2026-04-23T13:48:15.196Z
 tags: ansible, inventory, migration
 editor: markdown
 dateCreated: 2026-04-23T08:52:55.635Z
@@ -55,7 +55,6 @@ Use an Ansible playbook to export the effective inventory state per host.
     outdir: "/tmp/inventory_snapshot"
 
   tasks:
-
     - name: Ensure output directory exists
       ansible.builtin.file:
         path: "{{ outdir }}"
@@ -64,31 +63,25 @@ Use an Ansible playbook to export the effective inventory state per host.
       run_once: true
       delegate_to: localhost
 
-    - name: Build host data structure
-      ansible.builtin.set_fact:
-        host_snapshot:
-          vars: >-
-            {{
-              hostvars[inventory_hostname]
-              | dict2items
-              | rejectattr('key', 'match', '^ansible_')
-              | rejectattr('key', 'match', '^inventory_')
-              | rejectattr('key', 'in', ['group_names', 'groups'])
-              | items2dict
-            }}
-          groups: "{{ group_names | sort }}"
-
-    - name: Write snapshot file per host (LOCAL)
+    - name: Read effective host vars exactly like ansible-inventory --host
+      ansible.builtin.command: >-
+        ansible-inventory
+        {% for src in ansible_inventory_sources %}
+        -i {{ src | quote }}
+        {% endfor %}
+        --host {{ inventory_hostname | quote }}
+      register: inventory_host_json
+      changed_when: false
+      delegate_to: localhost
+    - name: Write snapshot file per host
       ansible.builtin.copy:
         dest: "{{ outdir }}/{{ inventory_hostname }}.txt"
         mode: "0644"
-        content: |
+        content: |-
           vars:
-          {% for key, value in host_snapshot.vars | dictsort %}
-            {{ key }}: {{ value | to_nice_yaml(indent=2) | trim }}
-          {% endfor %}
+          {{ (inventory_host_json.stdout | from_json | to_nice_yaml(indent=2)) | indent(2, true) }}
           groups:
-          {% for g in host_snapshot.groups %}
+          {% for g in group_names | sort %}
             - {{ g }}
           {% endfor %}
       delegate_to: localhost
