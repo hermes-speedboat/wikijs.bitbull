@@ -2,7 +2,7 @@
 title: heplers
 description: Useful Zimbra Notes
 published: true
-date: 2026-04-27T09:12:31.274Z
+date: 2026-04-27T09:12:38.157Z
 tags: helpers, zimbra
 editor: markdown
 dateCreated: 2026-02-21T12:19:21.072Z
@@ -223,7 +223,7 @@ select * from mailbox where account_id = "<USER-UUID>"\G
 zmrestore -a user@domain.com -ca -pre temp_
 ```
 
-## restore delete mailbox
+## restore deleted mailbox
 ```bash
 zmrestore -a test.acme@domain.com --continueOnError --restoreAccount --backedupRedologsOnly
 ```
