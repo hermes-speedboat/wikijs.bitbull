@@ -2,7 +2,7 @@
 title: heplers
 description: Useful Zimbra Notes
 published: true
-date: 2026-02-21T12:19:21.072Z
+date: 2026-04-27T07:47:20.927Z
 tags: helpers, zimbra
 editor: markdown
 dateCreated: 2026-02-21T12:19:21.072Z
@@ -236,3 +236,26 @@ zmprov getAccount <USER-UUID> mail
 ```bash
 zmprov ga <username> zimbraId
 ```
+
+## get mounted and special folders of user
+```bash
+zmmailbox -z -m n9999 getFolder -v / | jq -r '
+  .. | objects |
+  select(
+    has("query") or
+    (has("ownerId") and has("remoteId"))
+  ) |
+  if has("query") then
+    "\(.path) (search folder)"
+  else
+    "\(.path) (mount from \(.ownerDisplayName // .ownerId))"
+  end
+'
+/MA/User 1 (mount from h.h@domain.tld)
+/Ressourcen/Notebook/Notebook 2 (mount from notebook2@domain.tld)
+/grosseMail (search folder)
+/ACME (mount from p@domain.tld)
+/Öffentliche Emailordner (mount from p@domain.tld)
+
+
+
