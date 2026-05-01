@@ -2,7 +2,7 @@
 title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-02-26T05:04:09.176Z
+date: 2026-05-01T08:16:10.180Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -47,6 +47,106 @@ chmod 700 kubectl-neat
 tar vxfz kubectl-neat_linux_amd64.tar.gz
 rm -f LICENSE kubectl-neat_linux_amd64.tar.gz
 ```
+
+## velero
+```bash
+tar -xvf velero-v1.17.2-linux-amd64.tar.gz
+sudo mv velero-v1.17.2-linux-amd64/velero /usr/local/bin/
+velero version
+```
+### velero example
+* create/rent s3 bucket
+* `vi credentials-velero` (src+target) 
+```
+[default]
+aws_access_key_id = XXXXXXXXXXXXXXXXXXXXXXX
+aws_secret_access_key = YYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+```
+
+* install velero (src+target)
+```bash
+bucket=velero-transfer
+s3=s3.service.com
+velero install   --provider aws   --plugins velero/velero-plugin-for-aws:latest \
+  --bucket $bucket   --secret-file ./credentials-velero  \
+  --backup-location-config region=eu-central-1,s3ForcePathStyle="true",s3Url=https://$s3 \
+  --use-node-agent   --default-volumes-to-fs-backup   --use-volume-snapshots=false
+```
+
+* create backup on source into s3 bucket
+```bash
+velero backup create wiki-backup   --include-namespaces wiki   --default-volumes-to-fs-backup   --wait
+```
+* restore backup in destination from s3 bucket
+```bash
+velero restore create --from-backup wiki-pv-full2 --wait
+```
+
+### Velero scheduled backup
+Short how-to for creating namespace-specific Velero backup schedules.
+
+#### Current Backup Status
+
+Existing manual backup:
+
+```bash
+velero backup get
+````
+
+```text
+NAME           STATUS      ERRORS   WARNINGS   CREATED                          EXPIRES   STORAGE LOCATION   SELECTOR
+vikunja-snap   Completed   0        0          2026-05-01 09:47:30 +0200 CEST   29d       default            <none>
+```
+
+#### Create Scheduled Backups
+
+##### Example: daily 185d
+
+Daily backup at **19:00**, retention **185 days**.
+
+```bash
+velero schedule create vaultwarden-daily-185d \
+  --schedule="0 19 * * *" \
+  --include-namespaces vaultwarden \
+  --default-volumes-to-fs-backup \
+  --ttl=4440h0m0s
+```
+
+##### Example: 4 times a day, keep 30d 
+
+Backup at **09:00, 12:00, 15:00, and 18:00**, retention **30 days**.
+
+```bash
+velero schedule create n8n-four-times-daily-30d \
+  --schedule="0 9,12,15,18 * * *" \
+  --include-namespaces n8n \
+  --default-volumes-to-fs-backup \
+  --ttl=720h0m0s
+```
+
+##### Verify Schedules
+
+```bash
+velero schedule get
+```
+
+Expected result:
+
+```text
+NAME                       STATUS    SCHEDULE             BACKUP TTL   LAST BACKUP   SELECTOR   PAUSED
+n8n-four-times-daily-30d   Enabled   0 9,12,15,18 * * *   720h0m0s     n/a           <none>     false
+vaultwarden-daily-185d     Enabled   0 19 * * *           4440h0m0s    n/a           <none>     false
+```
+
+##### Notes
+
+* Each schedule backs up only one namespace.
+* `--include-namespaces` defines the namespace included in the scheduled backup.
+* `--default-volumes-to-fs-backup` enables Velero file-system backup for persistent volumes.
+* `--ttl` defines retention:
+
+  * `720h0m0s` = 30 days
+  * `4440h0m0s` = 185 days
 
 ### headlamp (admin ui)
 * Install
