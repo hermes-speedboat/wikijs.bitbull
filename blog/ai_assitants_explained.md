@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-05-18T09:05:40.948Z
+date: 2026-05-18T09:06:09.771Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -20,7 +20,7 @@ The mentioned projects (May, 18. 2026):
 | [MMClaw](https://github.com/CrawlScript/MMClaw) | Python | pip | <10 MB | <1 s | Pure-Python agent kernel | CLI + chat apps (Telegram, QQ, etc.) | CLI + config | Web, browser, file ops, scheduler, skills | Planned | Basic | ⭐ ~137 |
 | [Nanobot](https://github.com/HKUDS/nanobot) | Python | pip / Docker | ~10–100 MB | <30 s | Research prototype | Chat apps + email | JSON + CLI | Web, mail, shell, scheduler | Yes | Medium | ⭐ ~43k |
 | [OpenCode](https://github.com/opencode-ai/opencode) | Go | Binary / npm / Docker | ~50–200 MB | < 3s | Open-source coding agent | CLI, IDE, desktop | CLI + config | LSP, 75+ LLM providers, MCP, file ops, plugin system | Yes (ACP) | Medium | ⭐ ~13k |
-| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Python | pip / binary / Docker | ~50–500 MB | <5 s | Self-improving full assistant | 18+ platforms (Telegram, Discord, Slack, WhatsApp, Signal, Email, CLI) | CLI + config + TUI, Web Admin Plugin | Skills system, subagents, memory, cron, web, browser, terminal, file, vision, MCP client | Yes (native) | Medium-High | ⭐ ~155k |
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Python | pip / binary / Docker | ~50–500 MB | <5 s | Self-improving full assistant | 18+ platforms (Telegram, Discord, Slack, WhatsApp, Signal, Email, CLI) | CLI + config + TUI + Web Admin Plugin | Skills system, subagents, memory, cron, web, browser, terminal, file, vision, MCP client | Yes (native) | Medium-High | ⭐ ~155k |
 | [Codex CLI](https://github.com/openai/codex) | Rust | Binary / npm | ~10–50 MB | <1 s | Lightweight coding agent | CLI, terminal | CLI + config | Code editing, shell, git, sandboxes, OpenAI models | Planned | Medium | ⭐ ~83k |
 | [Copilot CLI](https://github.com/github/copilot-cli) | TypeScript | npm | ~100–200 MB | < 3s | Terminal coding + ACP | CLI, ACP server | CLI + config | Code editing, git, ACP protocol, GitHub-native integration | Yes (ACP) | Medium | ⭐ ~11k |
 | [Droid](https://github.com/Factory-AI/factory) | TypeScript/Python | npm | ~100–300 MB | <5 s | Agent-native software development | CLI, VS Code, ACP | CLI + config | PR automation, code review, security scan, code generation | Yes (ACP) | Medium | ⭐ ~885 |
