@@ -2,7 +2,7 @@
 title: AI Assistants Explained
 description: How AI Assistants work
 published: true
-date: 2026-05-18T08:15:59.492Z
+date: 2026-05-18T08:18:24.549Z
 tags: blog, ai, agent
 editor: markdown
 dateCreated: 2026-03-08T09:02:24.481Z
@@ -19,14 +19,14 @@ The mentioned projects (May, 18. 2026):
 | [LightAgent](https://github.com/wanxingai/LightAgent) | Python | pip / CLI | <10 MB | <1 s | Lightweight dev framework | CLI + chat apps | CLI + JSON | Memory, tools, Tree-of-Thought (ToT), multi-agent | Yes | Basic | ⭐ ~1k |
 | [MMClaw](https://github.com/CrawlScript/MMClaw) | Python | pip | <10 MB | <1 s | Pure-Python agent kernel | CLI + chat apps (Telegram, QQ, etc.) | CLI + config | Web, browser, file ops, scheduler, skills | Planned | Basic | ⭐ ~137 |
 | [Nanobot](https://github.com/HKUDS/nanobot) | Python | pip / Docker | ~10–100 MB | <30 s | Research prototype | Chat apps + email | JSON + CLI | Web, mail, shell, scheduler | Yes | Medium | ⭐ ~43k |
-| [OpenCode](https://github.com/opencode-ai/opencode) | Go | Binary / npm / Docker | ~50–200 MB | <3 s | Open-source coding agent | CLI, IDE, desktop | CLI + config | LSP, 75+ LLM providers, MCP, file ops, plugin system | Yes (ACP) | Medium | ⭐ ~13k |
+| [OpenCode](https://github.com/opencode-ai/opencode) | Go | Binary / npm / Docker | ~50–200 MB | < 3s | Open-source coding agent | CLI, IDE, desktop | CLI + config | LSP, 75+ LLM providers, MCP, file ops, plugin system | Yes (ACP) | Medium | ⭐ ~13k |
 | [Hermes Agent](https://github.com/NousResearch/hermes-agent) | Python | pip / binary / Docker | ~50–500 MB | <5 s | Self-improving full assistant | 18+ platforms (Telegram, Discord, Slack, WhatsApp, Signal, Email, CLI) | CLI + config + TUI | Skills system, subagents, memory, cron, web, browser, terminal, file, vision, MCP client | Yes (native) | Medium-High | ⭐ ~155k |
 | [Codex CLI](https://github.com/openai/codex) | Rust | Binary / npm | ~10–50 MB | <1 s | Lightweight coding agent | CLI, terminal | CLI + config | Code editing, shell, git, sandboxes, OpenAI models | Planned | Medium | ⭐ ~83k |
-| [Copilot CLI](https://github.com/github/copilot-cli) | TypeScript | npm | ~100–200 MB | <3 s | Terminal coding + ACP | CLI, ACP server | CLI + config | Code editing, git, ACP protocol, GitHub-native integration | Yes (ACP) | Medium | ⭐ ~11k |
+| [Copilot CLI](https://github.com/github/copilot-cli) | TypeScript | npm | ~100–200 MB | < 3s | Terminal coding + ACP | CLI, ACP server | CLI + config | Code editing, git, ACP protocol, GitHub-native integration | Yes (ACP) | Medium | ⭐ ~11k |
 | [Droid](https://github.com/Factory-AI/factory) | TypeScript/Python | npm | ~100–300 MB | <5 s | Agent-native software development | CLI, VS Code, ACP | CLI + config | PR automation, code review, security scan, code generation | Yes (ACP) | Medium | ⭐ ~885 |
 | [TinyClaw](https://github.com/TinyAGI/tinyagi) | TypeScript | Node / Docker | ~200 MB | <5 s | Multi-agent orchestration | Discord, WhatsApp, Telegram | JSON + CLI | Agent routing, parallel agents | No | Low | ⭐ ~4k |
 | [Claude Code](https://github.com/anthropics/claude-code) | TypeScript | npm | ~200–500 MB | <5 s | Agentic coding (proprietary) | CLI, terminal | CLI + config | Code editing, git, shell execution, npm, Anthropic models | Yes (ACP) | Medium | ⭐ ~124k |
-| [Pool](https://github.com/poolsideai/pool) | TypeScript | npm | ~200–300 MB | <3 s | ACP orchestrator / coding agent | CLI, ACP editors | CLI + config | Multi-Agent ACP orchestration, terminal, desktop | Yes (ACP) | Medium | ⭐ ~174 |
+| [Pool](https://github.com/poolsideai/pool) | TypeScript | npm | ~200–300 MB | < 3s | ACP orchestrator / coding agent | CLI, ACP editors | CLI + config | Multi-Agent ACP orchestration, terminal, desktop | Yes (ACP) | Medium | ⭐ ~174 |
 | [Pi](https://github.com/earendil-works/pi) | TypeScript | npm / binary | ~200–500 MB | <5 s | AI agent toolkit / coding agent | CLI, TUI, web UI, Slack | CLI + config | Unified LLM API, vLLM pods, TUI/web UI, extension system | Yes (ACP) | Medium | ⭐ ~51k |
 | [n8n-Claw](https://github.com/freddy-schuetz/n8n-claw) | Shell (n8n) | Docker (n8n workflows) | ~500+ MB | Minutes | Full assistant via n8n | Telegram, Slack, Teams, HTTP API | n8n Web UI + config | Workflows, RAG memory, tasks, webhooks | Yes | Medium | ⭐ ~438 |
 | [OpenClaw](https://github.com/openclaw/openclaw) | TypeScript/Node | Node / Docker | >1 GB | ~500 s | Full assistant | CLI + many chat apps | CLI + config | Browser automation, plugins | Yes | Low-Medium | ⭐ ~373k |
