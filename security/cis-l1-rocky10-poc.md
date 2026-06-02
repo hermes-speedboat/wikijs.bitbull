@@ -2,13 +2,41 @@
 title: POC: CIS L1 - Rocky10
 description: Here we test CIS L1 hardeing on Rocky Linux 10
 published: true
-date: 2026-06-02T05:22:35.435Z
+date: 2026-06-02T05:33:15.834Z
 tags: rocky10, poc, security, cis
 editor: markdown
 dateCreated: 2026-06-02T05:22:35.435Z
 ---
 
 # Rocky 10 CIS Level 1 Hardening with an Ansible Control Node
+## Hardening flow
+
+```mermaid
+flowchart TD
+    classDef target fill:#fff3cd,stroke:#d39e00,color:#3b2f00,stroke-width:2px;
+    classDef control fill:#d1ecf1,stroke:#0c5460,color:#073642,stroke-width:2px;
+    classDef shared fill:#e2e3e5,stroke:#6c757d,color:#212529,stroke-width:2px;
+
+    LegendTarget[Target node step]:::target
+    LegendControl[Control node step]:::control
+    LegendShared[Both / coordination]:::shared
+
+    A[Fresh Rocky Linux 10 minimal installation]:::target --> B[Prepare network, DNS, time sync and SSH access]:::target
+    B --> C[Create or verify sudo-capable admin user]:::target
+    C --> D[Run Ansible from the control node]:::control
+    D --> E[Bootstrap target: update system and install OpenSCAP / SCAP Security Guide]:::shared
+    E --> F[Reboot target after updates if required]:::target
+    F --> G[Run CIS Server L1 pre-scan on target and collect results]:::shared
+    G --> H[Generate OpenSCAP Ansible remediation playbook on target, fetch to control node]:::shared
+    H --> I[Review generated remediation and site exceptions on control node]:::control
+    I --> J[Apply CIS Server L1 remediation from control node to target]:::shared
+    J --> K[Reboot target into remediated state]:::target
+    K --> L[Apply explicit SSH hardening supplement from control node]:::shared
+    L --> M[Run post-scan on target and collect reports on control node]:::shared
+    M --> N[Normalize compliance summaries for Git drift detection on control node]:::control
+    N --> O[Review remaining findings and approve follow-up remediation]:::control
+```
+
 
 Purpose of this page: define a traceable workflow for hardening Rocky Linux 10 VMs from a central Ansible control node according to CIS Server Level 1, rebooting them, scanning them, and later checking them for drift.
 
