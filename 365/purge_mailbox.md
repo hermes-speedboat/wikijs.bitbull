@@ -2,7 +2,7 @@
 title: Purge M365 Mailbox
 description: Step by step instructions how to permanently delete a m365 mailbox
 published: true
-date: 2026-06-02T10:40:57.302Z
+date: 2026-06-02T10:50:11.246Z
 tags: windows, 365
 editor: markdown
 dateCreated: 2026-06-02T10:40:57.302Z
