@@ -2,7 +2,7 @@
 title: Qwen3.6-35B-A3B vLLM Setup on DGX Spark
 description: Optimized vLLM inference with MoE, AWQ 4-bit and MTP on the DGX Spark (GB10, Grace Blackwell ARM64)
 published: true
-date: 2026-06-08T10:17:47.140Z
+date: 2026-06-08T10:17:53.874Z
 tags: ai, vllm, dgx_spark
 editor: markdown
 dateCreated: 2026-06-08T09:10:50.089Z
@@ -66,19 +66,13 @@ Note: The feature was renamed from `qwen3_next_mtp` to `mtp` in vLLM 0.22.1. The
 - **FP8** (1 byte/param) would require ~27 GB for the full dense model — plus MoE sparsity isn't utilized.
 - **AWQ + MoE** exploits the DGX Spark's memory bandwidth bottleneck: only 3B active params/token × 0.5 bytes = 1.5 GB moved per forward pass vs 27 GB for a comparable dense FP8 model.
 
-## Thinking Suppression
+## Reasoning / Thinking
 
-Qwen3 generates internal reasoning by default. For agent/API operation this adds latency and confuses downstream parsers.
+Qwen3.6 generates internal reasoning (thinking tokens) by default. Unlike the earlier approach with `--default-chat-template-kwargs '{"enable_thinking": false}'`, reasoning is now **enabled** — the model generates full thinking in responses.
 
-**Official server-wide solution** via vLLM:
+This is because `--default-chat-template-kwargs` conflicts with `tool_choice: "auto"` in vLLM 0.22.1, preventing native `tool_calls` from being parsed correctly.
 
-```bash
---default-chat-template-kwargs '{"enable_thinking": false}'
-```
-
-The model no longer generates thinking tokens. No custom template, no reasoning parser hacks needed.
-
-Source: [vLLM Reasoning Outputs Documentation](https://docs.vllm.ai/en/latest/features/reasoning_outputs/)
+Hermes (and most agent frameworks) handles thinking tokens from models like DeepSeek without issues — the reasoning is separated into its own field. If you run agents that cannot tolerate reasoning, configure them to use a different endpoint (OpenRouter, etc.).
 
 ## Configuration
 
@@ -93,10 +87,14 @@ All parameters are controlled via environment variables in `vllm-server.sh`:
 
 ## Tool Calling
 
-Tool/function calling is enabled for agent frameworks (Hermes, n8n, etc.):
+Tool/function calling is partially supported for agent frameworks (Hermes, n8n, etc.):
 
 - `--enable-auto-tool-choice`: Allow automatic tool selection from request
-- `--tool-call-parser hermes`: Qwen3 models use Hermes-style tool formatting (inherited from Qwen2.5)
+- `--tool-call-parser hermes`: Parse Hermes-style XML tool call output
+
+**Limitation in vLLM 0.22.1:** `tool_choice: "auto"` does not produce native OpenAI `tool_calls` for this model. The model generates valid `<tool_call>` XML in the response content, but vLLM does not parse it into the structured `tool_calls` field. Forced tool calls (`tool_choice: "required"` or named function) work correctly.
+
+Affects: Hermes agent with tool-heavy workloads. Workaround: route tool-heavy requests through a different endpoint (OpenRouter, etc.) and use this server for high-throughput text generation.
 
 These are hardcoded in `vllm-server.sh` and not overridable via env vars.
 
@@ -107,7 +105,7 @@ The first request after server start may have a latency spike (CUDA graph compil
 causes a latency spike; consider extending warmup to cover this shape/config.
 ```
 
-This is mitigated with `--enforce-eager`, which skips CUDA graph optimization entirely. On the DGX Spark the throughput difference is negligible for agent workloads. The flag is set by default in `vllm-server.sh`.
+Mitigated with `--enforce-eager`, which skips CUDA graph optimization entirely. On the DGX Spark the throughput difference is negligible.
 
 ## Systemd Autostart
 
