@@ -2,7 +2,7 @@
 title: Qwen3.6-35B-A3B vLLM Setup on DGX Spark
 description: Optimized vLLM inference with MoE, AWQ 4-bit and MTP on the DGX Spark (GB10, Grace Blackwell ARM64)
 published: true
-date: 2026-06-08T09:19:45.675Z
+date: 2026-06-08T09:44:25.642Z
 tags: ai, vllm, dgx_spark
 editor: markdown
 dateCreated: 2026-06-08T09:10:50.089Z
@@ -91,6 +91,24 @@ All parameters are controlled via environment variables in `vllm-server.sh`:
 - `NUM_SPEC_TOKENS` (2): MTP speculative tokens per step
 - `MODEL_REPO` (cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit): Hugging Face model repository
 
+## Tool Calling
+
+Tool/function calling is enabled for agent frameworks (Hermes, n8n, etc.):
+
+- `--enable-auto-tool-choice`: Allow automatic tool selection from request
+- `--tool-call-parser hermes`: Qwen3 models use Hermes-style tool formatting (inherited from Qwen2.5)
+
+These are hardcoded in `vllm-server.sh` and not overridable via env vars.
+
+## First-Request Latency
+
+The first request after server start may have a latency spike (CUDA graph compilation). vLLM warns:
+```
+causes a latency spike; consider extending warmup to cover this shape/config.
+```
+
+This is mitigated with `--enforce-eager`, which skips CUDA graph optimization entirely. On the DGX Spark the throughput difference is negligible for agent workloads. The flag is set by default in `vllm-server.sh`.
+
 ## Systemd Autostart
 
 ```bash
@@ -136,6 +154,17 @@ ValueError: torch.bfloat16 is not supported for quantization method awq
 ```
 
 Solution: always set `--dtype float16` explicitly. Do not rely on `--dtype auto` with AWQ models.
+
+### OpenWebUI / Ollama API 404s
+
+Clients (OpenWebUI) probing Ollama-compatible endpoints produce harmless 404s:
+```
+GET /api/v1/models 404
+GET /api/tags 404
+GET /v1/props 404
+```
+
+These are not server errors. Configure OpenWebUI to use an **OpenAI-compatible** endpoint (vLLM), not Ollama API path. The vLLM server only serves OpenAI-compatible endpoints at `/v1/models`, `/v1/chat/completions`, etc.
 
 ### JIT Kernel Compilation Warning
 
