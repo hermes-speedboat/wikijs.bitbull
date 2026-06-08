@@ -2,7 +2,7 @@
 title: Qwen3.6-35B-A3B vLLM Setup on DGX Spark
 description: Optimized vLLM inference with MoE, AWQ 4-bit and MTP on the DGX Spark (GB10, Grace Blackwell ARM64)
 published: true
-date: 2026-06-08T10:17:53.874Z
+date: 2026-06-08T11:32:14.699Z
 tags: ai, vllm, dgx_spark
 editor: markdown
 dateCreated: 2026-06-08T09:10:50.089Z
@@ -14,12 +14,16 @@ Optimized vLLM inference with MoE, AWQ 4-bit and MTP on the DGX Spark (GB10, Gra
 
 ## Goal
 
-Run **Qwen3.6-35B-A3B** (Mixture of Experts) on the DGX Spark at maximum throughput for agents, n8n and OpenWebUI. Thinking/reasoning tokens are suppressed server-wide for clean API responses.
+Run **Qwen3.6-35B-A3B** (Mixture of Experts) on the DGX Spark at maximum throughput for agents, n8n and OpenWebUI. Tool calling via native OpenAI `tool_calls`.
 
 ## Performance
 
-- **Qwen3.6-35B-A3B** (AWQ 4-bit + MTP): **50-70 tok/s generation**, 528 tok/s prompt processing
-- KV cache usage at 32k context: ~0.7%
+- **Generation throughput:** 44-53 tok/s (measured, MTP active)
+- **Prompt throughput:** 26-528 tok/s
+- **MTP acceptance (1st draft):** 77-85%
+- **MTP acceptance (2nd draft):** 56-71%
+- **Mean acceptance length:** 2.3-2.6
+- **GPU KV cache usage:** <1% at 256k context
 
 ## Quickstart
 
@@ -68,11 +72,9 @@ Note: The feature was renamed from `qwen3_next_mtp` to `mtp` in vLLM 0.22.1. The
 
 ## Reasoning / Thinking
 
-Qwen3.6 generates internal reasoning (thinking tokens) by default. Unlike the earlier approach with `--default-chat-template-kwargs '{"enable_thinking": false}'`, reasoning is now **enabled** — the model generates full thinking in responses.
+Qwen3.6 generates internal reasoning (thinking tokens) by default. No suppression is applied — the model generates full thinking in responses.
 
-This is because `--default-chat-template-kwargs` conflicts with `tool_choice: "auto"` in vLLM 0.22.1, preventing native `tool_calls` from being parsed correctly.
-
-Hermes (and most agent frameworks) handles thinking tokens from models like DeepSeek without issues — the reasoning is separated into its own field. If you run agents that cannot tolerate reasoning, configure them to use a different endpoint (OpenRouter, etc.).
+Hermes (and most agent frameworks) handles thinking tokens without issues (same as DeepSeek, etc.).
 
 ## Configuration
 
@@ -85,18 +87,16 @@ All parameters are controlled via environment variables in `vllm-server.sh`:
 - `NUM_SPEC_TOKENS` (2): MTP speculative tokens per step
 - `MODEL_REPO` (cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit): Hugging Face model repository
 
+The model is served as `cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit` via `--served-model-name`. Use this name in API requests and Hermes config (`hermes config set model.default cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit`).
+
 ## Tool Calling
 
-Tool/function calling is partially supported for agent frameworks (Hermes, n8n, etc.):
+Tool/function calling is fully supported for agent frameworks (Hermes, n8n, etc.):
 
 - `--enable-auto-tool-choice`: Allow automatic tool selection from request
-- `--tool-call-parser hermes`: Parse Hermes-style XML tool call output
+- `--tool-call-parser qwen3_coder`: Parse Qwen3-style tool calls into native OpenAI `tool_calls`
 
-**Limitation in vLLM 0.22.1:** `tool_choice: "auto"` does not produce native OpenAI `tool_calls` for this model. The model generates valid `<tool_call>` XML in the response content, but vLLM does not parse it into the structured `tool_calls` field. Forced tool calls (`tool_choice: "required"` or named function) work correctly.
-
-Affects: Hermes agent with tool-heavy workloads. Workaround: route tool-heavy requests through a different endpoint (OpenRouter, etc.) and use this server for high-throughput text generation.
-
-These are hardcoded in `vllm-server.sh` and not overridable via env vars.
+**Note:** Qwen3.6 uses a different tool-call format than Qwen2.5. The `hermes` parser does not work — use `qwen3_coder` instead. This was confirmed via NVIDIA DGX Spark forums where other users reported the same issue.
 
 ## First-Request Latency
 
@@ -109,14 +109,44 @@ Mitigated with `--enforce-eager`, which skips CUDA graph optimization entirely. 
 
 ## Systemd Autostart
 
+### Prerequisites
+
+D-Bus user session must be available. On headless servers (SSH-only), set up:
+
+```bash
+# Install dbus if missing
+sudo apt install dbus dbus-user-session
+
+# Enable linger for user services
+sudo loginctl enable-linger $USER
+
+# Add to ~/.bashrc for persistent session bus
+echo 'export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### Install Service
+
 ```bash
 mkdir -p ~/.config/systemd/user/
 cp vllm.service ~/.config/systemd/user/
+chmod +x /srv/vllm/vllm-server.sh
+# Fix ownership if .venv was created with sudo
+[ ! -d /srv/vllm/.venv ] || sudo chown -R $USER:$USER /srv/vllm/.venv
 systemctl --user daemon-reload
 systemctl --user enable --now vllm
 ```
 
-For headless operation: `loginctl enable-linger $USER`
+**203/EXEC Fehler:** Service startet nicht? → `chmod +x vllm-server.sh` + `.venv` Ownership fixen, dann `systemctl --user restart vllm`.
+
+### Management
+
+```bash
+systemctl --user status vllm
+journalctl --user -u vllm -f
+systemctl --user stop vllm
+systemctl --user restart vllm
+```
 
 ## Repository
 
