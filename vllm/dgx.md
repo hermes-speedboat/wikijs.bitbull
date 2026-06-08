@@ -2,7 +2,7 @@
 title: Qwen3.6-35B-A3B vLLM Setup on DGX Spark
 description: Optimized vLLM inference with MoE, AWQ 4-bit and MTP on the DGX Spark (GB10, Grace Blackwell ARM64)
 published: true
-date: 2026-06-08T09:17:38.232Z
+date: 2026-06-08T09:19:45.675Z
 tags: ai, vllm, dgx_spark
 editor: markdown
 dateCreated: 2026-06-08T09:10:50.089Z
@@ -19,7 +19,7 @@ Run **Qwen3.6-35B-A3B** (Mixture of Experts) on the DGX Spark at maximum through
 ## Performance
 
 - **Qwen3.6-35B-A3B** (AWQ 4-bit + MTP): **50-70 tok/s generation**, 528 tok/s prompt processing
-- KV cache usage at 256k context: ~0.7%
+- KV cache usage at 32k context: ~0.7%
 
 ## Quickstart
 
