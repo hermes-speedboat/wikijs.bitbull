@@ -2,32 +2,13 @@
 title: searXNG on K3S
 description: Install searXNG on K3S and configure hermes agent to work with
 published: true
-date: 2026-06-12T18:40:07.745Z
+date: 2026-06-12T18:40:48.144Z
 tags: howto, kubernetes, hermes
 editor: markdown
 dateCreated: 2026-06-12T18:40:07.745Z
 ---
 
 # SearXNG Setup — Self-Hosted Meta-Search Engine
-
----
-
-## Table of Contents
-
-- [1. Overview](#1-overview)
-- [2. Kubernetes Installation](#2-kubernetes-installation)
-  - [2.1 Create Namespace](#21-create-namespace)
-  - [2.2 Add Helm Repository](#22-add-helm-repository)
-  - [2.3 Prepare Values File](#23-prepare-values-file)
-  - [2.4 Deploy](#24-deploy)
-  - [2.5 Configure Ingress](#25-configure-ingress)
-- [3. JSON Endpoint for Agentic Tools](#3-json-endpoint-for-agentic-tools)
-- [4. Configure Hermes Agent](#4-configure-hermes-agent)
-  - [4.1 Install Skill](#41-install-skill)
-  - [4.2 Set Environment Variable](#42-set-environment-variable)
-  - [4.3 Restart Gateway](#43-restart-gateway)
-  - [4.4 Verify](#44-verify)
-- [5. Troubleshooting](#5-troubleshooting)
 
 ---
 
