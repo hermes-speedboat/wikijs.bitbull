@@ -2,13 +2,15 @@
 title: searXNG on K3S
 description: Install searXNG on K3S and configure hermes agent to work with
 published: true
-date: 2026-06-13T04:24:29.082Z
-tags: howto, kubernetes, hermes
+date: 2026-06-13T04:27:47.104Z
+tags: 
 editor: markdown
 dateCreated: 2026-06-12T18:40:07.745Z
 ---
 
 # SearXNG Setup — Self-Hosted Meta-Search Engine
+
+---
 
 ## 1. Overview
 
@@ -357,3 +359,5 @@ kubectl logs -n searxng deployment/searxng
 - [Helm Chart (kubitodev)](https://artifacthub.io/packages/helm/kubitodev/searxng)
 - [Hermes Agent SearXNG Skill](https://hermes-agent.nousresearch.com/docs/user-guide/skills/optional/research/research-searxng-search)
 - [JSON API Specification](https://docs.searxng.org/dev/search_api.html)
+
+
