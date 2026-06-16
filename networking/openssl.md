@@ -2,7 +2,7 @@
 title: openssl helpers
 description: Useful OpenSSL comands
 published: true
-date: 2026-02-21T20:39:22.190Z
+date: 2026-06-16T12:40:03.234Z
 tags: helpers, openssl
 editor: markdown
 dateCreated: 2026-02-21T20:39:22.190Z
@@ -52,6 +52,7 @@ dateCreated: 2026-02-21T20:39:22.190Z
   ```bash
   openssl s_client -CApath /etc/pki/tls/certs -connect localhost:636 -showcerts 
   openssl s_client -connect host:443
+  printf '' | timeout 20 openssl s_client -starttls smtp -connect "host:25"
   ```
 * Extract server key from pfx (PKCS#12)
   ```bash
