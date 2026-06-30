@@ -2,7 +2,7 @@
 title: Graylog - Admin Access Notes
 description: Graylog Data Node: Increase OpenSearch Field Limit to 5000
 published: true
-date: 2026-06-30T10:38:51.218Z
+date: 2026-06-30T10:40:19.357Z
 tags: opensearch, graylog
 editor: markdown
 dateCreated: 2026-06-30T10:38:51.218Z
@@ -116,7 +116,7 @@ Adjust `OS_URL` if the Data Node hostname is different.
 ```bash
 cd /root/graylog-opensearch-client
 
-OS_URL="https://srv-pgraylog-02:9200"
+OS_URL="https://graylog1:9200"
 CERT="client-cert.crt"
 KEY="client-cert.key"
 CACERT="ca.crt"
