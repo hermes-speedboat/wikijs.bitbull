@@ -2,7 +2,7 @@
 title: Vector Search Overview
 description: Popular AI Data Search Products
 published: true
-date: 2026-07-08T04:21:01.741Z
+date: 2026-07-08T04:21:54.429Z
 tags: ai, agent, vector
 editor: markdown
 dateCreated: 2026-07-08T04:21:01.741Z
@@ -119,7 +119,7 @@ GitHub stars and origin year are included for open-source or source-available pr
 | Very large-scale distributed vector workloads | Milvus, Vespa, Qdrant, Weaviate |
 | Low-level custom nearest-neighbor library | FAISS |
 
-## Sources checked
+## Sources
 
 - Pinecone n8n integration: https://docs.pinecone.io/integrations/n8n
 - n8n Vector Store docs: Pinecone, Weaviate, Milvus, Qdrant, Chroma, PGVector, MongoDB Atlas, Redis
