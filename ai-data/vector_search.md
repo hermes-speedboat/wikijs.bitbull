@@ -2,7 +2,7 @@
 title: Vector Search Overview
 description: Popular AI Data Search Products
 published: true
-date: 2026-07-08T04:25:57.561Z
+date: 2026-07-08T05:18:07.279Z
 tags: ai, agent, vector
 editor: markdown
 dateCreated: 2026-07-08T04:21:01.741Z
@@ -11,6 +11,10 @@ dateCreated: 2026-07-08T04:21:01.741Z
 # Vector Search Products
 
 This page compares twelve commonly used tools for vector search, semantic retrieval, and retrieval-augmented generation (RAG). The products range from managed vector databases to database extensions, search platforms, and low-level libraries.
+
+![vector_search.png](/pics/vector_search.png)
+
+
 
 # Overview
 
