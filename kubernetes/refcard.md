@@ -2,7 +2,7 @@
 title: refcard
 description: Daily comands that make your life easier
 published: true
-date: 2026-05-01T08:16:10.180Z
+date: 2026-07-10T16:22:55.643Z
 tags: helpers, kubernetes
 editor: markdown
 dateCreated: 2026-02-17T17:11:22.686Z
@@ -224,6 +224,29 @@ mariadb \
 ```
 
 # Troubleshoot/Fix
+## Fact gathering
+### CPU and Memory overview
+```bash
+kubectl top pods -A --no-headers |
+awk '{print $1, $2, $3}' |
+while read -r ns pod usage; do
+  request=$(
+    kubectl get pod -n "$ns" "$pod" -o json |
+    jq -r '
+      def millicpu:
+        if . == null or . == "" then 0
+        elif test("m$") then sub("m$"; "") | tonumber
+        else tonumber * 1000
+        end;
+      [.spec.containers[].resources.requests.cpu | millicpu] | add
+    '
+  )
+  printf "%-20s %-55s request=%5sm usage=%s\n" \
+    "$ns" "$pod" "$request" "$usage"
+done |
+sort -k3 -nr
+```
+
 ## cleanup
 ### Remove pods that refuse to terminate
 ```bash
