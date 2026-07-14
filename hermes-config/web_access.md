@@ -2,7 +2,7 @@
 title: Web Access
 description: Copy Paste Web Access Instructions
 published: true
-date: 2026-07-14T15:30:42.405Z
+date: 2026-07-14T15:59:59.497Z
 tags: hermes, private
 editor: markdown
 dateCreated: 2026-07-14T14:09:52.130Z
@@ -258,38 +258,49 @@ The extractor should:
 This is a simple static HTML extractor. It does not execute JavaScript.
 
 ======================================================================
-PHASE 4 — ENABLE THE LOCAL EXTRACTOR
+PHASE 4 — ENABLE THE SEARXNG SEARCH PLUGIN AND LOCAL EXTRACTOR
 ======================================================================
 
-Configure the extraction backend:
+Configure the routing backends:
 
 web:
   search_backend: searxng
   extract_backend: local-extractor
 
-Enable the user plugin using the exact path-derived plugin key:
+Enable both provider plugins using the exact path-derived plugin keys:
 
 plugins:
   enabled:
+    - web/searxng
     - web/local_extractor
 
-The key is web/local_extractor, not web-local-extractor.
+Important identifier distinction:
+
+- `web/searxng` is the bundled plugin key and must be present in `plugins.enabled`.
+- `searxng` is the provider name used by `web.search_backend`.
+- `web/local_extractor` is the user plugin key.
+- `local-extractor` is the provider name used by `web.extract_backend`.
+
+Do not assume that configuring `web.search_backend: searxng` enables the plugin. Verify that the plugin itself is enabled and loaded.
 
 Do not edit Hermes core files unless there is no supported plugin mechanism and the operator explicitly authorizes a core change.
 
-After creating the plugin, run Hermes plugin discovery in a fresh process.
+After changing the configuration, run Hermes plugin discovery in a fresh process.
 
-Verify:
+Verify both plugins:
 
 - plugin is discovered
-- plugin source is user
-- plugin kind is backend
+- source and kind are correct
 - plugin is enabled
 - plugin has no load error
-- provider name is local-extractor
-- provider is available
-- provider supports_extract() is true
-- provider supports_search() is false
+- SearXNG provider name is `searxng`
+- SearXNG provider is available
+- SearXNG supports_search() is true
+- SearXNG supports_extract() is false
+- local provider name is `local-extractor`
+- local provider is available
+- local provider supports_extract() is true
+- local provider supports_search() is false
 
 ======================================================================
 PHASE 5 — DISABLE UNUSED WEB PROVIDERS
@@ -319,6 +330,7 @@ Important:
 - The correct Brave plugin key is web-brave-free.
 - Do not use web-brave_free.
 - Do not disable web-searxng.
+- Enable the bundled SearXNG plugin with the exact key `web/searxng`.
 - Do not disable the local extractor plugin.
 - Do not disable the browser provider required for the existing CDP fallback unless Hermes specifically reports that the provider is unused and the local CDP path remains available.
 - If the installed Hermes version uses different plugin identifiers, inspect plugin.yaml and use the identifiers from the running installation.
@@ -536,37 +548,40 @@ The task is complete only if all applicable criteria are verified:
 1. SearXNG is configured at:
    https://search.pub.bitbull.ch
 
-2. Hermes search uses:
+2. The bundled SearXNG plugin is enabled with:
+   web/searxng
+
+3. Hermes search uses:
    web.search_backend: searxng
 
-3. A local extractor plugin exists at:
+4. A local extractor plugin exists at:
    $HERMES_HOME/plugins/web/local_extractor/
 
-4. Hermes discovers and enables:
+5. Hermes discovers and enables:
    web/local_extractor
 
-5. Hermes extraction uses:
+6. Hermes extraction uses:
    web.extract_backend: local-extractor
 
-6. Static HTML extraction succeeds without a subscription or API key.
+7. Static HTML extraction succeeds without a subscription or API key.
 
-7. SearXNG search succeeds through the real Hermes provider.
+8. SearXNG search succeeds through the real Hermes provider.
 
-8. The real Hermes web_extract dispatch succeeds through local-extractor.
+9. The real Hermes web_extract dispatch succeeds through local-extractor.
 
-9. Invalid/private/internal URLs are rejected.
+10. Invalid/private/internal URLs are rejected.
 
-10. CDP is available through BROWSER_CDP_URL.
+11. CDP is available through BROWSER_CDP_URL.
 
-11. CDP navigation succeeds on a public test page.
+12. CDP navigation succeeds on a public test page.
 
-12. CDP screenshot/visual verification succeeds when requested.
+13. CDP screenshot/visual verification succeeds when requested.
 
-13. Unused paid/unconfigured web providers are disabled using exact plugin identifiers.
+14. Unused paid/unconfigured web providers are disabled using exact plugin identifiers.
 
-14. No API key or subscription is required for SearXNG, local extraction, or CDP.
+15. No API key or subscription is required for SearXNG, local extraction, or CDP.
 
-15. Any limitation involving JavaScript-heavy pages is explicitly reported.
+16. Any limitation involving JavaScript-heavy pages is explicitly reported.
 
 ======================================================================
 FINAL REPORT FORMAT
