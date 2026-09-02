@@ -1,6 +1,6 @@
 ---
 title: AI Agent Platform Overview
-description: 
+description: Comparison of AI agent platforms and automation tools.
 published: true
 date: 2026-07-22T12:25:52.491Z
 tags: blog, ai, agents

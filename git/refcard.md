@@ -1,5 +1,5 @@
 ---
-title: GIT - Useful comands
+title: Git - Useful Commands
 description: Daily needs
 published: true
 date: 2026-07-13T15:19:26.552Z

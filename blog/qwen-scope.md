@@ -1,6 +1,6 @@
 ---
 title: Qwen Scope
-description: 
+description: Overview and practical use cases for Qwen Scope.
 published: true
 date: 2026-05-06T04:06:34.999Z
 tags: ai

@@ -1,6 +1,6 @@
 ---
 title: Expect examples
-description: Feed passwords and comandas with expect
+description: Feed passwords and commands with Expect
 published: true
 date: 2026-02-15T06:22:46.049Z
 tags: linux, expect

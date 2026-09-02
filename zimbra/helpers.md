@@ -1,5 +1,5 @@
 ---
-title: heplers
+title: Zimbra Helpers
 description: Useful Zimbra Notes
 published: true
 date: 2026-04-27T09:12:38.157Z

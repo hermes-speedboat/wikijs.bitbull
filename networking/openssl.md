@@ -1,6 +1,6 @@
 ---
 title: openssl helpers
-description: Useful OpenSSL comands
+description: Useful OpenSSL commands
 published: true
 date: 2026-06-16T12:40:03.234Z
 tags: helpers, openssl

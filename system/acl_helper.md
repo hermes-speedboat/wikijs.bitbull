@@ -194,7 +194,7 @@ getfacl -R . >acl.txt
 setfacl --restore acl.txt
 getfacl -R $(ls -d /* | egrep -v 'dev|proc|selinux|sys|lost+') > /etc/acl.txt
 ```
-* Copy ACL's from existing file/direcotry
+* Copy ACLs from an existing file or directory
 ```bash
 getfacl bingo.txt | setfacl --set-file=- test*
 ```

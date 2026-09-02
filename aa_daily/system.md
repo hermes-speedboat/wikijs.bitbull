@@ -1,6 +1,6 @@
 ---
 title: system
-description: System related comands
+description: System-related commands
 published: true
 date: 2026-02-27T13:53:30.371Z
 tags: cmd, helpers
