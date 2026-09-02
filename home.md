@@ -35,7 +35,7 @@ Content is focused on business and lean usage of Linux and Open Source applicati
 
 The archive of old Mediawiki pages can be found here: [https://github.com/joe-speedboat/archive.mediawiki](https://github.com/joe-speedboat/archive.mediawiki)
 
-# My Ressources
+# My Resources
 * [Script Archive](https://github.com/joe-speedboat/scripts)
 * [GitHub](https://github.com/joe-speedboat)
 * [Kubernetes Apps and hints](https://github.com/joe-speedboat?tab=repositories&q=kube)
