@@ -1,5 +1,5 @@
 ---
-title: AI Guidlines for IT Admins
+title: AI Guidelines for IT Admins
 description: How get aware of risks when using AI
 published: true
 date: 2026-03-23T14:21:55.536Z

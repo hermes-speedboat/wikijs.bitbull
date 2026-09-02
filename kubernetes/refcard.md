@@ -1,6 +1,6 @@
 ---
 title: refcard
-description: Daily comands that make your life easier
+description: Daily commands that make your life easier
 published: true
 date: 2026-07-10T16:22:55.643Z
 tags: helpers, kubernetes

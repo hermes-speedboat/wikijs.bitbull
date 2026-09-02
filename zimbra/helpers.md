@@ -184,7 +184,7 @@ zmprov ral <username> # stop logging
 ```
 
 
-## comandline calendar queries
+## Command-line calendar queries
 
 ```bash
 zmmailbox -z -m <username> gf Calendar
@@ -193,7 +193,7 @@ zmmailbox -z -m <username> search -t appointment in:Calendar
 ```
 
 
-## comandline adressbook queries
+## Command-line address book queries
 
 ```bash
 zmmailbox -z -m <username> gact -f '/Öffentliche Adressbücher/Verteilerlisten'
