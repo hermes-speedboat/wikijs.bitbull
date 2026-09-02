@@ -1,6 +1,6 @@
 ---
-title: RustFS: Install and Upgrade
-description: Install, Configure and Upgrade RustFS on k3s
+title: "RustFS: Install and Upgrade"
+description: "Install, Configure and Upgrade RustFS on k3s"
 published: true
 date: 2026-06-30T12:28:48.906Z
 tags: kubernetes, s3, rustfs

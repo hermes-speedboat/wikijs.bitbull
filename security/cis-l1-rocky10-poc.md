@@ -1,6 +1,6 @@
 ---
-title: POC: CIS L1 - Rocky10
-description: Here we test CIS L1 hardeing on Rocky Linux 10
+title: "POC: CIS L1 - Rocky10"
+description: "Here we test CIS L1 hardening on Rocky Linux 10"
 published: true
 date: 2026-06-02T05:33:15.834Z
 tags: rocky10, poc, security, cis

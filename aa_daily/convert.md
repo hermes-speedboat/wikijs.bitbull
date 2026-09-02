@@ -8,7 +8,7 @@ editor: markdown
 dateCreated: 2026-02-13T09:06:59.737Z
 ---
 
-## rename files with spezial characters in it
+## rename files with special characters in it
 ```bash
 convmv --notest -f latin1 -t utf8 *.pdf
 ```
