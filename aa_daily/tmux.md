@@ -1,6 +1,6 @@
 ---
 title: tmux helpers
-description: most importand tmux shortcuts
+description: Most important tmux shortcuts
 published: true
 date: 2026-02-21T20:56:08.324Z
 tags: helpers, tmux

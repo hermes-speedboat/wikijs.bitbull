@@ -1,6 +1,6 @@
 ---
 title: vim refcard
-description: All the vim comands you need
+description: All the Vim commands you need
 published: true
 date: 2026-02-21T20:54:06.591Z
 tags: helpers, vim

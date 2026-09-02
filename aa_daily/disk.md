@@ -62,7 +62,7 @@ for i in {1..5} ; do ( openssl enc -aes-256-ctr -pass pass:"$(dd if=/dev/urandom
 ## create 5 data generating threads which create infinite data files
 ```bash
 for i in {1..5} ; do ( openssl enc -aes-256-ctr -pass pass:"$(dd if=/dev/urandom bs=128 count=1 2>/dev/null | base64)" -nosalt < /dev/zero 2>&1 | dd of=/tmp/file.$i) & done
- # stop data generation, started with comand above
+ # stop data generation, started with command above
  pkill -9 -f dd
 ```
 

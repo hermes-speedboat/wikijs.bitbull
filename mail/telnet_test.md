@@ -1,6 +1,6 @@
 ---
 title: SMTP + IMAP via telnet
-description: Some useful comands with mail
+description: Useful commands for mail testing
 published: true
 date: 2026-02-15T06:30:15.851Z
 tags: mail

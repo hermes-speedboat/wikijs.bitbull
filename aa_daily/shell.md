@@ -13,7 +13,7 @@ dateCreated: 2026-02-13T09:07:08.190Z
 ps hax -o user | sort | uniq -c
 ```
 
-## Get the 10 biggest files/folders for the current direcotry
+## Get the 10 biggest files/folders for the current directory
 ```bash
 du -sm * .[^\.]* | sort -n | tail
 ```

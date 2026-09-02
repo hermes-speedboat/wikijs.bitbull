@@ -13,7 +13,7 @@ dateCreated: 2026-02-13T09:07:03.121Z
  find / -xdev -perm -4000 -exec ls -l {} \;
 ```
 
-## Find world writeable files
+## Find world-writable files
 ```bash
 find / -xdev -perm -o+w -and -not \( -type l -or -type s -or -perm -o+t \) -exec ls -ld {} \;
 ```

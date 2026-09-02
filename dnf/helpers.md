@@ -1,6 +1,6 @@
 ---
 title: helpers
-description: Useful comands with dnf/yum
+description: Useful commands with dnf/yum
 published: true
 date: 2026-06-15T04:07:07.707Z
 tags: linux, dnf, rpm
