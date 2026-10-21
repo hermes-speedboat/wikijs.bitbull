@@ -2,7 +2,7 @@
 title: Install Paperless-ngx
 description: Paperless-ngx on Rocky Linux 10 with Docker Compose, HTTPS, backup and restore
 published: true
-date: 2026-10-21T11:54:50.000Z
+date: 2026-10-21T12:58:06.000Z
 tags: paperless, docker, rocky, backup
 editor: markdown
 dateCreated: 2026-10-21T11:54:50.000Z
@@ -176,7 +176,19 @@ curl --cacert /etc/pki/paperless/server.crt \
   --resolve paperless.example.net:443:127.0.0.1 -I https://paperless.example.net
 ```
 
-A redirect to the local login page is expected. Then test browser login, PDF/image upload, OCR search and a DOCX import through `consume`. Confirm the original, PDF preview and thumbnail. Test a non-administrative user's permissions and repeat the checks after a controlled Compose restart.
+A redirect to the local login page is expected. Then test real password login, an image-only scanned PDF and PNG upload, OCR search and a DOCX import through `consume`. Confirm the original download, PDF preview and thumbnail. Repeat login, search and preview after a controlled Compose restart.
+
+For a restricted reader, grant `View UI settings` as well as `View document` (and `View tag` when needed). Without UI-settings access, password authentication can succeed while the frontend reports **Error loading settings**. Grant object-level view access to a specific owned document; verify that reading it succeeds but editing it, opening another user's unshared document and accessing user administration fail. Ownerless documents are visible to users with the corresponding global permission: assign an owner through a consumption workflow when imports must be private.
+
+Files deposited by root or a scanner must be readable by UID/GID 1000 and carry the consume directory's current SELinux label, including its container category. Finish uploading outside the watched directory, then stage under a hidden name and publish atomically; a root-owned mode-0600 file fails consumption even though the stack is healthy. For example, with a completed `/root/sample.docx`:
+
+```bash
+install -o 1000 -g 1000 -m 0640 /root/sample.docx /srv/paperless/consume/.sample.docx
+chcon --reference=/srv/paperless/consume /srv/paperless/consume/.sample.docx
+mv /srv/paperless/consume/.sample.docx /srv/paperless/consume/sample.docx
+```
+
+Use a unique filename and adapt the IDs if `USERMAP_UID/GID` differs. For a persistent scanner/upload integration, configure its ownership and SELinux handling rather than recursively relabeling a running stack.
 
 ## Maintenance
 
@@ -213,13 +225,18 @@ install -d -m 0700 /srv/backup
 BACKUP=/srv/backup/paperless-$(date +%Y%m%d%H%M%S)
 install -d -m 0700 "$BACKUP"
 df -h /srv/backup
+# Record immutable image identities; major/minor tags can move.
+docker image inspect $(docker compose images -q) \
+  --format '{{json .RepoDigests}}' > "$BACKUP/image-digests.txt"
 trap 'docker compose start webserver' EXIT
 docker compose stop webserver
 docker compose exec -T db pg_dump -U paperless -Fc paperless > "$BACKUP/database.dump"
 tar --selinux --xattrs -czf "$BACKUP/files.tar.gz" -C /srv \
   paperless/compose paperless/data paperless/media paperless/consume paperless/export
+(cd /srv/paperless/media && find . -type f -print0 | sort -z | \
+  xargs -0 -r sha256sum) > "$BACKUP/media-SHA256SUMS"
 docker compose exec -T db pg_restore --list < "$BACKUP/database.dump" > "$BACKUP/database-index.txt"
-(cd "$BACKUP" && sha256sum database.dump files.tar.gz > SHA256SUMS)
+(cd "$BACKUP" && sha256sum database.dump files.tar.gz image-digests.txt media-SHA256SUMS > SHA256SUMS)
 docker compose start webserver
 trap - EXIT
 docker compose up -d --wait --wait-timeout 180
@@ -237,7 +254,7 @@ This is an additional recovery route; validate its import independently. Do not 
 
 ### Restore
 
-Use a fresh host with the same application images and PostgreSQL major version. Install Docker first. Do not restore over a running production instance.
+Use a fresh host with the same application images and PostgreSQL major version. Install Docker first. Do not restore over a running production instance. Run the following blocks interactively or from a saved Bash script, not as the stdin of `ssh ... bash`: Compose commands can consume that stdin and silently skip later commands.
 
 1. Transfer the backup through an encrypted channel and check `sha256sum -c SHA256SUMS`.
 2. Extract the archive under `/srv`, retaining ownership and permissions.
@@ -260,21 +277,31 @@ networks:
     internal: true
 ```
 
-Pull images before starting the isolated stack. Do not connect another external Docker network. Check that no copied automation can act on production data.
+Pull images before starting the isolated stack. Compare them with `image-digests.txt`; pin each Compose `image:` to the recorded `repository@sha256:...` when a tag has moved. Do not connect another external Docker network. Check that no copied automation can act on production data.
 
 ```bash
 docker compose config --quiet
 docker compose pull
 docker compose up -d db broker tika gotenberg
-docker compose exec -T db pg_isready -U paperless
-# Wait for PostgreSQL readiness before continuing.
+for attempt in $(seq 1 60); do
+  docker compose exec -T db pg_isready -U paperless && break
+  sleep 2
+done
+# Fail rather than restore into a database that never became ready.
+docker compose exec -T db pg_isready -U paperless || exit 1
 docker compose exec -T db pg_restore -U paperless -d paperless \
   --exit-on-error < "$BACKUP/database.dump"
 docker compose up -d --wait --wait-timeout 240
 docker compose exec -T webserver document_index reindex
 ```
 
-Verify users, tags, mail rules, document counts **including the trash**, and original/archive/thumbnail files. Check file hashes against the captured source manifest if available. Test real password login, document download, PDF preview and indexed search; repeat after restarting Paperless. Restore trash documents only in the test copy when needed for validation.
+Verify users, tags, mail rules, document counts **including the trash**, and original/archive/thumbnail files. Compare against the backup-time inventory, not a changing source host:
+
+```bash
+(cd /srv/paperless/media && sha256sum -c "$BACKUP/media-SHA256SUMS")
+```
+
+Test real password login, document download, PDF preview and indexed search; repeat after restarting Paperless. Restore trash documents only in the test copy when needed for validation.
 
 An internal Docker network may not expose the configured published port. Inspect the webserver container IP and tunnel directly to it:
 
