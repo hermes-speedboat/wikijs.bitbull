@@ -1,7 +1,34 @@
 #!/usr/bin/env python3
-"""Root-only operations for the single-host layout in ../install.md.
+"""Paperless single-host maintenance CLI (the layout in ../install.md).
 
-No third-party Python dependencies. Do not run with shell tracing enabled.
+Prerequisites:
+  Linux, Python 3.9+ (standard library only), Docker daemon and Compose v2.
+  Backup/restore/upgrade require root, GNU tar with xattrs/SELinux support,
+  Compose --wait support, and the documented PostgreSQL 18 bind layout.
+  Status needs readable Compose/env files and Docker access (root-equivalent
+  privilege); it does not require UID 0. No shell wrappers are needed.
+
+Layout and safety:
+  Fixed root: /srv/paperless; configuration: /srv/paperless/compose.
+  Exactly webserver, db, broker, tika and gotenberg are expected.
+  COMPOSE_* environment overrides are ignored. Never run with shell tracing.
+  Mutating commands take /run/lock/paperless-operations.lock and use umask 077.
+  Finish imports, quiesce external uploads, and prevent concurrent manual
+  Compose/config changes. SIGKILL/host/daemon failure can defeat restart cleanup.
+  Status takes no lock and performs no lifecycle or configuration changes.
+
+Examples (installed as /usr/local/sbin/paperless):
+  paperless status --json
+  paperless backup --destination /srv/backup
+  paperless restore /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup
+  paperless upgrade 3.3.4 --destination /srv/backup
+  paperless restore --help
+
+Exit codes:
+  0: operation completed, or all status checks passed (not full recovery proof).
+  1: operation failed, or status unhealthy/unknown/incomplete.
+  2: invalid CLI arguments. SIGTERM/SIGHUP during mutations: 128 + signal.
+  See each subcommand's --help for defaults, limits and recovery precautions.
 """
 import argparse
 import fcntl
@@ -280,21 +307,208 @@ def upgrade(version, destination):
     print('Upgrade healthy; verify login, search, preview and consumption before accepting it.')
 
 
+def status(as_json=False, timeout=10):
+    """Bounded, read-only snapshot; never print config, probe bodies or stderr."""
+    env = {k: v for k, v in os.environ.items() if not k.startswith('COMPOSE_')}
+    options = dict(stdout=subprocess.PIPE, timeout=timeout, env=env,
+                   stdin=subprocess.DEVNULL)
+    report = {'healthy': False, 'configuration': 'unknown', 'services': {}}
+
+    def failure(error):
+        return 'timeout' if isinstance(error, subprocess.TimeoutExpired) else 'unknown'
+
+    errors = (OSError, RuntimeError, ValueError, subprocess.SubprocessError)
+    try:
+        configured = set(dc('config', '--services', **options).stdout.decode().split())
+        report['configuration'] = 'expected' if configured == SERVICES else 'mismatch'
+    except errors as error:
+        configured = None
+        report['configuration'] = failure(error)
+
+    containers = {}
+    for service in sorted(SERVICES):
+        item = {'configured': None if configured is None else service in configured,
+                'container': 'unknown', 'docker_health': 'unknown', 'probe': 'not-run'}
+        report['services'][service] = item
+        if configured is None or service not in configured:
+            if configured is not None:
+                item['container'] = 'missing'
+            continue
+        try:
+            ids = dc('ps', '--all', '-q', service, **options).stdout.decode().split()
+            if len(ids) != 1:
+                item['container'] = 'missing' if not ids else 'multiple'
+                continue
+            # Select only state/health status, not environment or healthcheck logs.
+            text = run(['docker', 'inspect', '--format',
+                        '{{.State.Status}} {{if .State.Health}}{{.State.Health.Status}}'
+                        '{{else}}absent{{end}}', ids[0]], **options).stdout.decode().split()
+            require(len(text) == 2, 'Invalid state response')
+            state, health = text
+            item['container'] = state if state in {
+                'created', 'running', 'paused', 'restarting', 'removing', 'exited', 'dead'
+            } else 'unknown'
+            item['docker_health'] = health if health in {
+                'healthy', 'unhealthy', 'starting', 'absent'
+            } else 'unknown'
+            if state == 'running':
+                containers[service] = ids[0]
+        except errors as error:
+            item['container'] = failure(error)
+
+    for service, cid in containers.items():
+        item = report['services'][service]
+        try:
+            if service == 'db':
+                command = [cid, 'pg_isready', '-U', 'paperless', '-d', 'paperless',
+                           '-t', str(timeout)]
+            elif service == 'broker':
+                command = [cid, 'valkey-cli', 'ping']
+            else:
+                # Probe dependencies from Paperless's network namespace using its
+                # Python runtime, avoiding assumptions about curl in Java/Go images.
+                if 'webserver' not in containers:
+                    item['probe'] = 'unknown'
+                    continue
+                url = {'webserver': 'http://127.0.0.1:8000/accounts/login/',
+                       'tika': 'http://tika:9998/tika',
+                       'gotenberg': 'http://gotenberg:3000/health'}[service]
+                code = ('import http.client, urllib.parse; '
+                        f'u=urllib.parse.urlsplit({url!r}); '
+                        f'c=http.client.HTTPConnection(u.hostname, u.port, timeout={timeout}); '
+                        "c.request('GET', u.path); r=c.getresponse(); "
+                        'raise SystemExit(0 if r.status == 200 else 1)')
+                command = [containers['webserver'], 'python3', '-c', code]
+            result = run(['docker', 'exec', *command], **options)
+            item['probe'] = ('passed' if service != 'broker' or
+                             result.stdout.strip() == b'PONG' else 'failed')
+        except subprocess.CalledProcessError:
+            item['probe'] = 'failed'
+        except errors as error:
+            item['probe'] = failure(error)
+
+    report['healthy'] = report['configuration'] == 'expected' and all(
+        item['container'] == 'running' and item['probe'] == 'passed' and
+        item['docker_health'] in {'healthy', 'absent'}
+        for item in report['services'].values())
+    if as_json:
+        print(json.dumps(report, indent=2))
+    else:
+        print('Status:', 'healthy' if report['healthy'] else 'unhealthy/unknown')
+        print('Configuration:', report['configuration'])
+        for name, item in report['services'].items():
+            print(name + ': ' + ', '.join(f'{k}={v}' for k, v in item.items()))
+    return 0 if report['healthy'] else 1
+
+
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest='action', required=True)
-    p = sub.add_parser('backup', help='Quiesce workers and save a consistent backup')
-    p.add_argument('--destination', type=Path, default=Path('/srv/backup'))
-    p = sub.add_parser('restore', help='Restore a trusted backup onto a fresh host')
-    p.add_argument('backup', type=Path)
+    def command(name, summary, details):
+        return sub.add_parser(name, help=summary, description=details,
+                              formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    p = command('status', 'Read-only container and application health snapshot', '''
+Reads configured services, container existence/running state and Docker HEALTHCHECK
+status separately. An absent HEALTHCHECK is not evidence of health: active probes
+must pass (Paperless login HTTP 200, PostgreSQL pg_isready, Valkey PONG, Tika /tika
+HTTP 200 and Gotenberg /health HTTP 200). HTTP probes run via Python in webserver;
+Tika/Gotenberg are unknown if webserver is unavailable. Uses documented internal
+ports/service names; customized endpoints or missing probe tools may fail.
+
+No lock, files, start/stop/restart, pull, migration or configuration writes.
+HTTP requests may generate ordinary server access logs. Each subprocess is bounded
+by --timeout (at most 16 sequential calls); no retry. No stderr, response bodies,
+environment or healthcheck logs are printed. A concurrent operation can make this
+unlocked snapshot inconsistent: rerun after maintenance.
+
+Exit 0 only if all five services run, all probes pass, and Docker health is healthy
+or absent. Exit 1 for failed, missing, starting, ambiguous, timeout or unknown state;
+exit 2 for invalid arguments. This does NOT verify HTTPS/proxy, login credentials,
+OCR/workers, mail, search, document integrity or backup recoverability.
+
+Examples:
+  paperless status
+  paperless status --json --timeout 5
+''')
+    p.add_argument('--json', action='store_true', help='Emit one JSON report, including failures')
+    p.add_argument('--timeout', type=int, choices=range(1, 61), metavar='SECONDS', default=10,
+                   help='Per-command deadline, 1-60 seconds (default: 10)')
+    p = command('backup', 'Quiesce workers and save a consistent backup', '''
+Requires root, documented layout, GNU tar and Docker Compose v2 --wait support.
+Finish imports and pause external uploads first. Stops webserver, saves a custom
+PostgreSQL dump, compose/data/media/consume/export, hashes and immutable image
+references. Does not copy PostgreSQL data files, Valkey data, nginx or TLS material.
+Attempts webserver restart even on failure; SUCCESS is written only after restart
+checks pass. A partial backup without SUCCESS is unusable. Catalog/checksum checks
+are not a restore test. SIGKILL/host failure can leave webserver stopped.
+
+Destination must be outside /srv/paperless, root-owned and mode 0700. A new UTC
+paperless-YYYYMMDDTHHMMSSZ directory is created, never overwritten. Space preflight
+is conservative, not a guarantee. Backups contain secrets and documents: encrypt
+off-host copies with access control, retention and age/failure monitoring. Local
+staging is not disk-loss protection. Back up nginx/TLS separately.
+
+Example: paperless backup --destination /srv/backup
+Exit 0: backup/restart completed; 1: failure; 2: invalid arguments.
+''')
+    p.add_argument('--destination', type=Path, default=Path('/srv/backup'),
+                   help='Secure backup parent directory (default: /srv/backup)')
+    p = command('restore', 'Restore a trusted backup onto a fresh host', '''
+Requires root, GNU tar, Docker Compose v2 --wait and a fresh host with an absent or
+entirely empty /srv/paperless. PostgreSQL 18 only. Never overlays an installation.
+Only use trusted archives: checksums detect corruption, NOT malicious replacement;
+Compose configuration and database automation are executable trust boundaries.
+
+Validates SUCCESS, checksums, safe archive members, image digests and media hashes.
+Pulls captured images, restores database/files, starts Paperless and reindexes.
+Default recovery uses an internal Docker network and --test-url. Use a dedicated
+isolated host: Docker internal networking does not isolate the Docker host or its
+proxies/mail services. --production explicitly permits external networking and
+keeps the backed-up URL; --test-url then has no effect.
+
+Writes root-only compose/compose.yaml, retaining originals as *.pre-restore.
+Edit this active rendered file for future settings, not old environment files.
+Failure stops the stack where possible and retains data for diagnosis; do not
+rerun over partial state. Restore nginx/TLS separately. Verify users, counts
+including trash, downloads, previews, login, search and consumption before use.
+
+Examples:
+  paperless restore /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup
+  paperless restore /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup --production
+Exit 0: script completed (application recovery still needs verification);
+1: failure; 2: invalid arguments.
+''')
+    p.add_argument('backup', type=Path, help='Complete trusted backup directory, not an archive file')
     p.add_argument('--trusted-backup', action='store_true', required=True,
                    help='Confirm provenance; checksums do not authenticate an archive')
-    p.add_argument('--production', action='store_true', help='Allow external networking explicitly')
-    p.add_argument('--test-url', default='http://localhost:8000')
-    p = sub.add_parser('upgrade', help='Backup first, then change only the Paperless image')
-    p.add_argument('version')
-    p.add_argument('--destination', type=Path, default=Path('/srv/backup'))
+    p.add_argument('--production', action='store_true', help='Allow external networking (default: isolated)')
+    p.add_argument('--test-url', default='http://localhost:8000',
+                   help='Isolated restore URL (default: http://localhost:8000)')
+    p = command('upgrade', 'Backup first, then change only the Paperless image', '''
+Requires root and all backup prerequisites. Review release notes, take a VM
+snapshot, finish imports and pause external uploads. Completes backup/restart
+before pulling an explicit stable Paperless version and pinning its digest.
+Recreates only webserver with a 240-second health deadline. PostgreSQL, Valkey,
+Tika and Gotenberg are unchanged; database major upgrades need another procedure.
+
+Success promotes root-only compose/compose.yaml and keeps *.pre-upgrade-VERSION.
+Edit the active rendered file afterwards, not old environment files. On failure,
+keep upgrade-candidate.json and the printed backup for diagnosis. Do NOT downgrade
+only the image after migrations: recover matching database/files and old image
+digests on a fresh host. No automatic rollback; never use docker compose down -v.
+Verify login, search, preview and a new consumption job before acceptance.
+
+Example: paperless upgrade 3.3.4 --destination /srv/backup
+Exit 0: script/startup checks completed; 1: failure; 2: invalid arguments.
+''')
+    p.add_argument('version', help='Reviewed stable version X.Y.Z, without v prefix or latest')
+    p.add_argument('--destination', type=Path, default=Path('/srv/backup'),
+                   help='Secure pre-upgrade backup parent (default: /srv/backup)')
     args = parser.parse_args()
+    if args.action == 'status':
+        return status(args.json, args.timeout)
     require(os.geteuid() == 0, 'Run as root')
     os.umask(0o077)
     def interrupted(signum, _frame):
@@ -320,7 +534,7 @@ def main():
 
 if __name__ == '__main__':
     try:
-        main()
+        sys.exit(main())
     except subprocess.SubprocessError:
         # Do not echo argv/stderr: rendered environment and DB errors may hold secrets.
         print('External command failed. Inspect local service state/logs privately.', file=sys.stderr)

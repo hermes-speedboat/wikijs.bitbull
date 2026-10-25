@@ -202,7 +202,7 @@ docker system df
 
 ### Saved maintenance scripts
 
-Use the version-controlled [maintenance CLI](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless_ops.py) with its `backup`, `restore` and `upgrade` subcommands. It requires Python 3.9+ (standard library only), GNU tar and Docker Compose v2 with `--wait` support. Install the single Python file from a **reviewed repository revision**; no shell wrappers are needed. Wiki.js need not serve executable attachments.
+Use the version-controlled [maintenance CLI](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless_ops.py) with its `status`, `backup`, `restore` and `upgrade` subcommands. It requires Python 3.9+ (standard library only), GNU tar and Docker Compose v2 with `--wait` support. Install the single Python file from a **reviewed repository revision**; no shell wrappers are needed. Wiki.js need not serve executable attachments.
 
 From the reviewed repository checkout, install once as root:
 
@@ -211,7 +211,25 @@ install -m 0750 paperless/scripts/paperless_ops.py /usr/local/sbin/paperless
 paperless --help
 ```
 
-Run saved scripts as root, not `curl | bash` or `ssh host bash < script`. They target **only the documented `/srv/paperless` layout**, serialize operations with `/run/lock/paperless-operations.lock`, and return nonzero on failure. Run without shell tracing. Quiesce external uploads, finish pending imports and prevent concurrent Compose/configuration changes during all operations. `SIGKILL`, host failure and a broken Docker daemon cannot be handled by a restart trap; monitor failed runs and service health.
+Run mutating commands as root, not `curl | bash` or `ssh host bash < script`. They target **only the documented `/srv/paperless` layout**, serialize mutations with `/run/lock/paperless-operations.lock`, and return nonzero on failure. Run without shell tracing. Quiesce external uploads, finish pending imports and prevent concurrent Compose/configuration changes during all operations. `SIGKILL`, host failure and a broken Docker daemon cannot be handled by a restart trap; monitor failed runs and service health.
+
+### Help and read-only health
+
+The script embeds prerequisites, defaults, examples, exit codes and recovery precautions:
+
+```bash
+paperless --help
+paperless status --help
+paperless backup --help
+paperless restore --help
+paperless upgrade --help
+paperless status
+paperless status --json --timeout 10
+```
+
+`status` needs readable Compose/environment files and Docker access, but does not require UID 0 or acquire the operation lock. It never writes configuration or starts, stops, pulls or restarts services. It reports configured service presence, container state and Docker health separately, then probes Paperless's internal login page, PostgreSQL readiness, Valkey PING, Tika and Gotenberg HTTP endpoints. Missing Docker HEALTHCHECKs are explicitly `absent`; running alone is not healthy. HTTP probes use Python inside `webserver`, so Tika/Gotenberg probes are unknown when it is unavailable. Requests may generate normal access logs.
+
+Exit **0** means all five services are running and all probes pass, with Docker health healthy or absent; **1** means unhealthy, missing or unknown (including timeout/permissions); **2** means invalid arguments. `--timeout` bounds each subprocess (1–60 seconds, default 10; at most 16 sequential calls). JSON contains only summary states, not secrets, logs or response bodies. This unlocked snapshot may race maintenance; rerun afterwards. It does not verify the HTTPS/proxy path, authenticated login, OCR/workers, search or backup recoverability. Customized internal endpoints may need adapted probes.
 
 ### Upgrade
 
