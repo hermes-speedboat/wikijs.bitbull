@@ -200,49 +200,45 @@ df -h /srv/paperless
 docker system df
 ```
 
-For upgrades: read release notes, take and verify a backup, record current image digests, then pin the new Paperless release. Keep PostgreSQL major upgrades separate.
+### Saved maintenance scripts
+
+Use the version-controlled [backup script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-backup.sh), [restore script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-restore.sh) and [upgrade script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-upgrade.sh). All three require the adjacent `paperless_ops.py` helper (Python 3.9+, standard library only), Bash, GNU tar and Docker Compose v2 with `--wait` support. Install the four files from the **same reviewed repository revision**; the GitHub links become available on `main` after this PR is merged. Wiki.js need not serve executable attachments.
+
+From the reviewed repository checkout, install once as root:
 
 ```bash
-docker compose config --quiet
-docker compose pull
-docker compose up -d --wait --wait-timeout 240
+install -d -m 0750 /usr/local/libexec/paperless
+install -m 0750 paperless/scripts/paperless-{backup,restore,upgrade}.sh \
+  /usr/local/libexec/paperless/
+install -m 0640 paperless/scripts/paperless_ops.py /usr/local/libexec/paperless/
+/usr/local/libexec/paperless/paperless-backup.sh --help
 ```
 
-Verify login, search, document preview and consumption. Rollback after a schema migration requires the matching database/files backup and old application image, not just changing the image tag. Never use `docker compose down -v`.
+Run saved scripts as root, not `curl | bash` or `ssh host bash < script`. They target **only the documented `/srv/paperless` layout**, serialize operations with `/run/lock/paperless-operations.lock`, and return nonzero on failure. Run without shell tracing. Quiesce external uploads, finish pending imports and prevent concurrent Compose/configuration changes during all operations. `SIGKILL`, host failure and a broken Docker daemon cannot be handled by a restart trap; monitor failed runs and service health.
+
+### Upgrade
+
+Read the target release notes and take a VM snapshot first. Supply an explicit stable Paperless version (replace `3.3.4` with the reviewed target):
+
+```bash
+/usr/local/libexec/paperless/paperless-upgrade.sh 3.3.4 --destination /srv/backup
+```
+
+The script completes a backup and successful restart before pulling the target, pins its digest, and recreates **only `webserver`**, with a 240-second health deadline. PostgreSQL, Valkey, Tika and Gotenberg are not upgraded. PostgreSQL major upgrades require a separate procedure.
+
+On success, the rendered configuration becomes `compose/compose.yaml` (JSON is valid YAML); old Compose files are retained as `*.pre-upgrade-VERSION`. Settings, including resolved secrets, are preserved with root-only permissions. Subsequent settings changes must edit this active file, not the old environment files. On failure, `upgrade-candidate.json` and the printed backup remain: do not blindly run `compose up` with the old configuration or retry without diagnosis. A migrated database requires recovery of the **matching database/files backup and old digests on a fresh host**, not an automatic image downgrade. Never use `docker compose down -v`.
+
+Verify login, indexed search, preview and a new consumption job before accepting the upgrade.
 
 ### Backup
 
-Back up PostgreSQL, configuration and document files as one consistent set. Stop the webserver service briefly: it also runs the consumer and workers. Let current imports finish first. Valkey is not a substitute for the database backup.
-
-Run this as a **saved Bash script**, not by piping it into an interactive remote shell:
-
 ```bash
-#!/bin/bash
-set -Eeuo pipefail
-umask 077
-cd /srv/paperless/compose
-install -d -m 0700 /srv/backup
-BACKUP=/srv/backup/paperless-$(date +%Y%m%d%H%M%S)
-install -d -m 0700 "$BACKUP"
-df -h /srv/backup
-# Record immutable image identities; major/minor tags can move.
-docker image inspect $(docker compose images -q) \
-  --format '{{json .RepoDigests}}' > "$BACKUP/image-digests.txt"
-trap 'docker compose start webserver' EXIT
-docker compose stop webserver
-docker compose exec -T db pg_dump -U paperless -Fc paperless > "$BACKUP/database.dump"
-tar --selinux --xattrs -czf "$BACKUP/files.tar.gz" -C /srv \
-  paperless/compose paperless/data paperless/media paperless/consume paperless/export
-(cd /srv/paperless/media && find . -type f -print0 | sort -z | \
-  xargs -0 -r sha256sum) > "$BACKUP/media-SHA256SUMS"
-docker compose exec -T db pg_restore --list < "$BACKUP/database.dump" > "$BACKUP/database-index.txt"
-(cd "$BACKUP" && sha256sum database.dump files.tar.gz image-digests.txt media-SHA256SUMS > SHA256SUMS)
-docker compose start webserver
-trap - EXIT
-docker compose up -d --wait --wait-timeout 180
+/usr/local/libexec/paperless/paperless-backup.sh --destination /srv/backup
 ```
 
-Protect the backup parent directory as root-only. The archive contains secrets and documents: use an approved encrypted backup destination with retention, access control and failure/age monitoring. `/srv/backup` is local staging, **not protection against disk loss**. Include nginx configuration and TLS material in the encrypted host backup.
+The backup stops `webserver` (including consumer/workers), captures a custom PostgreSQL dump, configuration/data/media/consume/export archive, media hashes and a service-to-image-digest mapping. It checks the dump catalog, attempts restart even after a failed stop/dump/archive, and writes `SUCCESS` only after backup and bounded restart checks pass. A partial directory without `SUCCESS` is **not a usable backup**. The free-space preflight is conservative, not a guarantee against growth or concurrent disk use. A catalog check is not a restore test.
+
+The destination must be root-owned, mode 0700 and outside `/srv/paperless`. The archive contains secrets and documents: copy the complete directory to an approved encrypted destination with retention, access control and failure/age monitoring. `/srv/backup` is local staging, **not protection against disk loss**. Include nginx configuration and TLS material in the encrypted host backup.
 
 For a separate portable document export:
 
@@ -254,52 +250,32 @@ This is an additional recovery route; validate its import independently. Do not 
 
 ### Restore
 
-Use a fresh host with the same application images and PostgreSQL major version. Install Docker first. Do not restore over a running production instance. Run the following blocks interactively or from a saved Bash script, not as the stdin of `ssh ... bash`: Compose commands can consume that stdin and silently skip later commands.
+Use a fresh host with Docker, the scripts installed, and an **absent or entirely empty `/srv/paperless`**. The script refuses existing files, including either `db` or `postgres`; it never deletes an old database. It supports the documented PostgreSQL 18 mount at `/var/lib/postgresql`, with host directory ownership 999:999.
 
-1. Transfer the backup through an encrypted channel and check `sha256sum -c SHA256SUMS`.
-2. Extract the archive under `/srv`, retaining ownership and permissions.
-3. Create fresh PostgreSQL and Valkey directories.
-4. Start PostgreSQL, restore the database, then start Paperless.
+Transfer the entire backup through an encrypted channel. Only restore archives of trusted provenance: the explicit flag acknowledges that checksums detect corruption, **not malicious replacement**. Copied Compose configuration and database automation are executable trust boundaries.
 
-```bash
-# BACKUP points to the transferred, verified backup directory.
-tar --selinux --xattrs -xzf "$BACKUP/files.tar.gz" -C /srv
-install -d -m 0750 -o 999 -g 999 /srv/paperless/postgres
-install -d -m 0750 /srv/paperless/valkey
-cd /srv/paperless/compose
-```
-
-**Before starting a test copy**, prevent it from reaching production mail servers, webhooks and external services. Change `PAPERLESS_URL` to the test URL and add this top-level Compose section:
-
-```yaml
-networks:
-  default:
-    internal: true
-```
-
-Pull images before starting the isolated stack. Compare them with `image-digests.txt`; pin each Compose `image:` to the recorded `repository@sha256:...` when a tag has moved. Do not connect another external Docker network. Check that no copied automation can act on production data.
+For an isolated recovery test (default):
 
 ```bash
-docker compose config --quiet
-docker compose pull
-docker compose up -d db broker tika gotenberg
-for attempt in $(seq 1 60); do
-  docker compose exec -T db pg_isready -U paperless && break
-  sleep 2
-done
-# Fail rather than restore into a database that never became ready.
-docker compose exec -T db pg_isready -U paperless || exit 1
-docker compose exec -T db pg_restore -U paperless -d paperless \
-  --exit-on-error < "$BACKUP/database.dump"
-docker compose up -d --wait --wait-timeout 240
-docker compose exec -T webserver document_index reindex
+/usr/local/libexec/paperless/paperless-restore.sh \
+  /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup \
+  --test-url http://localhost:8000
 ```
 
-Verify users, tags, mail rules, document counts **including the trash**, and original/archive/thumbnail files. Compare against the backup-time inventory, not a changing source host:
+The script verifies the success marker, exact checksum manifest and safe archive paths/types; pulls the captured immutable images; checks PostgreSQL 18; restores permissions and media hashes; and uses at most 60 database readiness attempts (five-second command timeout, two-second retry delay) before `pg_restore --exit-on-error`. It rejects extra networks/host networking, makes the default network internal and verifies the actual Docker network **before restoring database automation or starting Paperless**. Application startup has a 240-second deadline, followed by reindexing. Failure stops the recovery stack where possible and retains all files/database for diagnosis; do not rerun over that state.
+
+Use a dedicated test host with no route to production, including host-side proxies and mail services. Docker `internal` is not a security boundary against access to the Docker host itself. Do not attach additional networks or expose production credentials to untrusted users. The test URL is applied before application startup.
+
+For an authorized production recovery, the explicit option retains the backed-up URL and permits external networking:
 
 ```bash
-(cd /srv/paperless/media && sha256sum -c "$BACKUP/media-SHA256SUMS")
+/usr/local/libexec/paperless/paperless-restore.sh \
+  /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup --production
 ```
+
+Recovery writes a root-only rendered `compose/compose.yaml` with immutable images; original configuration files remain as `*.pre-restore`. Edit the active rendered file for later configuration changes. Host HTTPS configuration is deliberately outside this application restore.
+
+Compare users, tags, mail rules, document counts **including trash**, and original/archive/thumbnail files with a backup-time inventory. The automatic full media hash comparison runs before workers start; these checks do not establish application-level recovery by themselves.
 
 Test real password login, document download, PDF preview and indexed search; repeat after restarting Paperless. Restore trash documents only in the test copy when needed for validation.
 
