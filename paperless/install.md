@@ -202,16 +202,13 @@ docker system df
 
 ### Saved maintenance scripts
 
-Use the version-controlled [backup script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-backup.sh), [restore script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-restore.sh) and [upgrade script](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless-upgrade.sh). All three require the adjacent `paperless_ops.py` helper (Python 3.9+, standard library only), Bash, GNU tar and Docker Compose v2 with `--wait` support. Install the four files from the **same reviewed repository revision**; the GitHub links become available on `main` after this PR is merged. Wiki.js need not serve executable attachments.
+Use the version-controlled [maintenance CLI](https://github.com/joe-speedboat/wikijs.bitbull/blob/main/paperless/scripts/paperless_ops.py) with its `backup`, `restore` and `upgrade` subcommands. It requires Python 3.9+ (standard library only), GNU tar and Docker Compose v2 with `--wait` support. Install the single Python file from a **reviewed repository revision**; no shell wrappers are needed. Wiki.js need not serve executable attachments.
 
 From the reviewed repository checkout, install once as root:
 
 ```bash
-install -d -m 0750 /usr/local/libexec/paperless
-install -m 0750 paperless/scripts/paperless-{backup,restore,upgrade}.sh \
-  /usr/local/libexec/paperless/
-install -m 0640 paperless/scripts/paperless_ops.py /usr/local/libexec/paperless/
-/usr/local/libexec/paperless/paperless-backup.sh --help
+install -m 0750 paperless/scripts/paperless_ops.py /usr/local/sbin/paperless
+paperless --help
 ```
 
 Run saved scripts as root, not `curl | bash` or `ssh host bash < script`. They target **only the documented `/srv/paperless` layout**, serialize operations with `/run/lock/paperless-operations.lock`, and return nonzero on failure. Run without shell tracing. Quiesce external uploads, finish pending imports and prevent concurrent Compose/configuration changes during all operations. `SIGKILL`, host failure and a broken Docker daemon cannot be handled by a restart trap; monitor failed runs and service health.
@@ -221,7 +218,7 @@ Run saved scripts as root, not `curl | bash` or `ssh host bash < script`. They t
 Read the target release notes and take a VM snapshot first. Supply an explicit stable Paperless version (replace `3.3.4` with the reviewed target):
 
 ```bash
-/usr/local/libexec/paperless/paperless-upgrade.sh 3.3.4 --destination /srv/backup
+paperless upgrade 3.3.4 --destination /srv/backup
 ```
 
 The script completes a backup and successful restart before pulling the target, pins its digest, and recreates **only `webserver`**, with a 240-second health deadline. PostgreSQL, Valkey, Tika and Gotenberg are not upgraded. PostgreSQL major upgrades require a separate procedure.
@@ -233,7 +230,7 @@ Verify login, indexed search, preview and a new consumption job before accepting
 ### Backup
 
 ```bash
-/usr/local/libexec/paperless/paperless-backup.sh --destination /srv/backup
+paperless backup --destination /srv/backup
 ```
 
 The backup stops `webserver` (including consumer/workers), captures a custom PostgreSQL dump, configuration/data/media/consume/export archive, media hashes and a service-to-image-digest mapping. It checks the dump catalog, attempts restart even after a failed stop/dump/archive, and writes `SUCCESS` only after backup and bounded restart checks pass. A partial directory without `SUCCESS` is **not a usable backup**. The free-space preflight is conservative, not a guarantee against growth or concurrent disk use. A catalog check is not a restore test.
@@ -257,7 +254,7 @@ Transfer the entire backup through an encrypted channel. Only restore archives o
 For an isolated recovery test (default):
 
 ```bash
-/usr/local/libexec/paperless/paperless-restore.sh \
+paperless restore \
   /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup \
   --test-url http://localhost:8000
 ```
@@ -269,7 +266,7 @@ Use a dedicated test host with no route to production, including host-side proxi
 For an authorized production recovery, the explicit option retains the backed-up URL and permits external networking:
 
 ```bash
-/usr/local/libexec/paperless/paperless-restore.sh \
+paperless restore \
   /srv/backup/paperless-YYYYMMDDTHHMMSSZ --trusted-backup --production
 ```
 
